@@ -1,22 +1,55 @@
 'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  LayoutDashboard, FileText, BarChart2, Target, Download,
-  Settings, Zap, ChevronLeft, ChevronRight,
+  LayoutDashboard,
+  FileText,
+  BarChart2,
+  Target,
+  Download,
+  Settings,
+  Zap,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useUIStore } from '@/store/uiStore';
 import { SAMPLE_RESUME_ID } from '@/lib/constants';
 import { Tooltip } from '@/components/ui/Tooltip';
 
 const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: `/resume/${SAMPLE_RESUME_ID}/editor`, label: 'My Resume', icon: FileText },
-  { href: `/resume/${SAMPLE_RESUME_ID}/ats`, label: 'ATS Analysis', icon: BarChart2 },
-  { href: '/placement-readiness', label: 'Readiness', icon: Target },
-  { href: '/downloads', label: 'Downloads', icon: Download },
-  { href: '/settings', label: 'Settings', icon: Settings },
+  {
+    href: '/dashboard',
+    label: 'Dashboard',
+    icon: LayoutDashboard,
+  },
+  {
+    href: `/resume/${SAMPLE_RESUME_ID}/editor`,
+    label: 'My Resume',
+    icon: FileText,
+  },
+  {
+    href: `/resume/${SAMPLE_RESUME_ID}/ats`,
+    label: 'ATS Analysis',
+    icon: BarChart2,
+  },
+  {
+    href: '/placement-readiness',
+    label: 'Readiness',
+    icon: Target,
+  },
+  {
+    href: '/downloads',
+    label: 'Downloads',
+    icon: Download,
+  },
+  {
+    href: '/settings',
+    label: 'Settings',
+    icon: Settings,
+  },
 ];
 
 export function StudentSidebar() {
@@ -26,72 +59,177 @@ export function StudentSidebar() {
   return (
     <aside
       className={cn(
-        'hidden md:flex flex-col fixed left-0 top-0 h-full bg-[#07111F] text-white z-30 transition-all duration-200 ease-in-out shadow-[18px_0_46px_rgba(3,7,18,0.26)] before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(circle_at_20%_0%,rgba(37,99,235,0.20),transparent_32%),linear-gradient(180deg,rgba(6,182,212,0.08),transparent_34%)]',
-        isSidebarOpen ? 'w-60' : 'w-16'
+        'hidden md:flex fixed left-0 top-0 z-90 h-screen flex-col overflow-hidden',
+        'border-r border-white/10',
+        'bg-[#07111F]/95 backdrop-blur-2xl',
+        'shadow-[20px_0_60px_rgba(0,0,0,0.35)]',
+        'transition-all duration-300 ease-in-out',
+        'before:absolute before:inset-0 before:pointer-events-none',
+        'before:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.25),transparent_35%)]',
+        'after:absolute after:inset-0 after:pointer-events-none',
+        'after:bg-[radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.15),transparent_30%)]',
+        isSidebarOpen ? 'w-64' : 'w-20'
       )}
     >
       {/* Logo */}
-      <div className={cn('relative flex items-center gap-3 px-4 py-5 border-b border-white/10 bg-white/[0.035]', !isSidebarOpen && 'justify-center px-0')}>
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#3B82F6] via-primary-DEFAULT to-accent-cyan flex items-center justify-center shrink-0 shadow-[0_10px_24px_rgba(37,99,235,0.38)]">
-          <Zap className="h-4 w-4 text-white" />
-        </div>
+      <div
+        className={cn(
+          'relative flex items-center gap-3 border-b border-white/10 px-5 py-5',
+          !isSidebarOpen && 'justify-center px-0'
+        )}
+      >
+        <motion.div
+          whileHover={{ rotate: 10, scale: 1.05 }}
+          className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-cyan-400 shadow-[0_0_35px_rgba(59,130,246,0.45)]"
+        >
+          <Zap className="h-5 w-5 text-white" />
+        </motion.div>
+
         {isSidebarOpen && (
           <div>
-            <p className="text-sm font-extrabold text-white leading-none tracking-[-0.02em]">PlacementAI</p>
-            <p className="text-[10px] text-cyan-100/55 mt-0.5 uppercase tracking-[0.18em]">Suite</p>
+            <p className="bg-gradient-to-r from-white via-blue-100 to-cyan-300 bg-clip-text text-base font-black tracking-tight text-transparent">
+              PlacementAI
+            </p>
+            <p className="mt-0.5 text-[10px] uppercase tracking-[0.22em] text-cyan-100/50">
+              Resume Suite
+            </p>
           </div>
         )}
       </div>
 
-      {/* Nav */}
-      <nav className="relative flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+      {/* Progress Card */}
+      {isSidebarOpen && (
+        <div className="mx-3 mt-4 rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-slate-400">
+              Resume Progress
+            </span>
+            <span className="text-sm font-bold text-white">
+              72%
+            </span>
+          </div>
+
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: '72%' }}
+              transition={{ duration: 1 }}
+              className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Navigation */}
+      <nav className="relative flex-1 space-y-2 overflow-y-auto px-3 py-5">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-          const isActive = pathname === href || pathname.startsWith(href + '/');
-          const item = (
+          const isActive =
+            pathname === href ||
+            pathname.startsWith(href + '/');
+
+          const navLink = (
             <Link
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200',
+                'group relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-3 text-sm font-semibold transition-all duration-300',
                 isActive
-                  ? 'bg-gradient-to-r from-primary-DEFAULT to-accent-cyan text-white shadow-[0_12px_28px_rgba(37,99,235,0.30)]'
-                  : 'text-slate-400 hover:bg-[#122238] hover:text-cyan-50 hover:translate-x-0.5',
-                !isSidebarOpen && 'justify-center px-0 w-10 h-10 mx-auto'
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-[0_12px_30px_rgba(37,99,235,0.35)]'
+                  : 'text-slate-400 hover:bg-white/[0.05] hover:text-white',
+                !isSidebarOpen &&
+                  'mx-auto h-12 w-12 justify-center px-0'
               )}
             >
-              <Icon className="h-5 w-5 shrink-0" />
-              {isSidebarOpen && <span>{label}</span>}
+              {/* Active Indicator */}
+              {isActive && (
+                <span className="absolute left-0 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r-full bg-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.9)]" />
+              )}
+
+              {/* Hover Glow */}
+              <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/10 to-blue-500/5" />
+              </div>
+
+              {/* Icon */}
+              <div
+                className={cn(
+                  'relative z-10 flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300',
+                  isActive
+                    ? 'bg-white/15'
+                    : 'bg-white/[0.04] group-hover:bg-white/[0.08]'
+                )}
+              >
+                <Icon className="h-5 w-5" />
+              </div>
+
+              {isSidebarOpen && (
+                <span className="relative z-10">
+                  {label}
+                </span>
+              )}
             </Link>
           );
-          return isSidebarOpen ? item : (
-            <Tooltip key={href} content={label}>{item}</Tooltip>
+
+          return isSidebarOpen ? (
+            navLink
+          ) : (
+            <Tooltip key={href} content={label}>
+              {navLink}
+            </Tooltip>
           );
         })}
       </nav>
 
-      {/* User */}
+      {/* User Card */}
       {isSidebarOpen && (
-        <div className="relative px-3 py-4 border-t border-white/10">
-          <div className="flex items-center gap-3 rounded-[10px] border border-white/10 bg-[#0B1A2E] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#3B82F6] to-accent-cyan flex items-center justify-center text-xs font-bold text-white shrink-0">
-              AS
-            </div>
-            <div className="min-w-0">
-              <p className="text-sm font-bold text-white truncate">Arjun Sharma</p>
-              <p className="text-xs text-cyan-100/55 truncate">3rd Year - CSE</p>
+        <div className="border-t border-white/10 p-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-xl">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 font-bold text-white">
+                  AS
+                </div>
+
+                <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#07111F] bg-emerald-400" />
+              </div>
+
+              <div className="min-w-0">
+                <p className="truncate text-sm font-bold text-white">
+                  Arjun Sharma
+                </p>
+
+                <p className="truncate text-xs text-slate-400">
+                  3rd Year • CSE
+                </p>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Collapse Toggle */}
-      <button
+      {/* Toggle Button */}
+      <motion.button
+        whileHover={{
+          scale: 1.1,
+          rotate: 180,
+        }}
+        whileTap={{
+          scale: 0.9,
+        }}
         onClick={toggleSidebar}
-        className="absolute -right-3 top-20 w-6 h-6 rounded-full bg-white border border-border shadow-card flex items-center justify-center text-text-secondary hover:text-primary-DEFAULT hover:scale-105 transition-all z-10"
-        aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+        className="absolute -right-3 top-24 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+        aria-label={
+          isSidebarOpen
+            ? 'Collapse sidebar'
+            : 'Expand sidebar'
+        }
       >
-        {isSidebarOpen ? <ChevronLeft className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
-      </button>
+        {isSidebarOpen ? (
+          <ChevronLeft className="h-4 w-4 text-slate-700" />
+        ) : (
+          <ChevronRight className="h-4 w-4 text-slate-700" />
+        )}
+      </motion.button>
     </aside>
   );
 }

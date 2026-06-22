@@ -36,7 +36,7 @@ export function SectionNavigator({ horizontal = false }: SectionNavigatorProps) 
                     'flex items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm font-bold transition-all duration-200',
                     horizontal ? 'shrink-0' : 'w-full',
                     isActive
-                      ? 'bg-gradient-to-r from-primary-DEFAULT to-accent-cyan text-white shadow-[0_10px_24px_rgba(37,99,235,0.24)]'
+                      ? 'bg-gradient-to-r from-primary-DEFAULT to-accent-cyan text-blue-700 shadow-[0_10px_24px_rgba(37,99,235,0.24)]'
                       : horizontal
                         ? 'bg-[#EAF3FF] text-[#45607F] hover:bg-[#DDEBFF] hover:text-primary-DEFAULT'
                         : 'text-slate-400 hover:bg-[#122238] hover:text-cyan-50 hover:translate-x-0.5'

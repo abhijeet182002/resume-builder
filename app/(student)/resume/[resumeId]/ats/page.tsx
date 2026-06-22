@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { ATSScoreOverview } from '@/components/ats/ATSScoreOverview';
 import { FormattingCard } from '@/components/ats/FormattingCard';
@@ -15,41 +16,110 @@ export default function ATSPage() {
   const suggestions = useATSStore((state) => state.suggestions);
 
   return (
-    <div className="mx-auto max-w-7xl space-y-5 p-4 sm:p-6">
-      <ATSScoreOverview />
-      <div className="grid gap-5 lg:grid-cols-3">
-        <KeywordMatchCard />
-        <SectionCompletenessCard />
-        <FormattingCard />
+    <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6">
+      
+      {/* 🌈 Background Glow */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 via-white to-indigo-50 blur-2xl opacity-70" />
+
+      {/* 🧠 Score Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <ATSScoreOverview />
+      </motion.div>
+
+      {/* 📊 Cards Grid */}
+      <div className="mt-6 grid gap-5 lg:grid-cols-3">
+        
+        {[KeywordMatchCard, SectionCompletenessCard, FormattingCard].map((Card, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.15 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+            className="rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-lg p-4"
+          >
+            <Card />
+          </motion.div>
+        ))}
+
       </div>
-      <section className="rounded-[16px] border border-[#CFE0F7] bg-[#EAF3FF] p-5 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_18px_42px_rgba(37,99,235,0.10)]">
-        <div className="mb-4 flex items-end justify-between gap-3">
+
+      {/* 🚀 Suggestions Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="mt-8 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-100 p-6 shadow-xl"
+      >
+        {/* Header */}
+        <div className="mb-5 flex items-center justify-between flex-wrap gap-3">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#647A9A]">Action plan</p>
-            <h2 className="mt-1 text-lg font-extrabold tracking-[-0.02em] text-[#10233F]">Improvement Suggestions</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-gray-500">
+              Action Plan
+            </p>
+            <h2 className="text-xl font-extrabold text-gray-800">
+              Improvement Suggestions
+            </h2>
           </div>
-          <Badge variant="blue">4 fixes</Badge>
+
+          <Badge variant="blue" className="text-sm px-3 py-1">
+            {suggestions.length} fixes
+          </Badge>
         </div>
-        <div className="grid gap-3 md:grid-cols-2">
-          {suggestions.map((suggestion) => (
-            <div key={suggestion.id} className="rounded-[14px] border border-[#CFE0F7] bg-[#F7FAFF] p-4 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-primary-DEFAULT/35 hover:bg-[#EFF6FF] hover:shadow-[0_16px_34px_rgba(37,99,235,0.10)]">
-              <div className="mb-2 flex items-center justify-between gap-3">
-                <h3 className="text-sm font-extrabold text-[#10233F]">{suggestion.title}</h3>
-                <Badge variant={suggestion.priority === 'High' ? 'amber' : suggestion.priority === 'Medium' ? 'blue' : 'gray'}>{suggestion.priority}</Badge>
+
+        {/* Suggestions Grid */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {suggestions.map((suggestion, index) => (
+            <motion.div
+              key={suggestion.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.08 }}
+              whileHover={{ scale: 1.03 }}
+              className="group rounded-2xl border border-white/50 bg-white/70 backdrop-blur-lg p-5 shadow-md transition-all"
+            >
+              {/* Title */}
+              <div className="mb-3 flex items-center justify-between">
+                <h3 className="text-sm font-bold text-gray-800">
+                  {suggestion.title}
+                </h3>
+
+                <Badge
+                  variant={
+                    suggestion.priority === 'High'
+                      ? 'amber'
+                      : suggestion.priority === 'Medium'
+                      ? 'blue'
+                      : 'gray'
+                  }
+                >
+                  {suggestion.priority}
+                </Badge>
               </div>
-              <p className="mb-3 text-xs font-medium leading-relaxed text-[#45607F]">{suggestion.description}</p>
+
+              {/* Description */}
+              <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                {suggestion.description}
+              </p>
+
+              {/* Button */}
               <Button
                 size="sm"
-                variant="secondary"
-                onClick={() => router.push(`/resume/${SAMPLE_RESUME_ID}/editor`)}
-                className="bg-[#DDEBFF] text-[#07111F] hover:from-[#1F5BE3] hover:to-[#1746BF] hover:bg-gradient-to-br hover:text-white"
+                onClick={() =>
+                  router.push(`/resume/${SAMPLE_RESUME_ID}/editor`)
+                }
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90 transition-all"
               >
-                Fix Now
+                Fix Now →
               </Button>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
