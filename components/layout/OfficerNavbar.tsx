@@ -1,30 +1,66 @@
 'use client';
 
 import Link from 'next/link';
-import { Menu, Zap } from 'lucide-react';
+import { Menu, Zap, LogOut } from 'lucide-react';
+import Image from "next/image";
 
 export function OfficerNavbar() {
   return (
-    <header className="fixed left-0 right-0 top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b border-white/70 bg-white/[0.88] px-4 text-[#10233F] shadow-[0_1px_0_rgba(15,23,42,0.04)] backdrop-blur-xl lg:left-64 lg:px-6">
-      <div className="flex items-center gap-3">
-        <button className="rounded-lg bg-[#EAF3FF] p-2 text-[#45607F] lg:hidden" aria-label="Open menu">
+    <header className="fixed left-0 right-0 top-0 z-50 flex h-16 items-center justify-between 
+    border-b border-white/40 
+    bg-gradient-to-r from-white/80 via-white/70 to-white/80 
+    backdrop-blur-2xl px-4 lg:left-64 lg:px-8
+    shadow-[0_8px_30px_rgba(0,0,0,0.05)]">
+
+      {/* LEFT SECTION */}
+      <div className="flex items-center gap-4">
+        
+        {/* MENU BUTTON */}
+        <button className="rounded-xl bg-[#EAF3FF] p-2.5 text-[#45607F] transition-all hover:bg-blue-100 hover:scale-105 lg:hidden">
           <Menu className="h-5 w-5" />
         </button>
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary-DEFAULT to-accent-cyan shadow-[0_10px_22px_rgba(37,99,235,0.22)] lg:hidden">
-          <Zap className="h-4 w-4 text-white" />
-        </div>
-        <div>
-          <span className="text-sm font-extrabold tracking-[-0.01em]">Officer Dashboard</span>
-          <p className="hidden text-[11px] font-semibold text-[#647A9A] sm:block">Manage student resumes, ATS scores, and readiness filters</p>
+
+        {/* LOGO */}
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl 
+          bg-gradient-to-br from-blue-600 to-cyan-500 
+          shadow-[0_10px_25px_rgba(37,99,235,0.35)]">
+            <Zap className="h-5 w-5 text-white" />
+          </div>
+
+          <div className="leading-tight">
+            <h1 className="text-sm font-extrabold tracking-tight text-[#0B1B34]">
+              Officer Dashboard
+            </h1>
+            <p className="hidden text-[11px] font-medium text-[#6B85A6] sm:block">
+              Manage resumes, ATS scores & student insights
+            </p>
+          </div>
         </div>
       </div>
-      <div className="flex items-center gap-4">
-        <Link href="/dashboard" className="rounded-lg bg-[#EAF3FF] px-3 py-2 text-xs font-extrabold text-[#07111F] transition-all hover:bg-gradient-to-br hover:from-[#1F5BE3] hover:to-[#1746BF] hover:text-white">
-          Student View
-        </Link>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary-DEFAULT to-accent-cyan text-xs font-bold text-white shadow-[0_8px_20px_rgba(37,99,235,0.24)]">
+
+      {/* RIGHT SECTION */}
+      <div className="flex items-center gap-3">
+
+
+        {/* LOGOUT BUTTON */}
+        <button
+          className="group flex items-center gap-2 rounded-xl bg-red-50 px-4 py-2 text-xs font-bold text-red-600 
+          transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white"
+        >
+          <LogOut className="h-4 w-4 transition-transform group-hover:rotate-12" />
+          Logout
+        </button>
+
+        {/* PROFILE BADGE */}
+        <div className="flex h-10 w-10 items-center justify-center rounded-full 
+        bg-gradient-to-br from-blue-600 to-cyan-500 
+        text-xs font-bold text-white 
+        shadow-[0_10px_25px_rgba(37,99,235,0.35)]
+        ring-2 ring-white">
           PO
         </div>
+
       </div>
     </header>
   );

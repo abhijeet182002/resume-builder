@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import Image from "next/image";
+
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -82,16 +84,25 @@ export function StudentSidebar() {
           whileHover={{ rotate: 10, scale: 1.05 }}
           className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-cyan-400 shadow-[0_0_35px_rgba(59,130,246,0.45)]"
         >
-          <Zap className="h-5 w-5 text-white" />
+          <div className="h-16 w-16 rounded-2xl flex items-center justify-center">
+
+            <Image
+              src="/images/logo/ifda-logo.jfif"   // 👈 public folder me image rakho
+              alt="Logo"
+              width={70}
+              height={40}
+              className="object-contain rounded-2xl "
+            />
+          </div>
         </motion.div>
 
         {isSidebarOpen && (
           <div>
             <p className="bg-gradient-to-r from-white via-blue-100 to-cyan-300 bg-clip-text text-base font-black tracking-tight text-transparent">
-              PlacementAI
+              IFDA Institute
             </p>
             <p className="mt-0.5 text-[10px] uppercase tracking-[0.22em] text-cyan-100/50">
-              Resume Suite
+              Placement Portals
             </p>
           </div>
         )}
@@ -137,7 +148,7 @@ export function StudentSidebar() {
                   ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-[0_12px_30px_rgba(37,99,235,0.35)]'
                   : 'text-slate-400 hover:bg-white/[0.05] hover:text-white',
                 !isSidebarOpen &&
-                  'mx-auto h-12 w-12 justify-center px-0'
+                'mx-auto h-12 w-12 justify-center px-0'
               )}
             >
               {/* Active Indicator */}
@@ -217,7 +228,7 @@ export function StudentSidebar() {
           scale: 0.9,
         }}
         onClick={toggleSidebar}
-        className="absolute -right-3 top-24 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+        className="absolute right-1 top-24 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
         aria-label={
           isSidebarOpen
             ? 'Collapse sidebar'
