@@ -19,7 +19,7 @@ export function MetricCard({
   value,
   subtitle,
   type = 'text',
-  color = '#2563EB',
+  color = '#3B49DF',
   badgeVariant = 'blue',
   icon,
 }: MetricCardProps) {
@@ -34,7 +34,7 @@ export function MetricCard({
         stiffness: 300,
         damping: 20,
       }}
-      className="group relative overflow-hidden rounded-2xl border border-white/60 bg-white/80 backdrop-blur-xl p-5 shadow-[0_10px_40px_rgba(37,99,235,0.08)]"
+      className="group relative overflow-hidden rounded-2xl border border-white/60 bg-white/80 backdrop-blur-xl p-5 shadow-[0_10px_40px_rgba(59,73,223,0.08)]"
     >
       {/* Glow */}
       <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-blue-400/10 blur-3xl transition-all duration-500 group-hover:bg-blue-400/20" />

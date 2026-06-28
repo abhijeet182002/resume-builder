@@ -17,7 +17,7 @@ export function ScoreRing({
   max = 100,
   size = 96,
   strokeWidth = 8,
-  color = '#2563EB',
+  color = '#3B49DF',
   label,
   className,
 }: ScoreRingProps) {

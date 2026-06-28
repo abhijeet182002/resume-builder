@@ -4,9 +4,19 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { RefreshCw } from 'lucide-react';
 import { useATSStore } from '@/store/atsStore';
+import { useATSAnalysis } from '@/hooks/useATSAnalysis';
 
 export function ATSScoreOverview() {
-  const { score, isAnalyzing, runAnalysis } = useATSStore();
+  const result = useATSStore((state) => state.result);
+  const { analyze, isAnalyzing } = useATSAnalysis();
+
+  const score = result?.overallScore ?? 0;
+  const foundKeywordsCount = result?.keywords?.filter((k) => k.found).length ?? 0;
+  const totalKeywordsCount = result?.keywords?.length ?? 0;
+  const keywordMatchRate = totalKeywordsCount > 0 
+    ? Math.round((foundKeywordsCount / totalKeywordsCount) * 100) 
+    : (result?.keywordScore ?? 0);
+
   return (
     <div className="relative isolate overflow-hidden rounded-[16px] border border-[#BFD7FF] bg-[#EAF3FF] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_18px_42px_rgba(37,99,235,0.12)]">
       <div className="absolute right-8 top-6 -z-10 h-32 w-32 rounded-full bg-primary-DEFAULT/15 blur-2xl" />
@@ -19,15 +29,17 @@ export function ATSScoreOverview() {
           <p className="mb-1 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#647A9A]">Resume intelligence</p>
           <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-[#10233F] mb-2">ATS Compatibility Score</h2>
           <div className="flex flex-wrap gap-2 justify-center sm:justify-start mb-4">
-            <Badge variant="green" size="md">Formatting: Strong</Badge>
-            <Badge variant="amber" size="md">Keywords: Needs Work</Badge>
-            <Badge variant="red" size="md">Missing: 4 keywords</Badge>
+            <Badge variant="green" size="md">Formatting: {result?.formattingScore ?? 0}%</Badge>
+            <Badge variant="amber" size="md">Keywords: {keywordMatchRate}%</Badge>
+            <Badge variant="blue" size="md">Completeness: {result?.completenessScore ?? 0}%</Badge>
           </div>
-          <p className="text-sm font-medium leading-relaxed text-[#45607F] mb-4">Your resume scores {score}/100. Fix keyword gaps and add Docker/Kubernetes to push past 85+.</p>
+          <p className="text-sm font-medium leading-relaxed text-[#45607F] mb-4">
+            Your resume scores {score}/100 matching the pasted job description. Review missing keywords below to raise your score.
+          </p>
           <Button
             variant="secondary"
             size="md"
-            onClick={runAnalysis}
+            onClick={() => analyze()}
             loading={isAnalyzing}
             className="bg-[#DDEBFF] text-[#07111F] hover:from-[#1F5BE3] hover:to-[#1746BF] hover:bg-gradient-to-br hover:text-white"
           >

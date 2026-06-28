@@ -1,289 +1,309 @@
 'use client';
 
-import { useState } from 'react';
-import {
-  Check,
-  Download,
-  FileDown,
-  LayoutTemplate,
-  Loader2,
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  FileText, 
+  Download, 
+  Trash2, 
+  Clock, 
+  ArrowRight, 
+  Loader2, 
+  CheckCircle,
+  HelpCircle,
+  TrendingUp,
+  AlertTriangle
 } from 'lucide-react';
+import Link from 'next/link';
 import { Badge } from '@/components/ui/Badge';
-import { cn } from '@/lib/utils';
+import { ProgressBar } from '@/components/ui/ProgressBar';
 
-// ----------------------
-// 🎨 TEMPLATES
-// ----------------------
-
-function ClassicTemplate({ data }: any) {
-  return (
-    <div className="text-sm">
-      <h1 className="text-xl font-bold">{data.name}</h1>
-      <p className="text-gray-600">{data.email}</p>
-
-      <hr className="my-3" />
-
-      <h2 className="font-semibold">Education</h2>
-      <p>{data.education}</p>
-
-      <h2 className="mt-3 font-semibold">Skills</h2>
-      <p>{data.skills}</p>
-    </div>
-  );
+interface ResumeListItem {
+  id: string;
+  title: string;
+  status: string;
+  completionScore: number;
+  atsScore?: number | null;
+  updatedAt: string;
 }
 
-function ModernTemplate({ data }: any) {
-  return (
-    <div className="flex text-sm h-full">
-      <div className="w-1/3 bg-blue-600 text-white p-4">
-        <h1 className="font-bold">{data.name}</h1>
-        <p className="text-xs">{data.email}</p>
-
-        <div className="mt-4">
-          <h2 className="text-xs font-semibold">Skills</h2>
-          <p className="text-xs">{data.skills}</p>
-        </div>
-      </div>
-
-      <div className="w-2/3 p-4">
-        <h2 className="font-semibold">Education</h2>
-        <p>{data.education}</p>
-
-        <h2 className="mt-3 font-semibold">Experience</h2>
-        <p>{data.experience}</p>
-      </div>
-    </div>
-  );
+interface QueueItem {
+  id: string;
+  title: string;
+  progress: number;
+  status: 'Pending' | 'Generating' | 'Ready' | 'Failed';
 }
-
-function MinimalTemplate({ data }: any) {
-  return (
-    <div className="text-sm text-gray-800">
-      <h1 className="text-2xl font-light">{data.name}</h1>
-      <p className="text-xs text-gray-500">{data.email}</p>
-
-      <div className="mt-4 space-y-3">
-        <div>
-          <h2 className="text-xs uppercase text-gray-400">Education</h2>
-          <p>{data.education}</p>
-        </div>
-
-        <div>
-          <h2 className="text-xs uppercase text-gray-400">Skills</h2>
-          <p>{data.skills}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TemplateRenderer({ template, data }: any) {
-  switch (template) {
-    case 'Modern':
-      return <ModernTemplate data={data} />;
-    case 'Minimal':
-      return <MinimalTemplate data={data} />;
-    default:
-      return <ClassicTemplate data={data} />;
-  }
-}
-
-// ----------------------
-// 📄 MAIN PAGE
-// ----------------------
-
-const templates = [
-  { name: 'Classic', accent: 'bg-blue-600' },
-  { name: 'Modern', accent: 'bg-cyan-500' },
-  { name: 'Minimal', accent: 'bg-slate-700' },
-];
 
 export default function DownloadsPage() {
-  const [template, setTemplate] = useState('Classic');
-  const [format, setFormat] = useState<'PDF' | 'DOCX'>('PDF');
-  const [pageLength, setPageLength] = useState<'fit' | 'flow'>('fit');
-  const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState(false);
+  const [resumes, setResumes] = useState<ResumeListItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [downloadQueue, setDownloadQueue] = useState<QueueItem[]>([]);
 
-  // 🔥 Dummy Resume Data (Replace with API later)
-  const resumeData = {
-    name: 'Neeraj Singh',
-    email: 'neeraj@email.com',
-    education: 'B.Tech Computer Science',
-    skills: 'React, Node.js, MongoDB',
-    experience: 'Frontend Developer Intern',
-  };
-
-  const showToast = () => {
-    setToast(true);
-    setTimeout(() => setToast(false), 2500);
-  };
-
-  // 🔥 Download Handler
-  const handleDownload = async () => {
+  // Fetch student's resumes
+  const fetchResumes = async () => {
     try {
-      setLoading(true);
-
-      await new Promise((res) => setTimeout(res, 1200));
-
-      const blob = new Blob([JSON.stringify(resumeData, null, 2)], {
-        type: 'application/json',
-      });
-
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${template}-resume.${format.toLowerCase()}`;
-      a.click();
-
-      URL.revokeObjectURL(url);
-
-      showToast();
+      const res = await fetch('/api/resume');
+      if (res.ok) {
+        const data = await res.json();
+        setResumes(data.resumes || []);
+      }
+    } catch (error) {
+      console.error('Error fetching resumes:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchResumes();
+  }, []);
+
+  const handleDownloadTrigger = async (id: string, title: string) => {
+    // 1. Add to the local download queue
+    const queueId = `${id}-${Date.now()}`;
+    const newQueueItem: QueueItem = {
+      id: queueId,
+      title,
+      progress: 10,
+      status: 'Pending'
+    };
+    setDownloadQueue(prev => [newQueueItem, ...prev]);
+
+    // 2. Simulate generating steps
+    setTimeout(() => {
+      setDownloadQueue(prev => prev.map(item => item.id === queueId ? { ...item, progress: 45, status: 'Generating' } : item));
+    }, 800);
+
+    setTimeout(() => {
+      setDownloadQueue(prev => prev.map(item => item.id === queueId ? { ...item, progress: 80, status: 'Generating' } : item));
+    }, 1500);
+
+    try {
+      // 3. Log download action to database
+      await fetch(`/api/resume/${id}/download`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName: `${title.replace(/\s+/g, '_')}_Resume.pdf` })
+      });
+
+      // 4. Trigger browser file download via GET route
+      const link = document.createElement('a');
+      link.href = `/api/resume/${id}/download`;
+      link.setAttribute('download', `${title.replace(/\s+/g, '_')}_Resume.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // 5. Update queue item to ready
+      setTimeout(() => {
+        setDownloadQueue(prev => prev.map(item => item.id === queueId ? { ...item, progress: 100, status: 'Ready' } : item));
+      }, 2000);
+    } catch {
+      setDownloadQueue(prev => prev.map(item => item.id === queueId ? { ...item, status: 'Failed' } : item));
+    }
+  };
+
+  const handleDeleteResume = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this resume?')) return;
+    try {
+      const res = await fetch(`/api/resume/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        setResumes(prev => prev.filter(r => r.id !== id));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
+        <Loader2 className="h-8 w-8 animate-spin text-primary-DEFAULT" />
+        <p className="text-sm font-semibold text-slate-500">Loading downloads...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="mx-auto grid max-w-7xl gap-6 p-4 pb-32 lg:grid-cols-2">
-      {/* LEFT */}
-      <section className="space-y-6">
-        <div className="rounded-2xl border bg-gradient-to-br from-blue-100 to-white p-6 shadow">
-          <Badge>Export Center</Badge>
-          <h1 className="mt-2 text-2xl font-bold">
-            Download your Resume 🚀
-          </h1>
+    <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-50/50 via-white to-blue-50/50 blur-3xl opacity-70" />
+
+      <div className="mb-8">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Downloads & Export Hub</h1>
+        <p className="text-slate-500 mt-2">Manage your resume documents, audit scores, and download history.</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Resumes List */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+              <FileText className="h-5 w-5 text-blue-600" />
+              Structural Resume Benchmarks
+            </h2>
+
+            {resumes.length === 0 ? (
+              <div className="text-center py-12 border border-dashed rounded-xl border-slate-200">
+                <FileText className="h-10 w-10 text-slate-300 mx-auto mb-3" />
+                <p className="text-sm text-slate-500 font-medium">No resumes found</p>
+                <Link href="/resume/create" className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-primary-DEFAULT hover:underline">
+                  Create your first resume <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-5">
+                {resumes.map((resume) => (
+                  <div 
+                    key={resume.id} 
+                    className="group border border-slate-150 rounded-xl p-5 hover:border-blue-200 hover:shadow-md transition-all bg-white"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-extrabold text-slate-800 text-sm group-hover:text-primary-DEFAULT transition-colors">
+                            {resume.title}
+                          </h3>
+                          <Badge variant={resume.status === 'COMPLETE' ? 'green' : 'gray'}>
+                            {resume.status}
+                          </Badge>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                          <Clock className="h-3 w-3" /> Last modified {new Date(resume.updatedAt).toLocaleDateString()}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleDownloadTrigger(resume.id, resume.title)}
+                          className="flex items-center gap-1 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-sm transition"
+                        >
+                          <Download className="h-3.5 w-3.5" /> PDF
+                        </button>
+                        <Link
+                          href={`/resume/${resume.id}/editor`}
+                          className="flex items-center gap-1 px-3.5 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg text-xs font-bold transition"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteResume(resume.id)}
+                          className="p-2 border border-slate-200 text-red-500 hover:bg-red-50 rounded-lg transition"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 border-t border-slate-50 pt-4">
+                      <div>
+                        <div className="flex justify-between text-xs mb-1.5">
+                          <span className="font-bold text-slate-500">Completion Score</span>
+                          <span className="font-extrabold text-slate-800">{resume.completionScore}%</span>
+                        </div>
+                        <ProgressBar value={resume.completionScore} color={resume.completionScore >= 80 ? 'green' : 'blue'} size="sm" />
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-xs mb-1.5">
+                          <span className="font-bold text-slate-500">ATS Match Score</span>
+                          <span className="font-extrabold text-slate-800">{resume.atsScore !== null && resume.atsScore !== undefined ? `${resume.atsScore}%` : 'Not Audited'}</span>
+                        </div>
+                        {resume.atsScore !== null && resume.atsScore !== undefined ? (
+                          <ProgressBar value={resume.atsScore} color={resume.atsScore >= 80 ? 'green' : resume.atsScore >= 50 ? 'amber' : 'red'} size="sm" />
+                        ) : (
+                          <div className="flex items-center gap-1.5 text-slate-400 mt-1">
+                            <AlertTriangle className="h-3.5 w-3.5 text-slate-350" />
+                            <Link href={`/resume/${resume.id}/ats`} className="text-[10px] font-bold text-blue-500 hover:underline">
+                              Run ATS Audit
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* TEMPLATE */}
-        <div className="rounded-2xl border p-5 bg-white">
-          <div className="flex justify-between mb-4">
-            <h2 className="font-bold">Templates</h2>
-            <Badge>{template}</Badge>
-          </div>
+        {/* Right Panel: Download Queue */}
+        <div className="space-y-6">
+          <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-indigo-600" />
+              Download Queue
+            </h2>
+            <p className="text-xs text-slate-400 mb-6">Track your live document exports in real time.</p>
 
-          <div className="grid grid-cols-3 gap-3">
-            {templates.map((t) => {
-              const selected = template === t.name;
-              return (
-                <button
-                  key={t.name}
-                  onClick={() => setTemplate(t.name)}
-                  className={cn(
-                    'p-3 border rounded-xl text-center',
-                    selected
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'hover:bg-gray-50'
-                  )}
-                >
-                  <div
-                    className={cn(
-                      'h-2 w-8 mx-auto mb-2 rounded',
-                      t.accent
-                    )}
-                  />
-                  <p className="text-sm font-semibold">{t.name}</p>
-                  {selected && (
-                    <Check className="mx-auto mt-1 text-blue-600" size={14} />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* PAGE LENGTH */}
-        <div className="rounded-2xl border bg-white p-5">
-          <h2 className="font-bold mb-3 flex items-center gap-2">
-            <LayoutTemplate size={16} /> Page Length
-          </h2>
-
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { key: 'fit', label: '1 Page' },
-              { key: 'flow', label: 'Multi Page' },
-            ].map((opt) => (
-              <button
-                key={opt.key}
-                onClick={() => setPageLength(opt.key as any)}
-                className={cn(
-                  'p-3 border rounded-lg',
-                  pageLength === opt.key
-                    ? 'bg-blue-50 border-blue-500'
-                    : ''
+            <div className="space-y-4">
+              <AnimatePresence>
+                {downloadQueue.length === 0 ? (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-8 text-slate-400 text-xs italic"
+                  >
+                    Queue is empty. Click PDF on any resume to export.
+                  </motion.div>
+                ) : (
+                  downloadQueue.map((item) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      className="border border-slate-100 rounded-xl p-3 bg-slate-50/50 space-y-2"
+                    >
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="font-bold text-slate-700 truncate max-w-[150px]">{item.title}</span>
+                        {item.status === 'Ready' && (
+                          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded flex items-center gap-1">
+                            <CheckCircle className="h-3 w-3" /> Ready
+                          </span>
+                        )}
+                        {item.status === 'Pending' && (
+                          <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded flex items-center gap-1 animate-pulse">
+                            Pending
+                          </span>
+                        )}
+                        {item.status === 'Generating' && (
+                          <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded flex items-center gap-1">
+                            <Loader2 className="h-3 w-3 animate-spin" /> Rendering...
+                          </span>
+                        )}
+                        {item.status === 'Failed' && (
+                          <span className="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">
+                            Failed
+                          </span>
+                        )}
+                      </div>
+                      <ProgressBar 
+                        value={item.progress} 
+                        color={item.status === 'Ready' ? 'green' : item.status === 'Failed' ? 'red' : 'blue'} 
+                        size="sm" 
+                      />
+                    </motion.div>
+                  ))
                 )}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* RIGHT PREVIEW */}
-      <section>
-        <div className="sticky top-20 rounded-2xl border bg-white p-4">
-          <div className="flex justify-between mb-3">
-            <h3 className="font-bold">Preview</h3>
-            <Badge>{template}</Badge>
+              </AnimatePresence>
+            </div>
           </div>
 
-          <div className="bg-gray-100 p-4 rounded-xl">
-            <div className="bg-white p-6 max-w-[520px] mx-auto shadow">
-              <TemplateRenderer template={template} data={resumeData} />
+          {/* Quick FAQ / Info */}
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-5 shadow-sm space-y-3">
+            <h3 className="text-xs font-bold text-blue-800 uppercase tracking-widest flex items-center gap-1.5">
+              <HelpCircle className="h-4 w-4" /> FAQ Checklist
+            </h3>
+            <div className="space-y-2 text-xs text-blue-900/80 leading-relaxed font-medium">
+              <p>📌 <strong>Where are downloads saved?</strong> Resumes download directly into your device's Downloads directory as a print-optimized PDF.</p>
+              <p>📌 <strong>Is formatting preserved?</strong> Yes, the export matches your live selected style theme, fonts, margins, and spacing benchmarks exactly.</p>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* BOTTOM BAR */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex gap-2">
-            {(['PDF', 'DOCX'] as const).map((f) => (
-              <button
-                key={f}
-                onClick={() => setFormat(f)}
-                className={cn(
-                  'px-4 py-2 rounded-md',
-                  format === f
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100'
-                )}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-
-          <button
-            onClick={handleDownload}
-            disabled={loading}
-            className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-lg"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin" size={16} />
-                Downloading
-              </>
-            ) : (
-              <>
-                <Download size={16} />
-                Download
-              </>
-            )}
-          </button>
-        </div>
       </div>
-
-      {/* TOAST */}
-      {toast && (
-        <div className="fixed bottom-20 right-4 bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2">
-          <FileDown size={14} />
-          Downloaded
-        </div>
-      )}
     </div>
   );
 }

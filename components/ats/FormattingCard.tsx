@@ -1,5 +1,6 @@
 'use client';
 import { Check } from 'lucide-react';
+import { useATSStore } from '@/store/atsStore';
 
 const CHECKS = [
   { label: 'Standard fonts used', pass: true },
@@ -11,11 +12,14 @@ const CHECKS = [
 ];
 
 export function FormattingCard() {
+  const result = useATSStore((s) => s.result);
+  const formattingScore = result?.formattingScore ?? 91;
+
   return (
     <div className="rounded-[14px] border border-[#CFE0F7] bg-[#F7FAFF] p-5 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_16px_38px_rgba(37,99,235,0.09)] transition-all duration-200 hover:-translate-y-1 hover:border-primary-DEFAULT/35 hover:bg-[#EFF6FF]">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-extrabold text-[#10233F]">Formatting Analysis</h3>
-        <span className="text-lg font-bold text-success">91%</span>
+        <span className="text-lg font-bold text-success">{formattingScore}%</span>
       </div>
       <div className="space-y-2.5">
         {CHECKS.map((c) => (

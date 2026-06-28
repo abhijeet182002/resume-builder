@@ -1,51 +1,101 @@
 'use client';
-import { useState } from 'react';
 import { useResumeStore } from '@/store/resumeStore';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { Trash2, Plus } from 'lucide-react';
-import type { Education } from '@/types/resume';
+import { Trash2, Plus, Sparkles } from 'lucide-react';
+import { useAIAction } from '@/hooks/useAIAction';
+import { useUIStore } from '@/store/uiStore';
 
 export function EducationForm() {
-  const { education, updateEducation } = useResumeStore();
-  const [items, setItems] = useState<Education[]>(education);
+  const education = useResumeStore((s) => s.resume.education);
+  const { addEducation, removeEducation, updateEducation } = useResumeStore();
+  const { trigger, isLoading } = useAIAction();
+  const showToast = useUIStore((s) => s.showToast);
 
-  const update = (id: string, field: keyof Education, value: string) =>
-    setItems((prev) => prev.map((e) => e.id === id ? { ...e, [field]: value } : e));
-
-  const add = () => setItems((prev) => [...prev, {
-    id: `edu-${Date.now()}`, institution: '', degree: '', branch: '', startYear: '', endYear: '', type: 'college',
-  }]);
-
-  const remove = (id: string) => setItems((prev) => prev.filter((e) => e.id !== id));
+  const handleSuggestHighlights = (edu: any) => {
+    const inputStr = `${edu.degree || 'Degree'} in ${edu.field || 'Field of Study'} at ${edu.institution || 'Institution'}`;
+    trigger('suggest_highlights', inputStr, 'Education Highlights', (text) => {
+      showToast('Here are suggested coursework & highlights for your resume!', 'success');
+    });
+  };
 
   return (
-    <div className="space-y-5">
-      {items.map((edu, idx) => (
-        <div key={edu.id} className="border border-border rounded-[10px] p-4 space-y-3 bg-white">
+    <div className="space-y-6">
+      {education.map((edu, idx) => (
+        <div key={edu.id} className="border border-border rounded-[10px] p-5 space-y-4 bg-white shadow-sm">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold text-text-primary">
-              {idx === 0 ? 'College / University' : 'School / Board'}
+              {idx === 0 ? 'College / University' : 'School / Education'}
             </p>
-            <button onClick={() => remove(edu.id)} className="text-danger hover:opacity-70 transition-opacity">
+            <button
+              onClick={() => removeEducation(edu.id)}
+              className="text-danger hover:opacity-70 transition-opacity p-1.5 hover:bg-red-50 rounded-lg"
+            >
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Input label="Institution" value={edu.institution} onChange={(e) => update(edu.id, 'institution', e.target.value)} placeholder="IIT Delhi" className="sm:col-span-2" />
-            <Input label="Degree / Class" value={edu.degree} onChange={(e) => update(edu.id, 'degree', e.target.value)} placeholder="B.Tech" />
-            <Input label="Branch / Stream" value={edu.branch} onChange={(e) => update(edu.id, 'branch', e.target.value)} placeholder="Computer Science" />
-            <Input label="Start Year" value={edu.startYear} onChange={(e) => update(edu.id, 'startYear', e.target.value)} placeholder="2022" />
-            <Input label="End Year" value={edu.endYear} onChange={(e) => update(edu.id, 'endYear', e.target.value)} placeholder="2026" />
-            <Input label="CGPA" value={edu.cgpa ?? ''} onChange={(e) => update(edu.id, 'cgpa', e.target.value)} placeholder="8.4" />
-            <Input label="Percentage %" value={edu.percentage ?? ''} onChange={(e) => update(edu.id, 'percentage', e.target.value)} placeholder="94.2" />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              label="Institution / School"
+              value={edu.institution}
+              onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
+              placeholder="e.g. IIT Delhi"
+              className="sm:col-span-2"
+            />
+            <Input
+              label="Degree / Certificate"
+              value={edu.degree}
+              onChange={(e) => updateEducation(edu.id, { degree: e.target.value })}
+              placeholder="e.g. B.Tech"
+            />
+            <Input
+              label="Field of Study"
+              value={edu.field}
+              onChange={(e) => updateEducation(edu.id, { field: e.target.value })}
+              placeholder="e.g. Computer Science"
+            />
+            <Input
+              label="Start Date"
+              value={edu.startDate}
+              onChange={(e) => updateEducation(edu.id, { startDate: e.target.value })}
+              placeholder="e.g. 2022"
+            />
+            <Input
+              label="End Date (or expected)"
+              value={edu.endDate}
+              onChange={(e) => updateEducation(edu.id, { endDate: e.target.value })}
+              placeholder="e.g. 2026"
+            />
+            <Input
+              label="CGPA / Grade"
+              value={edu.cgpa ?? ''}
+              onChange={(e) => updateEducation(edu.id, { cgpa: e.target.value })}
+              placeholder="e.g. 8.4"
+              className="sm:col-span-2"
+            />
           </div>
+
+          {edu.institution && (edu.degree || edu.field) && (
+            <div className="flex justify-end pt-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => handleSuggestHighlights(edu)}
+                loading={isLoading}
+                className="border border-blue-200 bg-blue-50 text-primary-DEFAULT hover:bg-blue-100 flex items-center gap-1.5 text-xs font-semibold"
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                AI Suggest Highlights & Coursework
+              </Button>
+            </div>
+          )}
         </div>
       ))}
-      <div className="flex gap-3">
-        <Button variant="secondary" size="sm" onClick={add}><Plus className="h-4 w-4" />Add Education</Button>
-        <Button variant="primary" size="sm" onClick={() => updateEducation(items)}>Save Changes</Button>
-      </div>
+
+      <Button variant="primary" size="md" onClick={addEducation} className="w-full">
+        <Plus className="h-4 w-4 mr-2" /> Add Education
+      </Button>
     </div>
   );
 }

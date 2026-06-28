@@ -1,14 +1,15 @@
 'use client';
+import { useState } from 'react';
 import { useUIStore } from '@/store/uiStore';
 import { useATSStore } from '@/store/atsStore';
-import { useAIAction } from '@/hooks/useAIAction';
 import { Tabs } from '@/components/ui/Tabs';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ScoreRing } from '@/components/ui/ScoreRing';
 import { Sparkles, RefreshCw, Lightbulb, Wrench } from 'lucide-react';
-import type { AIAction } from '@/store/aiStore';
+import { useAIAction, type AIAction } from '@/hooks/useAIAction';
+import { useATSAnalysis } from '@/hooks/useATSAnalysis';
 
 const TAB_ITEMS = [
   { key: 'ats', label: 'ATS Score' },
@@ -17,21 +18,36 @@ const TAB_ITEMS = [
   { key: 'ai', label: <span className="flex items-center gap-1"><Sparkles className="h-3 w-3" />AI</span> },
 ];
 
-const AI_ACTIONS: AIAction[] = [
-  'Improve Description',
-  'Generate Summary',
-  'Rewrite Experience',
-  'Suggest Skills',
-  'Tailor to Role',
+const AI_ACTIONS = [
+  { label: 'Improve Description', action: 'improve_description' as const, prompt: 'Enhance details and structure' },
+  { label: 'Generate Summary', action: 'generate_summary' as const, prompt: 'Draft an ATS-optimized professional summary' },
+  { label: 'Suggest Skills', action: 'suggest_skills' as const, prompt: 'Brainstorm additional relevant skills' },
 ];
 
 export function InsightPanel() {
-  const { activeRightTab, setActiveRightTab } = useUIStore();
-  const ats = useATSStore();
-  const { triggerAction } = useAIAction();
+  const [activeRightTab, setActiveRightTab] = useState<'ats' | 'suggestions' | 'keywords' | 'ai'>('ats');
+  const { analyze, result, isAnalyzing } = useATSAnalysis();
+  const { trigger } = useAIAction();
+
+  const score = result?.overallScore ?? 0;
+  const rawKeywords = result?.keywords ?? [];
+  const matchedKeywords = rawKeywords.filter((k) => k.found).map((k) => k.keyword);
+  const missingKeywords = rawKeywords.filter((k) => !k.found).map((k) => k.keyword);
+  const keywordMatch = rawKeywords.length > 0
+    ? Math.round((matchedKeywords.length / rawKeywords.length) * 100)
+    : (result?.keywordScore ?? 0);
+  const sectionCompleteness = result?.completenessScore ?? 0;
+  const formattingScore = result?.formattingScore ?? 0;
+
+  const suggestions = (result?.suggestions || []).map((s: any, idx: number) => ({
+    id: idx.toString(),
+    title: s.issue || `${s.section} Check`,
+    description: s.fix || 'Improve this section structure.',
+    priority: s.priority ? s.priority.charAt(0).toUpperCase() + s.priority.slice(1) : 'Medium'
+  }));
 
   return (
-    <aside className="flex w-full shrink-0 flex-col rounded-[14px] border border-[#CFE0F7] bg-[#EAF3FF] shadow-[0_18px_42px_rgba(37,99,235,0.10)] xl:h-[calc(100vh-56px)] xl:w-[320px] xl:rounded-none xl:border-y-0 xl:border-r-0">
+    <aside className="flex w-full shrink-0 flex-col rounded-[14px] border border-[#CFE0F7] bg-[#EAF3FF] shadow-[0_18px_42px_rgba(59,73,223,0.10)] xl:h-[calc(100vh-56px)] xl:w-[320px] xl:rounded-none xl:border-y-0 xl:border-r-0">
       <div className="shrink-0 border-b border-[#CFE0F7] bg-white/[0.72] backdrop-blur-xl">
         <Tabs
           items={TAB_ITEMS}
@@ -45,27 +61,27 @@ export function InsightPanel() {
         {activeRightTab === 'ats' && (
           <>
             <div className="flex flex-col items-center rounded-[12px] border border-[#CFE0F7] bg-[#F7FAFF] p-4 shadow-card">
-              <ScoreRing score={ats.score} max={100} size={100} strokeWidth={9} color="#2563EB" />
+              <ScoreRing score={score} max={100} size={100} strokeWidth={9} color="#3B49DF" />
               <h3 className="mt-3 font-semibold text-text-primary text-sm">Good Match</h3>
               <p className="text-[11px] text-text-muted text-center mt-1">
-                Fix 3 issues to push your score past 90+.
+                Fix {suggestions.length} issues to push your score past 90+.
               </p>
               <Button
                 variant="secondary"
                 size="sm"
                 className="mt-3 w-full bg-[#EAF3FF] text-[#10233F] hover:bg-primary-DEFAULT hover:text-white"
-                loading={ats.isAnalyzing}
-                onClick={ats.runAnalysis}
+                loading={isAnalyzing}
+                onClick={() => analyze()}
               >
                 <RefreshCw className="h-3.5 w-3.5" />
-                {ats.isAnalyzing ? 'Analyzing...' : 'Re-analyze'}
+                {isAnalyzing ? 'Analyzing...' : 'Re-analyze'}
               </Button>
             </div>
             <div className="space-y-3 rounded-[12px] border border-[#CFE0F7] bg-[#F7FAFF] p-4 shadow-card">
               {[
-                { label: 'Keyword Match', value: ats.keywordMatch, color: 'blue' as const },
-                { label: 'Section Fill', value: ats.sectionCompleteness, color: 'green' as const },
-                { label: 'Formatting', value: ats.formattingScore, color: 'cyan' as const },
+                { label: 'Keyword Match', value: keywordMatch, color: 'blue' as const },
+                { label: 'Section Fill', value: sectionCompleteness, color: 'green' as const },
+                { label: 'Formatting', value: formattingScore, color: 'cyan' as const },
               ].map(({ label, value, color }) => (
                 <div key={label}>
                   <div className="flex justify-between mb-1.5">
@@ -82,7 +98,7 @@ export function InsightPanel() {
         {/* Suggestions Tab */}
         {activeRightTab === 'suggestions' && (
           <div className="space-y-3">
-            {ats.suggestions.map((s) => (
+            {suggestions.map((s) => (
               <div key={s.id} className={`rounded-[10px] border p-3 ${
                 s.priority === 'High' ? 'bg-amber-50 border-amber-100' :
                 s.priority === 'Medium' ? 'bg-blue-50 border-blue-100' :
@@ -101,13 +117,13 @@ export function InsightPanel() {
                       </Badge>
                     </div>
                     <p className="text-[11px] text-text-muted leading-relaxed">{s.description}</p>
-                    <button className="mt-2 flex items-center gap-1 rounded-md bg-white px-2 py-1 text-[10px] font-bold text-primary-DEFAULT shadow-sm transition hover:bg-primary-DEFAULT hover:text-white">
-                      <Wrench className="h-3 w-3" /> Fix Now
-                    </button>
                   </div>
                 </div>
               </div>
             ))}
+            {suggestions.length === 0 && (
+              <p className="text-xs text-text-muted italic text-center py-4">No suggestions yet. Run ATS audit first.</p>
+            )}
           </div>
         )}
 
@@ -117,17 +133,23 @@ export function InsightPanel() {
             <div className="rounded-[12px] border border-[#CFE0F7] bg-[#F7FAFF] p-4 shadow-card">
               <p className="text-xs font-semibold text-text-primary mb-3">✅ Matched Keywords</p>
               <div className="flex flex-wrap gap-1.5">
-                {ats.matchedKeywords.map((kw) => (
+                {matchedKeywords.map((kw) => (
                   <Badge key={kw} variant="green" size="sm">{kw}</Badge>
                 ))}
+                {matchedKeywords.length === 0 && (
+                  <p className="text-xs text-text-muted italic">No matched keywords yet.</p>
+                )}
               </div>
             </div>
             <div className="rounded-[12px] border border-[#CFE0F7] bg-[#F7FAFF] p-4 shadow-card">
               <p className="text-xs font-semibold text-text-primary mb-3">❌ Missing Keywords</p>
               <div className="flex flex-wrap gap-1.5">
-                {ats.missingKeywords.map((kw) => (
+                {missingKeywords.map((kw) => (
                   <Badge key={kw} variant="red" size="sm">{kw}</Badge>
                 ))}
+                {missingKeywords.length === 0 && (
+                  <p className="text-xs text-text-muted italic">No missing keywords yet.</p>
+                )}
               </div>
             </div>
           </div>
@@ -137,15 +159,18 @@ export function InsightPanel() {
         {activeRightTab === 'ai' && (
           <div className="space-y-3">
             <p className="text-xs text-text-muted font-medium">Choose an AI action to enhance your resume:</p>
-            {AI_ACTIONS.map((action) => (
+            {AI_ACTIONS.map((item) => (
               <button
-                key={action}
-                onClick={() => triggerAction(action)}
-                className="group w-full rounded-[10px] border border-[#CFE0F7] bg-[#F7FAFF] px-4 py-3 text-left text-sm font-bold text-[#10233F] transition-all hover:-translate-y-0.5 hover:border-primary-DEFAULT hover:bg-[#DDEBFF] hover:shadow-[0_12px_28px_rgba(37,99,235,0.12)]"
+                key={item.action}
+                onClick={() => trigger(item.action, item.prompt)}
+                className="group w-full rounded-[10px] border border-[#CFE0F7] bg-[#F7FAFF] px-4 py-3 text-left text-sm font-bold text-[#10233F] transition-all hover:-translate-y-0.5 hover:border-primary-DEFAULT hover:bg-[#DDEBFF] hover:shadow-[0_12px_28px_rgba(59,73,223,0.12)]"
               >
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-primary-DEFAULT group-hover:rotate-12 transition-transform" />
-                  {action}
+                  <div>
+                    <div>{item.label}</div>
+                    <div className="text-[10px] font-normal text-slate-500 mt-0.5">{item.prompt}</div>
+                  </div>
                 </div>
               </button>
             ))}
@@ -155,7 +180,7 @@ export function InsightPanel() {
 
       {/* Bottom CTA */}
       <div className="shrink-0 border-t border-[#CFE0F7] bg-white/[0.72] p-4 backdrop-blur-xl">
-        <Button variant="primary" size="sm" className="w-full" onClick={ats.runAnalysis} loading={ats.isAnalyzing}>
+        <Button variant="primary" size="sm" className="w-full" onClick={() => analyze()} loading={isAnalyzing}>
           <Sparkles className="h-4 w-4" />
           Run Full ATS Audit
         </Button>

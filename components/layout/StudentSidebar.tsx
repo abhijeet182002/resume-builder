@@ -1,6 +1,8 @@
 'use client';
-
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from "next/image";
+
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -9,52 +11,97 @@ import {
   Target,
   Download,
   Settings,
-  Zap,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useUIStore } from '@/store/uiStore';
-import { SAMPLE_RESUME_ID } from '@/lib/constants';
 import { Tooltip } from '@/components/ui/Tooltip';
-
-const NAV_ITEMS = [
-  {
-    href: '/dashboard',
-    label: 'Dashboard',
-    icon: LayoutDashboard,
-  },
-  {
-    href: `/resume/${SAMPLE_RESUME_ID}/editor`,
-    label: 'My Resume',
-    icon: FileText,
-  },
-  {
-    href: `/resume/${SAMPLE_RESUME_ID}/ats`,
-    label: 'ATS Analysis',
-    icon: BarChart2,
-  },
-  {
-    href: '/placement-readiness',
-    label: 'Readiness',
-    icon: Target,
-  },
-  {
-    href: '/downloads',
-    label: 'Downloads',
-    icon: Download,
-  },
-  {
-    href: '/settings',
-    label: 'Settings',
-    icon: Settings,
-  },
-];
 
 export function StudentSidebar() {
   const pathname = usePathname();
   const { isSidebarOpen, toggleSidebar } = useUIStore();
+  const [progress, setProgress] = useState(0);
+  const [latestResumeId, setLatestResumeId] = useState<string | null>(null);
+  const [userName, setUserName] = useState('Student');
+  const [userCourse, setUserCourse] = useState('');
+  const [userBatch, setUserBatch] = useState('');
+
+  useEffect(() => {
+    fetch('/api/dashboard/stats')
+      .then(res => res.json())
+      .then(data => {
+        if (data && typeof data.completionScore === 'number') {
+          setProgress(data.completionScore);
+        }
+        if (data?.latestResumeId) {
+          setLatestResumeId(data.latestResumeId);
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/user/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data?.user) {
+          setUserName(data.user.name || 'Student');
+          setUserCourse(data.user.course || '');
+          setUserBatch(data.user.batch || '');
+        }
+      })
+      .catch(() => {});
+  }, [pathname]);
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(w => w[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  };
+
+  const resumeEditorHref = latestResumeId
+    ? `/resume/${latestResumeId}/editor`
+    : '/resume/create';
+  const resumeAtsHref = latestResumeId
+    ? `/resume/${latestResumeId}/ats`
+    : '#';
+
+  const NAV_ITEMS = [
+    {
+      href: '/dashboard',
+      label: 'Dashboard',
+      icon: LayoutDashboard,
+    },
+    {
+      href: resumeEditorHref,
+      label: 'My Resume',
+      icon: FileText,
+    },
+    {
+      href: resumeAtsHref,
+      label: 'ATS Analysis',
+      icon: BarChart2,
+      disabled: !latestResumeId,
+    },
+    {
+      href: '/placement-readiness',
+      label: 'Readiness',
+      icon: Target,
+    },
+    {
+      href: '/downloads',
+      label: 'Downloads',
+      icon: Download,
+    },
+    {
+      href: '/settings',
+      label: 'Settings',
+      icon: Settings,
+    },
+  ];
 
   return (
     <aside
@@ -82,16 +129,25 @@ export function StudentSidebar() {
           whileHover={{ rotate: 10, scale: 1.05 }}
           className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-cyan-400 shadow-[0_0_35px_rgba(59,130,246,0.45)]"
         >
-          <Zap className="h-5 w-5 text-white" />
+          <div className="h-16 w-16 rounded-2xl flex items-center justify-center">
+
+            <Image
+              src="/images/logo/ifda-logo.jfif"
+              alt="Logo"
+              width={70}
+              height={40}
+              className="object-contain rounded-2xl "
+            />
+          </div>
         </motion.div>
 
         {isSidebarOpen && (
           <div>
             <p className="bg-gradient-to-r from-white via-blue-100 to-cyan-300 bg-clip-text text-base font-black tracking-tight text-transparent">
-              PlacementAI
+              IFDA Institute
             </p>
             <p className="mt-0.5 text-[10px] uppercase tracking-[0.22em] text-cyan-100/50">
-              Resume Suite
+              Placement Portals
             </p>
           </div>
         )}
@@ -105,14 +161,14 @@ export function StudentSidebar() {
               Resume Progress
             </span>
             <span className="text-sm font-bold text-white">
-              72%
+              {progress}%
             </span>
           </div>
 
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: '72%' }}
+              animate={{ width: `${progress}%` }}
               transition={{ duration: 1 }}
               className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
             />
@@ -122,33 +178,23 @@ export function StudentSidebar() {
 
       {/* Navigation */}
       <nav className="relative flex-1 space-y-2 overflow-y-auto px-3 py-5">
-        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+        {NAV_ITEMS.map(({ href, label, icon: Icon, disabled }) => {
           const isActive =
-            pathname === href ||
-            pathname.startsWith(href + '/');
+            !disabled && (pathname === href || pathname.startsWith(href + '/'));
 
-          const navLink = (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                'group relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-3 text-sm font-semibold transition-all duration-300',
-                isActive
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-[0_12px_30px_rgba(37,99,235,0.35)]'
-                  : 'text-slate-400 hover:bg-white/[0.05] hover:text-white',
-                !isSidebarOpen &&
-                  'mx-auto h-12 w-12 justify-center px-0'
-              )}
-            >
+          const navLinkContent = (
+            <>
               {/* Active Indicator */}
               {isActive && (
                 <span className="absolute left-0 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r-full bg-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.9)]" />
               )}
 
               {/* Hover Glow */}
-              <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/10 to-blue-500/5" />
-              </div>
+              {!disabled && (
+                <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/10 to-blue-500/5" />
+                </div>
+              )}
 
               {/* Icon */}
               <div
@@ -156,7 +202,8 @@ export function StudentSidebar() {
                   'relative z-10 flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300',
                   isActive
                     ? 'bg-white/15'
-                    : 'bg-white/[0.04] group-hover:bg-white/[0.08]'
+                    : 'bg-white/[0.04]',
+                  !disabled && 'group-hover:bg-white/[0.08]'
                 )}
               >
                 <Icon className="h-5 w-5" />
@@ -167,6 +214,36 @@ export function StudentSidebar() {
                   {label}
                 </span>
               )}
+            </>
+          );
+
+          const className = cn(
+            'group relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-3 text-sm font-semibold transition-all duration-300',
+            disabled
+              ? 'opacity-40 cursor-not-allowed text-slate-500'
+              : isActive
+                ? 'bg-gradient-to-r from-primary-DEFAULT to-accent-cyan text-white shadow-[0_12px_30px_rgba(59,73,223,0.35)]'
+                : 'text-slate-400 hover:bg-white/[0.05] hover:text-white',
+            !isSidebarOpen && 'mx-auto h-12 w-12 justify-center px-0'
+          );
+
+          if (disabled) {
+            return isSidebarOpen ? (
+              <div key={label} className={className}>
+                {navLinkContent}
+              </div>
+            ) : (
+              <Tooltip key={label} content={`${label} (Create a resume first)`}>
+                <div className={className}>
+                  {navLinkContent}
+                </div>
+              </Tooltip>
+            );
+          }
+
+          const navLink = (
+            <Link key={href} href={href} className={className}>
+              {navLinkContent}
             </Link>
           );
 
@@ -187,7 +264,7 @@ export function StudentSidebar() {
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 font-bold text-white">
-                  AS
+                  {getInitials(userName)}
                 </div>
 
                 <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#07111F] bg-emerald-400" />
@@ -195,11 +272,11 @@ export function StudentSidebar() {
 
               <div className="min-w-0">
                 <p className="truncate text-sm font-bold text-white">
-                  Arjun Sharma
+                  {userName}
                 </p>
 
                 <p className="truncate text-xs text-slate-400">
-                  3rd Year • CSE
+                  {userBatch ? `${userBatch} • ` : ''}{userCourse || 'Student'}
                 </p>
               </div>
             </div>
@@ -217,7 +294,7 @@ export function StudentSidebar() {
           scale: 0.9,
         }}
         onClick={toggleSidebar}
-        className="absolute -right-3 top-24 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+        className="absolute right-1 top-24 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
         aria-label={
           isSidebarOpen
             ? 'Collapse sidebar'

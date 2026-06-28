@@ -3,77 +3,128 @@ import { useState } from 'react';
 import { useResumeStore } from '@/store/resumeStore';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { Trash2, Plus, X } from 'lucide-react';
-import type { Experience } from '@/types/resume';
+import { Trash2, Plus, X, Sparkles } from 'lucide-react';
+import { useAIAction } from '@/hooks/useAIAction';
 
 export function ExperienceForm() {
-  const { experience, updateExperience } = useResumeStore();
-  const [items, setItems] = useState<Experience[]>(experience);
-  const [bulletInputs, setBulletInputs] = useState<Record<string, string>>({});
+  const experience = useResumeStore((s) => s.resume.experience);
+  const { addExperience, removeExperience, updateExperience, addBullet, removeBullet } = useResumeStore();
 
-  const update = <K extends keyof Experience>(id: string, field: K, value: Experience[K]) =>
-    setItems((prev) => prev.map((e) => e.id === id ? { ...e, [field]: value } : e));
+  const { trigger } = useAIAction();
 
-  const addBullet = (id: string) => {
-    const val = (bulletInputs[id] ?? '').trim();
-    if (!val) return;
-    setItems((prev) => prev.map((e) => e.id === id ? { ...e, description: [...e.description, val] } : e));
-    setBulletInputs((b) => ({ ...b, [id]: '' }));
+  const handleEnhance = (expId: string, idx: number, currentText: string) => {
+    trigger('enhance_bullet', currentText || 'Develop major features for dashboard', undefined, (text) => {
+      const exp = experience.find(e => e.id === expId);
+      if (exp) {
+        const nextBullets = [...exp.bullets];
+        nextBullets[idx] = text;
+        updateExperience(expId, { bullets: nextBullets });
+      }
+    });
   };
 
-  const removeBullet = (id: string, idx: number) =>
-    setItems((prev) => prev.map((e) => e.id === id ? { ...e, description: e.description.filter((_, i) => i !== idx) } : e));
-
-  const add = () => setItems((prev) => [...prev, {
-    id: `exp-${Date.now()}`, company: '', role: '', startDate: '', endDate: '', isCurrent: false, description: [],
-  }]);
-
-  const remove = (id: string) => setItems((prev) => prev.filter((e) => e.id !== id));
-
   return (
-    <div className="space-y-5">
-      {items.map((exp) => (
-        <div key={exp.id} className="border border-border rounded-[10px] p-4 space-y-3 bg-white">
+    <div className="space-y-6">
+      {experience.map((exp) => (
+        <div key={exp.id} className="border border-border rounded-[10px] p-5 space-y-4 bg-white shadow-sm">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-text-primary">Experience</p>
-            <button onClick={() => remove(exp.id)} className="text-danger hover:opacity-70 transition-opacity"><Trash2 className="h-4 w-4" /></button>
+            <p className="text-sm font-semibold text-text-primary">Work Experience</p>
+            <button
+              onClick={() => removeExperience(exp.id)}
+              className="text-danger hover:opacity-70 transition-opacity p-1.5 hover:bg-red-50 rounded-lg"
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Input label="Company" value={exp.company} onChange={(e) => update(exp.id, 'company', e.target.value)} placeholder="Razorpay" />
-            <Input label="Role" value={exp.role} onChange={(e) => update(exp.id, 'role', e.target.value)} placeholder="SWE Intern" />
-            <Input label="Start Date" value={exp.startDate} onChange={(e) => update(exp.id, 'startDate', e.target.value)} placeholder="May 2024" />
-            <Input label="End Date" value={exp.endDate} onChange={(e) => update(exp.id, 'endDate', e.target.value)} placeholder="Jul 2024" />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              label="Company"
+              value={exp.company}
+              onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
+              placeholder="e.g. Razorpay"
+            />
+            <Input
+              label="Role / Title"
+              value={exp.role}
+              onChange={(e) => updateExperience(exp.id, { role: e.target.value })}
+              placeholder="e.g. Software Engineering Intern"
+            />
+            <Input
+              label="Start Date"
+              value={exp.startDate}
+              onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
+              placeholder="e.g. May 2024"
+            />
+            <Input
+              label="End Date"
+              value={exp.endDate}
+              disabled={exp.current}
+              onChange={(e) => updateExperience(exp.id, { endDate: e.target.value })}
+              placeholder="e.g. Jul 2024"
+            />
           </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id={`curr-${exp.id}`}
+              checked={exp.current}
+              onChange={(e) => updateExperience(exp.id, { current: e.target.checked, endDate: e.target.checked ? 'Present' : '' })}
+              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-4 w-4"
+            />
+            <label htmlFor={`curr-${exp.id}`} className="text-xs font-semibold text-text-secondary">
+              I currently work here
+            </label>
+          </div>
+
           <div>
-            <p className="text-xs font-semibold text-text-primary mb-2">Description Bullets</p>
-            <div className="space-y-1.5 mb-2">
-              {exp.description.map((d, i) => (
-                <div key={i} className="flex items-start gap-2 p-2 bg-surface rounded-[6px] border border-border group">
-                  <span className="text-primary-DEFAULT mt-0.5">•</span>
-                  <span className="text-xs text-text-primary flex-1 leading-relaxed">{d}</span>
-                  <button onClick={() => removeBullet(exp.id, i)} className="opacity-0 group-hover:opacity-100 transition-opacity text-danger shrink-0">
+            <p className="text-xs font-semibold text-text-primary mb-3">Description Bullets</p>
+            <div className="space-y-3 mb-3">
+              {exp.bullets.map((bullet, i) => (
+                <div key={i} className="flex items-center gap-2 group">
+                  <span className="text-primary-DEFAULT font-bold text-sm shrink-0">•</span>
+                  <input
+                    value={bullet}
+                    onChange={(e) => {
+                      const next = [...exp.bullets];
+                      next[i] = e.target.value;
+                      updateExperience(exp.id, { bullets: next });
+                    }}
+                    placeholder="Describe a key achievement or task..."
+                    className="flex-1 text-xs px-3 py-2 border border-border rounded-[8px] focus:outline-none focus:border-primary-DEFAULT"
+                  />
+                  <button
+                    onClick={() => handleEnhance(exp.id, i, bullet)}
+                    title="Enhance with AI"
+                    className="p-2 border border-slate-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 text-blue-600 transition shrink-0"
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={() => removeBullet(exp.id, i)}
+                    className="p-2 text-danger hover:bg-red-50 rounded-lg shrink-0 transition"
+                  >
                     <X className="h-3.5 w-3.5" />
                   </button>
                 </div>
               ))}
             </div>
-            <div className="flex gap-2">
-              <input
-                value={bulletInputs[exp.id] ?? ''}
-                onChange={(e) => setBulletInputs((b) => ({ ...b, [exp.id]: e.target.value }))}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addBullet(exp.id); } }}
-                placeholder="Add a bullet point (Enter to add)"
-                className="flex-1 text-xs px-3 py-2 border border-border rounded-[8px] focus:outline-none focus:border-primary-DEFAULT"
-              />
-              <Button variant="secondary" size="sm" onClick={() => addBullet(exp.id)}><Plus className="h-3.5 w-3.5" /></Button>
-            </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => addBullet(exp.id)}
+              className="flex items-center gap-1 bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100"
+            >
+              <Plus className="h-3.5 w-3.5" /> Add Bullet Point
+            </Button>
           </div>
         </div>
       ))}
-      <div className="flex gap-3">
-        <Button variant="secondary" size="sm" onClick={add}><Plus className="h-4 w-4" />Add Experience</Button>
-        <Button variant="primary" size="sm" onClick={() => updateExperience(items)}>Save Experience</Button>
-      </div>
+
+      <Button variant="primary" size="md" onClick={addExperience} className="w-full">
+        <Plus className="h-4 w-4 mr-2" /> Add Work Experience
+      </Button>
     </div>
   );
 }

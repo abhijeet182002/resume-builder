@@ -10,14 +10,14 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#2563EB",
-          dark: "#1D4ED8",
+          DEFAULT: "#3B49DF",
+          dark: "#2A35B0",
         },
         accent: {
           cyan: "#06B6D4",
         },
         surface: "#F8FAFF",
-        background: "#F1F5F9",
+        background: "#F8FAFF",
         card: "#FFFFFF",
         sidebar: {
           dark: "#0F172A",

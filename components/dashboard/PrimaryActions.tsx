@@ -1,52 +1,229 @@
 'use client';
-import Link from 'next/link';
-import { ArrowRight, CloudUpload, Sparkles } from 'lucide-react';
-import { SAMPLE_RESUME_ID } from '@/lib/constants';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { ArrowRight, CloudUpload, Sparkles, FilePlus, Download, Target } from 'lucide-react';
+import { useUIStore } from '@/store/uiStore';
 
 export function PrimaryActions() {
+  const router = useRouter();
+  const { showToast } = useUIStore();
+  const [latestId, setLatestId] = useState<string | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/dashboard/stats')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.latestResumeId) {
+          setLatestId(data.latestResumeId);
+        }
+      });
+  }, []);
+
+  const handleDownload = async () => {
+    if (!latestId) {
+      showToast('No resumes found to download.', 'error');
+      return;
+    }
+    setIsDownloading(true);
+    try {
+      const res = await fetch(`/api/resume/${latestId}`);
+      if (!res.ok) throw new Error();
+      const { resume } = await res.json();
+      
+      const container = document.createElement('div');
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.top = '-9999px';
+      container.id = 'resume-preview-content';
+      document.body.appendChild(container);
+
+      const experienceHtml = (resume.experience || []).map((exp: any) => `
+        <div style="margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;">
+            <span>${exp.role}</span>
+            <span style="font-style: italic; font-weight: normal; font-size: 10px;">${exp.startDate} - ${exp.current ? 'Present' : exp.endDate}</span>
+          </div>
+          <p style="font-size: 11px; color: #2563EB; margin: 2px 0; font-weight: bold;">${exp.company}</p>
+          <ul style="font-size: 11px; color: #334155; margin: 4px 0 0 15px; padding: 0; list-style-type: disc;">
+            ${(exp.bullets || []).map((b: string) => `<li>${b}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
+
+      const educationHtml = (resume.education || []).map((edu: any) => `
+        <div style="margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;">
+            <span>${edu.institution}</span>
+            <span style="font-style: italic; font-weight: normal; font-size: 10px;">${edu.startDate} - ${edu.endDate}</span>
+          </div>
+          <p style="font-size: 11px; color: #475569; margin: 2px 0;">${edu.degree} ${edu.field ? `in ${edu.field}` : ''} ${edu.cgpa ? `• CGPA: ${edu.cgpa}` : ''}</p>
+        </div>
+      `).join('');
+
+      const skillsHtml = (resume.skills || []).map((g: any) => `
+        <div style="font-size: 11px; margin-bottom: 3px;">
+          <strong>${g.category}:</strong> ${g.skills.join(', ')}
+        </div>
+      `).join('');
+
+      const projectsHtml = (resume.projects || []).map((p: any) => `
+        <div style="margin-bottom: 8px;">
+          <div style="font-size: 11px; font-weight: bold;">${p.name}</div>
+          <p style="font-size: 10px; color: #2563EB; margin: 1px 0;">${p.techStack.join(', ')}</p>
+          <p style="font-size: 11px; color: #334155; margin: 2px 0;">${p.description}</p>
+        </div>
+      `).join('');
+
+      const certsHtml = (resume.certifications || []).map((c: any) => `
+        <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px;">
+          <span><strong>${c.name}</strong> • ${c.issuer}</span>
+          <span style="font-size: 10px; color: #64748b;">${c.date}</span>
+        </div>
+      `).join('');
+
+      container.innerHTML = `
+        <div style="font-family: Arial, sans-serif; color: #0F172A; padding: 40px; background: white; width: 180mm; min-height: 250mm;">
+          <div style="text-align: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
+            <h1 style="font-size: 22px; font-weight: bold; margin: 0; color: #0f172a;">${resume.personal?.fullName || resume.title}</h1>
+            <div style="font-size: 11px; color: #64748b; margin-top: 6px; display: flex; justify-content: center; gap: 8px;">
+              ${resume.personal?.email ? `<span>${resume.personal.email}</span>` : ''}
+              ${resume.personal?.phone ? `<span>• ${resume.personal.phone}</span>` : ''}
+              ${resume.personal?.location ? `<span>• ${resume.personal.location}</span>` : ''}
+            </div>
+          </div>
+          ${resume.summary ? `
+            <div style="margin-bottom: 15px;">
+              <h2 style="font-size: 10px; font-weight: bold; color: #2563EB; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; padding-bottom: 2px; margin-bottom: 6px; tracking-widest: 0.1em;">Professional Summary</h2>
+              <p style="font-size: 11px; line-height: 1.5; margin: 0; color: #334155;">${resume.summary}</p>
+            </div>
+          ` : ''}
+          ${experienceHtml ? `
+            <div style="margin-bottom: 15px;">
+              <h2 style="font-size: 10px; font-weight: bold; color: #2563EB; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; padding-bottom: 2px; margin-bottom: 6px; tracking-widest: 0.1em;">Work Experience</h2>
+              ${experienceHtml}
+            </div>
+          ` : ''}
+          ${educationHtml ? `
+            <div style="margin-bottom: 15px;">
+              <h2 style="font-size: 10px; font-weight: bold; color: #2563EB; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; padding-bottom: 2px; margin-bottom: 6px; tracking-widest: 0.1em;">Education</h2>
+              ${educationHtml}
+            </div>
+          ` : ''}
+          ${skillsHtml ? `
+            <div style="margin-bottom: 15px;">
+              <h2 style="font-size: 10px; font-weight: bold; color: #2563EB; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; padding-bottom: 2px; margin-bottom: 6px; tracking-widest: 0.1em;">Technical Skills</h2>
+              ${skillsHtml}
+            </div>
+          ` : ''}
+          ${projectsHtml ? `
+            <div style="margin-bottom: 15px;">
+              <h2 style="font-size: 10px; font-weight: bold; color: #2563EB; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; padding-bottom: 2px; margin-bottom: 6px; tracking-widest: 0.1em;">Projects</h2>
+              ${projectsHtml}
+            </div>
+          ` : ''}
+          ${certsHtml ? `
+            <div style="margin-bottom: 15px;">
+              <h2 style="font-size: 10px; font-weight: bold; color: #2563EB; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; padding-bottom: 2px; margin-bottom: 6px; tracking-widest: 0.1em;">Certifications</h2>
+              ${certsHtml}
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      const html2pdf = (await import('html2pdf.js')).default;
+      await html2pdf().set({
+        margin: 0,
+        filename: `resume-${resume.title || 'export'}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      }).from(container).save();
+
+      document.body.removeChild(container);
+
+      // Log download event
+      await fetch(`/api/resume/${latestId}/download`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName: `resume-${resume.title}.pdf` }),
+      });
+
+      showToast('PDF downloaded successfully!', 'success');
+    } catch {
+      showToast('Failed to download resume. Please try from editor.', 'error');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Link
-        href="/resume/create"
-        className="group relative isolate flex min-h-[124px] items-center justify-between overflow-hidden rounded-[12px] bg-gradient-to-br from-primary-DEFAULT to-primary-dark p-5 text-[#07111F] shadow-[0_1px_2px_rgba(15,23,42,0.08),0_18px_42px_rgba(37,99,235,0.26)] transition-all duration-200 hover:-translate-y-1 hover:from-[#1F5BE3] hover:to-[#1746BF] hover:text-white hover:shadow-[0_1px_2px_rgba(15,23,42,0.08),0_24px_54px_rgba(37,99,235,0.34)] active:scale-[0.98]"
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Create Resume */}
+      <button
+        onClick={() => router.push('/resume/create')}
+        className="text-left group relative isolate flex min-h-[124px] items-center justify-between overflow-hidden rounded-[12px] bg-gradient-to-br from-blue-600 to-indigo-650 p-5 text-white shadow-md transition-all duration-200 hover:-translate-y-1 active:scale-[0.98]"
       >
-        <span className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.16),transparent_30%)] opacity-70 transition-opacity duration-200 group-hover:opacity-35" />
         <div>
-          <h4 className="text-base font-bold">Create Resume</h4>
-          <p className="mt-1 max-w-[220px] text-xs leading-relaxed text-[#17233A] transition-colors duration-200 group-hover:text-blue-100">Start with a guided, campus-ready template</p>
+          <h4 className="text-base font-bold">Create New Resume</h4>
+          <p className="mt-1 max-w-[180px] text-xs leading-relaxed text-blue-100">Start with a guided template</p>
         </div>
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#123FB3]/45 text-white ring-1 ring-white/15 transition-transform group-hover:translate-x-1 group-hover:bg-[#0F369A]/55">
-          <ArrowRight className="h-5 w-5 shrink-0" />
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-transform group-hover:translate-x-1">
+          <FilePlus className="h-5 w-5" />
         </span>
-      </Link>
+      </button>
 
-      <Link
-        href="/resume/upload"
-        className="group relative isolate flex min-h-[124px] items-center justify-between overflow-hidden rounded-[12px] border border-[#BFD7FF] bg-[#EAF3FF] p-5 text-[#10233F] shadow-[0_1px_2px_rgba(15,23,42,0.06),0_16px_38px_rgba(37,99,235,0.13)] transition-all duration-200 hover:-translate-y-1 hover:border-primary-DEFAULT hover:bg-[#DDEBFF] hover:shadow-[0_22px_48px_rgba(37,99,235,0.20)] active:scale-[0.98]"
+      {/* Upload Resume */}
+      <button
+        onClick={() => router.push('/resume/upload')}
+        className="text-left group relative isolate flex min-h-[124px] items-center justify-between overflow-hidden rounded-[12px] border border-[#BFD7FF] bg-[#EAF3FF] p-5 text-[#10233F] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:bg-[#DDEBFF] active:scale-[0.98]"
       >
-        <span className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_85%_15%,rgba(37,99,235,0.18),transparent_32%)] opacity-80 transition-opacity group-hover:opacity-100" />
         <div>
-          <h4 className="text-base font-extrabold tracking-[-0.01em]">Upload Resume</h4>
-          <p className="mt-1 max-w-[220px] text-xs leading-relaxed text-[#45607F]">Extract, review, and improve your existing document</p>
+          <h4 className="text-base font-extrabold">Upload Resume</h4>
+          <p className="mt-1 max-w-[180px] text-xs leading-relaxed text-[#45607F]">Extract details from existing files</p>
         </div>
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-DEFAULT text-white shadow-[0_10px_22px_rgba(37,99,235,0.28)] transition-transform group-hover:-translate-y-1 group-hover:scale-105">
-          <CloudUpload className="h-5 w-5 shrink-0" />
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-DEFAULT text-white shadow-md">
+          <CloudUpload className="h-5 w-5" />
         </span>
-      </Link>
+      </button>
 
-      <Link
-        href={`/resume/${SAMPLE_RESUME_ID}/editor`}
-        className="group relative isolate flex min-h-[124px] items-center justify-between overflow-hidden rounded-[12px] border border-cyan-200 bg-[#E7FBFF] p-5 text-[#083344] shadow-[0_1px_2px_rgba(15,23,42,0.06),0_16px_38px_rgba(6,182,212,0.14)] transition-all duration-200 hover:-translate-y-1 hover:border-accent-cyan hover:bg-[#D9F7FF] hover:shadow-[0_22px_48px_rgba(6,182,212,0.24)] active:scale-[0.98]"
+      {/* ATS Check */}
+      <button
+        onClick={() => {
+          if (latestId) {
+            router.push(`/resume/${latestId}/ats`);
+          } else {
+            showToast('Please create a resume first.', 'info');
+          }
+        }}
+        className="text-left group relative isolate flex min-h-[124px] items-center justify-between overflow-hidden rounded-[12px] border border-cyan-200 bg-[#E7FBFF] p-5 text-[#083344] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:bg-[#D9F7FF] active:scale-[0.98]"
       >
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_18%,rgba(6,182,212,0.22),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.30),transparent)] opacity-90 transition-opacity group-hover:opacity-100" />
-        <div className="relative z-10">
-          <h4 className="text-base font-extrabold tracking-[-0.01em] text-[#06758A]">Improve with AI</h4>
-          <p className="mt-1 max-w-[220px] text-xs leading-relaxed text-[#3E6E78]">Rewrite bullets, tailor keywords, and raise ATS score</p>
+        <div>
+          <h4 className="text-base font-extrabold text-[#06758A]">Run ATS Check</h4>
+          <p className="mt-1 max-w-[180px] text-xs leading-relaxed text-[#3E6E78]">Audit score and keyword density</p>
         </div>
-        <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full bg-accent-cyan text-white shadow-[0_10px_22px_rgba(6,182,212,0.30)] transition-transform group-hover:rotate-6 group-hover:scale-105">
-          <Sparkles className="h-5 w-5 shrink-0" />
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#06B6D4] text-white">
+          <Target className="h-5 w-5" />
         </span>
-      </Link>
+      </button>
+
+      {/* Download Resume */}
+      <button
+        onClick={handleDownload}
+        disabled={isDownloading}
+        className="text-left group relative isolate flex min-h-[124px] items-center justify-between overflow-hidden rounded-[12px] border border-emerald-250 bg-[#EAFBF3] p-5 text-[#064E3B] shadow-sm transition-all duration-200 hover:-translate-y-1 hover:bg-[#DDFBEB] active:scale-[0.98] disabled:opacity-50"
+      >
+        <div>
+          <h4 className="text-base font-extrabold text-[#047857]">Download Resume</h4>
+          <p className="mt-1 max-w-[180px] text-xs leading-relaxed text-[#047857] opacity-80">
+            {isDownloading ? 'Exporting PDF...' : 'Download latest PDF'}
+          </p>
+        </div>
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#10B981] text-white">
+          <Download className="h-5 w-5" />
+        </span>
+      </button>
     </div>
   );
 }

@@ -23,9 +23,9 @@ export function Button({
 
   const variants = {
     primary:
-      'bg-primary-DEFAULT text-white shadow-[0_1px_2px_rgba(15,23,42,0.08),0_10px_24px_rgba(37,99,235,0.24)] hover:bg-primary-dark hover:shadow-[0_1px_2px_rgba(15,23,42,0.08),0_14px_30px_rgba(37,99,235,0.30)] focus:ring-primary-DEFAULT before:absolute before:inset-0 before:-z-10 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.22),transparent)] before:translate-x-[-120%] hover:before:translate-x-[120%] before:transition-transform before:duration-700',
+      'bg-primary-DEFAULT text-white shadow-[0_1px_2px_rgba(15,23,42,0.08),0_10px_24px_rgba(59,73,223,0.24)] hover:bg-primary-dark hover:shadow-[0_1px_2px_rgba(15,23,42,0.08),0_14px_30px_rgba(59,73,223,0.30)] focus:ring-primary-DEFAULT before:absolute before:inset-0 before:-z-10 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.22),transparent)] before:translate-x-[-120%] hover:before:translate-x-[120%] before:transition-transform before:duration-700',
     secondary:
-      'border border-[#BFD7FF] bg-[#EAF3FF] text-[#10233F] shadow-sm hover:border-primary-DEFAULT hover:bg-primary-DEFAULT hover:text-white hover:shadow-[0_12px_26px_rgba(37,99,235,0.16)] focus:ring-primary-DEFAULT',
+      'border border-[#BFD7FF] bg-[#EAF3FF] text-[#10233F] shadow-sm hover:border-primary-DEFAULT hover:bg-primary-DEFAULT hover:text-white hover:shadow-[0_12px_26px_rgba(59,73,223,0.16)] focus:ring-primary-DEFAULT',
     ghost:
       'text-text-secondary hover:bg-blue-50 hover:text-primary-DEFAULT focus:ring-primary-DEFAULT',
     danger:

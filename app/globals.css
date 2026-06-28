@@ -24,7 +24,7 @@
   body {
     font-family: var(--font-app);
     background:
-      radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%),
+      radial-gradient(circle at top left, rgba(59, 73, 223, 0.08), transparent 30%),
       linear-gradient(180deg, #F8FAFF 0%, #F1F5F9 44%, #EEF4FF 100%);
     color: #0F172A;
   }
@@ -89,7 +89,7 @@
     transform: translateY(-2px);
     box-shadow:
       0 1px 2px rgba(15, 23, 42, 0.05),
-      0 18px 44px rgba(37, 99, 235, 0.10);
+      0 18px 44px rgba(59, 73, 223, 0.10);
   }
 
   .page-enter {
@@ -172,7 +172,7 @@
 /* ATS ring using conic-gradient */
 .ats-ring {
   background: radial-gradient(closest-side, white 79%, transparent 80% 100%),
-              conic-gradient(#2563eb var(--ats-pct, 74%), #E2E8F0 0);
+              conic-gradient(#3b49df var(--ats-pct, 74%), #E2E8F0 0);
 }
 
 /* Resume preview paper shadow */

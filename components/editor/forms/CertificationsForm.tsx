@@ -1,43 +1,131 @@
 'use client';
-import { useState } from 'react';
 import { useResumeStore } from '@/store/resumeStore';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { Trash2, Plus } from 'lucide-react';
-import type { Certification } from '@/types/resume';
+import { Trash2, Plus, Sparkles, AlertTriangle } from 'lucide-react';
+import { useAIAction } from '@/hooks/useAIAction';
+import { isValidUrl } from '@/lib/resumeUtils';
+import { useUIStore } from '@/store/uiStore';
 
 export function CertificationsForm() {
-  const { certifications, updateCertifications } = useResumeStore();
-  const [items, setItems] = useState<Certification[]>(certifications);
+  const certifications = useResumeStore((s) => s.resume.certifications);
+  const resume = useResumeStore((s) => s.resume);
+  const { addCertification, removeCertification, updateCertification } = useResumeStore();
+  const validationErrors = useResumeStore((s) => s.validationErrors) ?? {};
+  const setValidationError = useResumeStore((s) => s.setValidationError);
+  const showToast = useUIStore((s) => s.showToast);
 
-  const update = (id: string, field: keyof Certification, value: string) =>
-    setItems((prev) => prev.map((c) => c.id === id ? { ...c, [field]: value } : c));
+  const { trigger, isLoading } = useAIAction();
 
-  const add = () => setItems((prev) => [...prev, {
-    id: `cert-${Date.now()}`, name: '', issuer: '', date: '', credentialLink: '',
-  }]);
+  const handleSuggestCertifications = () => {
+    const primaryRole = resume.experience[0]?.role || 'Software Engineer';
+    const skillsList = resume.skills?.join(', ') || '';
+    const contextStr = `Role: ${primaryRole}, Skills: ${skillsList}`;
+    
+    trigger('suggest_certifications', contextStr, 'Suggest Certifications', (text) => {
+      showToast(`Suggested Certifications: ${text}`, 'success');
+    });
+  };
 
-  const remove = (id: string) => setItems((prev) => prev.filter((c) => c.id !== id));
+  const handleValidateUrl = (id: string, value: string) => {
+    if (value && !isValidUrl(value)) {
+      setValidationError(`cert-${id}`, 'Must be a valid credential website URL');
+    } else {
+      setValidationError(`cert-${id}`, null);
+    }
+  };
+
+  const handleRemove = (id: string) => {
+    setValidationError(`cert-${id}`, null);
+    removeCertification(id);
+  };
+
+  // Helper to check if certificate is older than 3 years (assuming current year is 2026)
+  const isPossiblyExpired = (dateStr: string) => {
+    if (!dateStr) return false;
+    const match = dateStr.match(/\b(20\d{2})\b/);
+    if (match) {
+      const year = parseInt(match[1], 10);
+      return year <= 2023; // AWS/Cisco/etc expire in 3 years. Since now is 2026, <=2023 is expired.
+    }
+    return false;
+  };
 
   return (
-    <div className="space-y-4">
-      {items.map((cert) => (
-        <div key={cert.id} className="border border-border rounded-[10px] p-4 space-y-3 bg-white">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-text-primary">Certification</p>
-            <button onClick={() => remove(cert.id)} className="text-danger hover:opacity-70 transition-opacity"><Trash2 className="h-4 w-4" /></button>
+    <div className="space-y-6">
+      {certifications.map((cert) => {
+        const expired = isPossiblyExpired(cert.date);
+
+        return (
+          <div key={cert.id} className="border border-border rounded-[10px] p-5 space-y-4 bg-white shadow-sm">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold text-text-primary">Certification</p>
+              <button
+                onClick={() => handleRemove(cert.id)}
+                className="text-danger hover:opacity-70 transition-opacity p-1.5 hover:bg-red-50 rounded-lg"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Input
+                label="Certificate Name"
+                value={cert.name}
+                onChange={(e) => updateCertification(cert.id, { name: e.target.value })}
+                placeholder="e.g. AWS Cloud Practitioner"
+                className="sm:col-span-2"
+              />
+              <Input
+                label="Issuing Organization"
+                value={cert.issuer}
+                onChange={(e) => updateCertification(cert.id, { issuer: e.target.value })}
+                placeholder="e.g. Amazon Web Services"
+              />
+              <div className="flex flex-col gap-1">
+                <Input
+                  label="Date Earned"
+                  value={cert.date}
+                  onChange={(e) => updateCertification(cert.id, { date: e.target.value })}
+                  placeholder="e.g. March 2024"
+                />
+                {expired && (
+                  <p className="text-[10px] text-amber-600 font-bold flex items-center gap-1 mt-1">
+                    <AlertTriangle className="h-3 w-3 shrink-0" />
+                    May be expired (over 3 years old)
+                  </p>
+                )}
+              </div>
+              <Input
+                label="Credential URL"
+                value={cert.credentialUrl ?? ''}
+                error={validationErrors[`cert-${cert.id}`]}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  updateCertification(cert.id, { credentialUrl: val });
+                  handleValidateUrl(cert.id, val);
+                }}
+                placeholder="e.g. https://verify.aws..."
+                className="sm:col-span-2"
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Input label="Certificate Name" value={cert.name} onChange={(e) => update(cert.id, 'name', e.target.value)} placeholder="AWS Cloud Practitioner" className="sm:col-span-2" />
-            <Input label="Issuing Organization" value={cert.issuer} onChange={(e) => update(cert.id, 'issuer', e.target.value)} placeholder="Amazon Web Services" />
-            <Input label="Date" value={cert.date} onChange={(e) => update(cert.id, 'date', e.target.value)} placeholder="March 2024" />
-            <Input label="Credential Link" value={cert.credentialLink} onChange={(e) => update(cert.id, 'credentialLink', e.target.value)} placeholder="https://verify.aws..." className="sm:col-span-2" />
-          </div>
-        </div>
-      ))}
+        );
+      })}
+
       <div className="flex gap-3">
-        <Button variant="secondary" size="sm" onClick={add}><Plus className="h-4 w-4" />Add Certification</Button>
-        <Button variant="primary" size="sm" onClick={() => updateCertifications(items)}>Save Certifications</Button>
+        <Button
+          variant="secondary"
+          size="md"
+          onClick={handleSuggestCertifications}
+          loading={isLoading}
+          className="flex-1 border border-blue-200 bg-blue-50 text-primary-DEFAULT hover:bg-blue-100 flex items-center justify-center gap-2 font-semibold"
+        >
+          <Sparkles className="h-4 w-4" /> AI Suggest Certifications
+        </Button>
+        <Button variant="primary" size="md" onClick={addCertification} className="flex-1">
+          <Plus className="h-4 w-4 mr-2" /> Add Certification
+        </Button>
       </div>
     </div>
   );

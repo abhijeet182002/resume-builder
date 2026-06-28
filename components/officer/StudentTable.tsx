@@ -15,7 +15,7 @@ function scoreClass(score: number) {
 
 export function StudentTable({ students }: StudentTableProps) {
   return (
-    <div className="overflow-hidden rounded-[16px] border border-[#CFE0F7] bg-[#F7FAFF] shadow-[0_1px_2px_rgba(15,23,42,0.06),0_18px_42px_rgba(37,99,235,0.10)]">
+    <div className="overflow-hidden rounded-[16px] border border-[#CFE0F7] bg-[#F7FAFF] shadow-[0_1px_2px_rgba(15,23,42,0.06),0_18px_42px_rgba(59,73,223,0.10)]">
       <div className="hidden overflow-x-auto md:block">
         <table className="w-full text-left text-sm">
           <thead className="bg-[#EAF3FF] text-xs uppercase tracking-[0.12em] text-[#647A9A]">

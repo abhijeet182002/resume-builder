@@ -1,70 +1,99 @@
-import { create } from 'zustand';
+import { create } from 'zustand'
 
-export type AIAction =
-  | 'Improve Description'
-  | 'Generate Summary'
-  | 'Rewrite Experience'
-  | 'Suggest Skills'
-  | 'Tailor to Role';
+export type AIStatus = 'idle' | 'loading' | 'success' | 'error';
 
-const AI_SAMPLE_TEXTS: Record<string, string> = {
-  'Generate Summary':
-    'Passionate Computer Science undergraduate at IIT Delhi with 2+ years of hands-on experience in full-stack development using React, Next.js, TypeScript, and Node.js. Proven track record of building scalable applications adopted by thousands of users. Winner of 2 national hackathons. Seeking to leverage strong problem-solving skills and modern engineering expertise at a high-growth product company.',
-  'Improve Description':
-    'Developed and shipped 5+ production-grade React components for the Razorpay merchant dashboard, directly serving 2M+ merchant accounts. Reduced API response latency by 40% through Redis caching and N+1 query elimination. Maintained 92% test coverage using Jest and React Testing Library. Collaborated in 2-week Agile sprints, reviewing 30+ pull requests.',
-  'Rewrite Experience':
-    'Led frontend development of 3 core features for the payments dashboard using React and TypeScript. Optimized bundle size by 28% using code-splitting and lazy loading. Mentored 2 junior interns and conducted daily stand-ups as scrum lead during the final sprint.',
-  'Suggest Skills':
-    'Based on your target role (Software Engineer) and existing experience, consider adding: Kubernetes, CI/CD (GitHub Actions), System Design, Redis, GraphQL, WebSockets, Jest, Webpack, Linux. These appear in 70%+ of matching job descriptions.',
-  'Tailor to Role':
-    'Tailored for "Senior Software Engineer at Flipkart": Emphasized React performance optimization, system design exposure, and cross-functional collaboration. Added keywords: Microservices, Kafka, REST APIs, Agile. Reworded project descriptions to highlight scale (users, throughput, uptime).',
-};
-
-interface AIStore {
-  activeAction: AIAction | null;
-  isStreaming: boolean;
-  currentSuggestion: string;
-  pendingSection: string | null;
-  setAction: (action: AIAction) => void;
-  streamSuggestion: (section: string) => Promise<void>;
-  acceptSuggestion: () => void;
-  discardSuggestion: () => void;
+export interface ChatMessage {
+  sender: 'user' | 'ai';
+  text: string;
 }
 
-export const useAIStore = create<AIStore>((set, get) => ({
-  activeAction: null,
-  isStreaming: false,
-  currentSuggestion: '',
-  pendingSection: null,
+interface AIState {
+  // New requirements
+  status: AIStatus
+  textResult: string | null
+  error: string | null
+  setStatus: (s: AIStatus) => void
+  setTextResult: (text: string | null) => void
+  setError: (err: string | null) => void
 
-  setAction: (action) => {
-    set({ activeAction: action, currentSuggestion: '', pendingSection: null });
-  },
+  // Chat message history
+  messages: ChatMessage[]
+  addMessage: (msg: ChatMessage) => void
+  updateLastMessage: (text: string) => void
+  clearMessages: () => void
 
-  streamSuggestion: async (section: string) => {
-    const action = get().activeAction;
-    const fullText = AI_SAMPLE_TEXTS[action ?? 'Generate Summary'] ?? AI_SAMPLE_TEXTS['Generate Summary'];
-    set({ isStreaming: true, currentSuggestion: '', pendingSection: section });
+  // Compatibility fields
+  isOpen: boolean
+  isLoading: boolean
+  suggestion: string | null
+  originalText: string | null
+  context: string | null   // which section triggered AI
+  onApply: ((text: string) => void) | null
+  open: (original: string, context: string, onApply?: (text: string) => void) => void
+  close: () => void
+  setSuggestion: (s: string) => void
+  setLoading: (v: boolean) => void
+}
 
-    await new Promise<void>((resolve) => {
-      let index = 0;
-      const interval = setInterval(() => {
-        index++;
-        set({ currentSuggestion: fullText.slice(0, index) });
-        if (index >= fullText.length) {
-          clearInterval(interval);
-          set({ isStreaming: false });
-          resolve();
-        }
-      }, 18);
-    });
-  },
+export const useAIStore = create<AIState>((set) => ({
+  status: 'idle',
+  textResult: null,
+  error: null,
+  
+  setStatus: (s) => set({ status: s }),
+  setTextResult: (text) => set({ textResult: text }),
+  setError: (err) => set({ error: err, status: 'error' }),
 
-  acceptSuggestion: () => {
-    set({ activeAction: null, currentSuggestion: '', pendingSection: null });
-  },
+  messages: [],
+  addMessage: (msg) => set((state) => ({ messages: [...state.messages, msg] })),
+  updateLastMessage: (text) => set((state) => {
+    const next = [...state.messages];
+    if (next.length > 0 && next[next.length - 1].sender === 'ai') {
+      next[next.length - 1] = { ...next[next.length - 1], text };
+    }
+    return { messages: next };
+  }),
+  clearMessages: () => set({ messages: [] }),
 
-  discardSuggestion: () => {
-    set({ activeAction: null, currentSuggestion: '', pendingSection: null });
-  },
-}));
+  isOpen: false,
+  isLoading: false,
+  suggestion: null,
+  originalText: null,
+  context: null,
+  onApply: null,
+
+  open: (original, context, onApply) =>
+    set({ 
+      isOpen: true, 
+      originalText: original, 
+      context, 
+      suggestion: null, 
+      onApply: onApply ?? null,
+      status: 'idle',
+      textResult: null,
+      error: null,
+      messages: original ? [{ sender: 'user', text: `Optimize this content: "${original}"` }, { sender: 'ai', text: '' }] : []
+    }),
+  close: () => set({ 
+    isOpen: false, 
+    suggestion: null, 
+    originalText: null, 
+    context: null, 
+    onApply: null,
+    status: 'idle',
+    textResult: null,
+    error: null,
+    messages: []
+  }),
+  setSuggestion: (s) => set({ 
+    suggestion: s, 
+    isLoading: false, 
+    textResult: s,
+    status: 'success',
+    error: null
+  }),
+  setLoading: (v) => set({ 
+    isLoading: v, 
+    status: v ? 'loading' : 'idle' 
+  }),
+}))

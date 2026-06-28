@@ -4,12 +4,30 @@
   "graph": {},
   "nodes": [
     {
+      "label": "middleware.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\middleware.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_middleware_ts",
+      "community": 2,
+      "norm_label": "middleware.ts"
+    },
+    {
+      "label": "middleware()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\middleware.ts",
+      "source_location": "L4",
+      "id": "middleware_middleware",
+      "community": 2,
+      "norm_label": "middleware()"
+    },
+    {
       "label": "next-env.d.ts",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\next-env.d.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_next_env_d_ts",
-      "community": 45,
+      "community": 53,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -18,7 +36,7 @@
       "source_file": "F:\\projects\\resume-builder\\next.config.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_next_config_ts",
-      "community": 46,
+      "community": 54,
       "norm_label": "next.config.ts"
     },
     {
@@ -27,8 +45,17 @@
       "source_file": "F:\\projects\\resume-builder\\postcss.config.mjs",
       "source_location": "L1",
       "id": "f_projects_resume_builder_postcss_config_mjs",
-      "community": 47,
+      "community": 55,
       "norm_label": "postcss.config.mjs"
+    },
+    {
+      "label": "prisma.config.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\prisma.config.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_prisma_config_ts",
+      "community": 56,
+      "norm_label": "prisma.config.ts"
     },
     {
       "label": "tailwind.config.ts",
@@ -36,7 +63,7 @@
       "source_file": "F:\\projects\\resume-builder\\tailwind.config.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_tailwind_config_ts",
-      "community": 48,
+      "community": 57,
       "norm_label": "tailwind.config.ts"
     },
     {
@@ -45,16 +72,16 @@
       "source_file": "F:\\projects\\resume-builder\\app\\layout.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_layout_tsx",
-      "community": 10,
+      "community": 18,
       "norm_label": "layout.tsx"
     },
     {
       "label": "RootLayout()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\layout.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "id": "layout_rootlayout",
-      "community": 10,
+      "community": 18,
       "norm_label": "rootlayout()"
     },
     {
@@ -63,7 +90,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_page_tsx",
-      "community": 11,
+      "community": 19,
       "norm_label": "page.tsx"
     },
     {
@@ -72,7 +99,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\page.tsx",
       "source_location": "L3",
       "id": "page_homepage",
-      "community": 11,
+      "community": 19,
       "norm_label": "homepage()"
     },
     {
@@ -81,17 +108,17 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\login\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_auth_login_page_tsx",
-      "community": 12,
+      "community": 20,
       "norm_label": "page.tsx"
     },
     {
-      "label": "LoginPage()",
+      "label": "handleLogin()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\login\\page.tsx",
-      "source_location": "L9",
-      "id": "page_loginpage",
-      "community": 12,
-      "norm_label": "loginpage()"
+      "source_location": "L23",
+      "id": "page_handlelogin",
+      "community": 20,
+      "norm_label": "handlelogin()"
     },
     {
       "label": "page.tsx",
@@ -99,8 +126,35 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_auth_onboarding_page_tsx",
-      "community": 49,
+      "community": 4,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "validateStep()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
+      "source_location": "L34",
+      "id": "page_validatestep",
+      "community": 4,
+      "norm_label": "validatestep()"
+    },
+    {
+      "label": "handleNext()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
+      "source_location": "L54",
+      "id": "page_handlenext",
+      "community": 4,
+      "norm_label": "handlenext()"
+    },
+    {
+      "label": "handleRegister()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
+      "source_location": "L60",
+      "id": "page_handleregister",
+      "community": 4,
+      "norm_label": "handleregister()"
     },
     {
       "label": "layout.tsx",
@@ -108,7 +162,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\layout.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_officer_layout_tsx",
-      "community": 13,
+      "community": 21,
       "norm_label": "layout.tsx"
     },
     {
@@ -117,7 +171,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\layout.tsx",
       "source_location": "L4",
       "id": "layout_officerlayout",
-      "community": 13,
+      "community": 21,
       "norm_label": "officerlayout()"
     },
     {
@@ -126,17 +180,44 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\admin\\dashboard\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_officer_admin_dashboard_page_tsx",
-      "community": 14,
+      "community": 11,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "handleAddStudent()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\admin\\dashboard\\page.tsx",
+      "source_location": "L81",
+      "id": "page_handleaddstudent",
+      "community": 11,
+      "norm_label": "handleaddstudent()"
     },
     {
       "label": "updateFilters()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\admin\\dashboard\\page.tsx",
-      "source_location": "L32",
+      "source_location": "L164",
       "id": "page_updatefilters",
-      "community": 14,
+      "community": 11,
       "norm_label": "updatefilters()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\admin\\job-details\\page.tsx",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_officer_admin_job_details_page_tsx",
+      "community": 58,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\admin\\students-details\\page.tsx",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_officer_admin_students_details_page_tsx",
+      "community": 59,
+      "norm_label": "page.tsx"
     },
     {
       "label": "layout.tsx",
@@ -144,7 +225,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\layout.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_layout_tsx",
-      "community": 8,
+      "community": 12,
       "norm_label": "layout.tsx"
     },
     {
@@ -153,7 +234,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\layout.tsx",
       "source_location": "L18",
       "id": "layout_gettitle",
-      "community": 8,
+      "community": 12,
       "norm_label": "gettitle()"
     },
     {
@@ -162,7 +243,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\layout.tsx",
       "source_location": "L24",
       "id": "layout_studentlayout",
-      "community": 8,
+      "community": 12,
       "norm_label": "studentlayout()"
     },
     {
@@ -171,8 +252,17 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\dashboard\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_dashboard_page_tsx",
-      "community": 50,
+      "community": 22,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "deriveReadiness()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\dashboard\\page.tsx",
+      "source_location": "L56",
+      "id": "page_derivereadiness",
+      "community": 22,
+      "norm_label": "derivereadiness()"
     },
     {
       "label": "page.tsx",
@@ -180,62 +270,35 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "community": 0,
+      "community": 5,
       "norm_label": "page.tsx"
     },
     {
-      "label": "ClassicTemplate()",
+      "label": "fetchResumes()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L18",
-      "id": "page_classictemplate",
-      "community": 0,
-      "norm_label": "classictemplate()"
+      "source_location": "L43",
+      "id": "page_fetchresumes",
+      "community": 5,
+      "norm_label": "fetchresumes()"
     },
     {
-      "label": "ModernTemplate()",
+      "label": "handleDownloadTrigger()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L35",
-      "id": "page_moderntemplate",
-      "community": 0,
-      "norm_label": "moderntemplate()"
+      "source_location": "L61",
+      "id": "page_handledownloadtrigger",
+      "community": 5,
+      "norm_label": "handledownloadtrigger()"
     },
     {
-      "label": "MinimalTemplate()",
+      "label": "handleDeleteResume()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L59",
-      "id": "page_minimaltemplate",
-      "community": 0,
-      "norm_label": "minimaltemplate()"
-    },
-    {
-      "label": "TemplateRenderer()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L80",
-      "id": "page_templaterenderer",
-      "community": 0,
-      "norm_label": "templaterenderer()"
-    },
-    {
-      "label": "showToast()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L117",
-      "id": "page_showtoast",
-      "community": 0,
-      "norm_label": "showtoast()"
-    },
-    {
-      "label": "handleDownload()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L123",
-      "id": "page_handledownload",
-      "community": 0,
-      "norm_label": "handledownload()"
+      "source_location": "L106",
+      "id": "page_handledeleteresume",
+      "community": 5,
+      "norm_label": "handledeleteresume()"
     },
     {
       "label": "page.tsx",
@@ -243,8 +306,17 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\placement-readiness\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_placement_readiness_page_tsx",
-      "community": 51,
+      "community": 23,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "getReadinessTier()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\placement-readiness\\page.tsx",
+      "source_location": "L66",
+      "id": "page_getreadinesstier",
+      "community": 23,
+      "norm_label": "getreadinesstier()"
     },
     {
       "label": "page.tsx",
@@ -252,7 +324,7 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\create\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_resume_create_page_tsx",
-      "community": 52,
+      "community": 60,
       "norm_label": "page.tsx"
     },
     {
@@ -261,17 +333,17 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\upload\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_resume_upload_page_tsx",
-      "community": 15,
+      "community": 24,
       "norm_label": "page.tsx"
     },
     {
-      "label": "startProcessing()",
+      "label": "UploadResumePage()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\upload\\page.tsx",
-      "source_location": "L16",
-      "id": "page_startprocessing",
-      "community": 15,
-      "norm_label": "startprocessing()"
+      "source_location": "L11",
+      "id": "page_uploadresumepage",
+      "community": 24,
+      "norm_label": "uploadresumepage()"
     },
     {
       "label": "page.tsx",
@@ -279,8 +351,26 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\ats\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_resume_resumeid_ats_page_tsx",
-      "community": 53,
+      "community": 13,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "handleRunAudit()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\ats\\page.tsx",
+      "source_location": "L64",
+      "id": "page_handlerunaudit",
+      "community": 13,
+      "norm_label": "handlerunaudit()"
+    },
+    {
+      "label": "handleFixWithAI()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\ats\\page.tsx",
+      "source_location": "L68",
+      "id": "page_handlefixwithai",
+      "community": 13,
+      "norm_label": "handlefixwithai()"
     },
     {
       "label": "page.tsx",
@@ -288,16 +378,16 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\editor\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_resume_resumeid_editor_page_tsx",
-      "community": 16,
+      "community": 10,
       "norm_label": "page.tsx"
     },
     {
       "label": "ResumeEditorPage()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\editor\\page.tsx",
-      "source_location": "L3",
+      "source_location": "L11",
       "id": "page_resumeeditorpage",
-      "community": 16,
+      "community": 10,
       "norm_label": "resumeeditorpage()"
     },
     {
@@ -306,17 +396,215 @@
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\settings\\page.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_app_student_settings_page_tsx",
-      "community": 17,
+      "community": 14,
       "norm_label": "page.tsx"
     },
     {
-      "label": "handleSave()",
+      "label": "SettingsPage()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\settings\\page.tsx",
-      "source_location": "L34",
-      "id": "page_handlesave",
-      "community": 17,
-      "norm_label": "handlesave()"
+      "source_location": "L10",
+      "id": "page_settingspage",
+      "community": 14,
+      "norm_label": "settingspage()"
+    },
+    {
+      "label": "Header()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\settings\\page.tsx",
+      "source_location": "L185",
+      "id": "page_header",
+      "community": 14,
+      "norm_label": "header()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\activity\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_activity_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\user\\me\\route.ts",
+      "source_location": "L5",
+      "id": "route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\ai\\enhance\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_ai_enhance_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\download\\route.ts",
+      "source_location": "L163",
+      "id": "route_post",
+      "community": 1,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\auth\\login\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_auth_login_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\auth\\logout\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_auth_logout_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\auth\\register\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_auth_register_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\dashboard\\stats\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_dashboard_stats_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\notifications\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_notifications_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\notifications\\read-all\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_notifications_read_all_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\notifications\\[id]\\read\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_notifications_id_read_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "PATCH()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\user\\me\\route.ts",
+      "source_location": "L29",
+      "id": "route_patch",
+      "community": 0,
+      "norm_label": "patch()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\officer\\students\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_officer_students_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "deriveStatus()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\officer\\students\\route.ts",
+      "source_location": "L128",
+      "id": "route_derivestatus",
+      "community": 1,
+      "norm_label": "derivestatus()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_resume_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_resume_resumeid_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "DELETE()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\route.ts",
+      "source_location": "L114",
+      "id": "route_delete",
+      "community": 0,
+      "norm_label": "delete()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\ats\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_resume_resumeid_ats_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "buildResumeText()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\ats\\route.ts",
+      "source_location": "L109",
+      "id": "route_buildresumetext",
+      "community": 1,
+      "norm_label": "buildresumetext()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\download\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_resume_resumeid_download_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\user\\me\\route.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_app_api_user_me_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
     },
     {
       "label": "ATSScoreOverview.tsx",
@@ -324,16 +612,16 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\ATSScoreOverview.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ats_atsscoreoverview_tsx",
-      "community": 18,
+      "community": 9,
       "norm_label": "atsscoreoverview.tsx"
     },
     {
       "label": "ATSScoreOverview()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\ATSScoreOverview.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "id": "atsscoreoverview_atsscoreoverview",
-      "community": 18,
+      "community": 9,
       "norm_label": "atsscoreoverview()"
     },
     {
@@ -342,16 +630,16 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\FormattingCard.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ats_formattingcard_tsx",
-      "community": 19,
+      "community": 25,
       "norm_label": "formattingcard.tsx"
     },
     {
       "label": "FormattingCard()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\FormattingCard.tsx",
-      "source_location": "L13",
+      "source_location": "L14",
       "id": "formattingcard_formattingcard",
-      "community": 19,
+      "community": 25,
       "norm_label": "formattingcard()"
     },
     {
@@ -360,8 +648,26 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\KeywordMatchCard.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ats_keywordmatchcard_tsx",
-      "community": 54,
+      "community": 15,
       "norm_label": "keywordmatchcard.tsx"
+    },
+    {
+      "label": "handleAddMissingKeywords()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\ats\\KeywordMatchCard.tsx",
+      "source_location": "L22",
+      "id": "keywordmatchcard_handleaddmissingkeywords",
+      "community": 15,
+      "norm_label": "handleaddmissingkeywords()"
+    },
+    {
+      "label": "handleAddSingleKeyword()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\ats\\KeywordMatchCard.tsx",
+      "source_location": "L39",
+      "id": "keywordmatchcard_handleaddsinglekeyword",
+      "community": 15,
+      "norm_label": "handleaddsinglekeyword()"
     },
     {
       "label": "SectionCompletenessCard.tsx",
@@ -369,8 +675,17 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\SectionCompletenessCard.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ats_sectioncompletenesscard_tsx",
-      "community": 55,
+      "community": 26,
       "norm_label": "sectioncompletenesscard.tsx"
+    },
+    {
+      "label": "handleAutoFill()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\ats\\SectionCompletenessCard.tsx",
+      "source_location": "L29",
+      "id": "sectioncompletenesscard_handleautofill",
+      "community": 26,
+      "norm_label": "handleautofill()"
     },
     {
       "label": "ActivityFeed.tsx",
@@ -378,17 +693,17 @@
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\ActivityFeed.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_dashboard_activityfeed_tsx",
-      "community": 20,
+      "community": 27,
       "norm_label": "activityfeed.tsx"
     },
     {
-      "label": "ActivityFeed()",
+      "label": "getActivityConfig()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\ActivityFeed.tsx",
-      "source_location": "L12",
-      "id": "activityfeed_activityfeed",
-      "community": 20,
-      "norm_label": "activityfeed()"
+      "source_location": "L26",
+      "id": "activityfeed_getactivityconfig",
+      "community": 27,
+      "norm_label": "getactivityconfig()"
     },
     {
       "label": "MetricCard.tsx",
@@ -396,7 +711,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\MetricCard.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_dashboard_metriccard_tsx",
-      "community": 21,
+      "community": 28,
       "norm_label": "metriccard.tsx"
     },
     {
@@ -405,7 +720,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\MetricCard.tsx",
       "source_location": "L17",
       "id": "metriccard_metriccard",
-      "community": 21,
+      "community": 28,
       "norm_label": "metriccard()"
     },
     {
@@ -414,16 +729,16 @@
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\PrimaryActions.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_dashboard_primaryactions_tsx",
-      "community": 22,
+      "community": 29,
       "norm_label": "primaryactions.tsx"
     },
     {
       "label": "PrimaryActions()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\PrimaryActions.tsx",
-      "source_location": "L6",
+      "source_location": "L8",
       "id": "primaryactions_primaryactions",
-      "community": 22,
+      "community": 29,
       "norm_label": "primaryactions()"
     },
     {
@@ -432,26 +747,17 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\AIDrawer.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_aidrawer_tsx",
-      "community": 9,
+      "community": 61,
       "norm_label": "aidrawer.tsx"
     },
     {
-      "label": "handleAccept()",
+      "label": "DesignSettingsPanel.tsx",
       "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\AIDrawer.tsx",
-      "source_location": "L14",
-      "id": "aidrawer_handleaccept",
-      "community": 9,
-      "norm_label": "handleaccept()"
-    },
-    {
-      "label": "handleDiscard()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\AIDrawer.tsx",
-      "source_location": "L22",
-      "id": "aidrawer_handlediscard",
-      "community": 9,
-      "norm_label": "handlediscard()"
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\DesignSettingsPanel.tsx",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_components_editor_designsettingspanel_tsx",
+      "community": 62,
+      "norm_label": "designsettingspanel.tsx"
     },
     {
       "label": "EditorLayout.tsx",
@@ -459,26 +765,8 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\EditorLayout.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_editorlayout_tsx",
-      "community": 1,
+      "community": 63,
       "norm_label": "editorlayout.tsx"
-    },
-    {
-      "label": "ActiveForm()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\EditorLayout.tsx",
-      "source_location": "L30",
-      "id": "editorlayout_activeform",
-      "community": 1,
-      "norm_label": "activeform()"
-    },
-    {
-      "label": "EditorLayout()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\EditorLayout.tsx",
-      "source_location": "L43",
-      "id": "editorlayout_editorlayout",
-      "community": 1,
-      "norm_label": "editorlayout()"
     },
     {
       "label": "InsightPanel.tsx",
@@ -486,7 +774,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\InsightPanel.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_insightpanel_tsx",
-      "community": 56,
+      "community": 64,
       "norm_label": "insightpanel.tsx"
     },
     {
@@ -495,7 +783,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\ResumePreview.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_resumepreview_tsx",
-      "community": 57,
+      "community": 65,
       "norm_label": "resumepreview.tsx"
     },
     {
@@ -504,7 +792,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\SectionNavigator.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_sectionnavigator_tsx",
-      "community": 58,
+      "community": 66,
       "norm_label": "sectionnavigator.tsx"
     },
     {
@@ -513,35 +801,26 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\CertificationsForm.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_forms_certificationsform_tsx",
-      "community": 4,
+      "community": 16,
       "norm_label": "certificationsform.tsx"
     },
     {
-      "label": "update()",
+      "label": "validateUrl()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\CertificationsForm.tsx",
       "source_location": "L13",
-      "id": "certificationsform_update",
-      "community": 4,
-      "norm_label": "update()"
+      "id": "certificationsform_validateurl",
+      "community": 16,
+      "norm_label": "validateurl()"
     },
     {
-      "label": "add()",
+      "label": "handleRemove()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\CertificationsForm.tsx",
-      "source_location": "L16",
-      "id": "certificationsform_add",
-      "community": 4,
-      "norm_label": "add()"
-    },
-    {
-      "label": "remove()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\CertificationsForm.tsx",
-      "source_location": "L20",
-      "id": "certificationsform_remove",
-      "community": 4,
-      "norm_label": "remove()"
+      "source_location": "L21",
+      "id": "certificationsform_handleremove",
+      "community": 16,
+      "norm_label": "handleremove()"
     },
     {
       "label": "EducationForm.tsx",
@@ -549,35 +828,8 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\EducationForm.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_forms_educationform_tsx",
-      "community": 5,
+      "community": 67,
       "norm_label": "educationform.tsx"
-    },
-    {
-      "label": "update()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\EducationForm.tsx",
-      "source_location": "L13",
-      "id": "educationform_update",
-      "community": 5,
-      "norm_label": "update()"
-    },
-    {
-      "label": "add()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\EducationForm.tsx",
-      "source_location": "L16",
-      "id": "educationform_add",
-      "community": 5,
-      "norm_label": "add()"
-    },
-    {
-      "label": "remove()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\EducationForm.tsx",
-      "source_location": "L20",
-      "id": "educationform_remove",
-      "community": 5,
-      "norm_label": "remove()"
     },
     {
       "label": "ExperienceForm.tsx",
@@ -585,53 +837,17 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "community": 2,
+      "community": 30,
       "norm_label": "experienceform.tsx"
     },
     {
-      "label": "update()",
+      "label": "handleEnhance()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L14",
-      "id": "experienceform_update",
-      "community": 2,
-      "norm_label": "update()"
-    },
-    {
-      "label": "addBullet()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L17",
-      "id": "experienceform_addbullet",
-      "community": 2,
-      "norm_label": "addbullet()"
-    },
-    {
-      "label": "removeBullet()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L24",
-      "id": "experienceform_removebullet",
-      "community": 2,
-      "norm_label": "removebullet()"
-    },
-    {
-      "label": "add()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L27",
-      "id": "experienceform_add",
-      "community": 2,
-      "norm_label": "add()"
-    },
-    {
-      "label": "remove()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L31",
-      "id": "experienceform_remove",
-      "community": 2,
-      "norm_label": "remove()"
+      "source_location": "L15",
+      "id": "experienceform_handleenhance",
+      "community": 30,
+      "norm_label": "handleenhance()"
     },
     {
       "label": "PersonalForm.tsx",
@@ -639,16 +855,16 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\PersonalForm.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_forms_personalform_tsx",
-      "community": 23,
+      "community": 31,
       "norm_label": "personalform.tsx"
     },
     {
       "label": "PersonalForm()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\PersonalForm.tsx",
-      "source_location": "L8",
+      "source_location": "L5",
       "id": "personalform_personalform",
-      "community": 23,
+      "community": 31,
       "norm_label": "personalform()"
     },
     {
@@ -657,53 +873,35 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "community": 3,
+      "community": 7,
       "norm_label": "projectsform.tsx"
     },
     {
-      "label": "update()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L15",
-      "id": "projectsform_update",
-      "community": 3,
-      "norm_label": "update()"
-    },
-    {
-      "label": "addTech()",
+      "label": "handleEnhance()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
       "source_location": "L18",
-      "id": "projectsform_addtech",
-      "community": 3,
-      "norm_label": "addtech()"
+      "id": "projectsform_handleenhance",
+      "community": 7,
+      "norm_label": "handleenhance()"
     },
     {
-      "label": "removeTech()",
+      "label": "handleAddTech()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L25",
-      "id": "projectsform_removetech",
-      "community": 3,
-      "norm_label": "removetech()"
+      "source_location": "L24",
+      "id": "projectsform_handleaddtech",
+      "community": 7,
+      "norm_label": "handleaddtech()"
     },
     {
-      "label": "add()",
+      "label": "handleKeyDown()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L28",
-      "id": "projectsform_add",
-      "community": 3,
-      "norm_label": "add()"
-    },
-    {
-      "label": "remove()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L32",
-      "id": "projectsform_remove",
-      "community": 3,
-      "norm_label": "remove()"
+      "source_location": "L37",
+      "id": "projectsform_handlekeydown",
+      "community": 7,
+      "norm_label": "handlekeydown()"
     },
     {
       "label": "SkillsForm.tsx",
@@ -711,35 +909,53 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
-      "community": 6,
+      "community": 3,
       "norm_label": "skillsform.tsx"
     },
     {
-      "label": "add()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
-      "source_location": "L15",
-      "id": "skillsform_add",
-      "community": 6,
-      "norm_label": "add()"
-    },
-    {
-      "label": "remove()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
-      "source_location": "L21",
-      "id": "skillsform_remove",
-      "community": 6,
-      "norm_label": "remove()"
-    },
-    {
-      "label": "handleKey()",
+      "label": "handleAISuggestSkills()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
       "source_location": "L23",
-      "id": "skillsform_handlekey",
-      "community": 6,
-      "norm_label": "handlekey()"
+      "id": "skillsform_handleaisuggestskills",
+      "community": 3,
+      "norm_label": "handleaisuggestskills()"
+    },
+    {
+      "label": "handleAddSkill()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L27",
+      "id": "skillsform_handleaddskill",
+      "community": 3,
+      "norm_label": "handleaddskill()"
+    },
+    {
+      "label": "handleRemoveSkill()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L36",
+      "id": "skillsform_handleremoveskill",
+      "community": 3,
+      "norm_label": "handleremoveskill()"
+    },
+    {
+      "label": "handleKeyDown()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L40",
+      "id": "skillsform_handlekeydown",
+      "community": 3,
+      "norm_label": "handlekeydown()"
+    },
+    {
+      "label": "handleAddSuggestedSkill()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L47",
+      "id": "skillsform_handleaddsuggestedskill",
+      "community": 3,
+      "norm_label": "handleaddsuggestedskill()"
     },
     {
       "label": "SummaryForm.tsx",
@@ -747,16 +963,16 @@
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SummaryForm.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_editor_forms_summaryform_tsx",
-      "community": 1,
+      "community": 8,
       "norm_label": "summaryform.tsx"
     },
     {
       "label": "SummaryForm()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SummaryForm.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "id": "summaryform_summaryform",
-      "community": 1,
+      "community": 8,
       "norm_label": "summaryform()"
     },
     {
@@ -765,7 +981,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\layout\\MobileTabBar.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_layout_mobiletabbar_tsx",
-      "community": 59,
+      "community": 68,
       "norm_label": "mobiletabbar.tsx"
     },
     {
@@ -774,16 +990,16 @@
       "source_file": "F:\\projects\\resume-builder\\components\\layout\\OfficerNavbar.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_layout_officernavbar_tsx",
-      "community": 24,
+      "community": 32,
       "norm_label": "officernavbar.tsx"
     },
     {
       "label": "OfficerNavbar()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\components\\layout\\OfficerNavbar.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "id": "officernavbar_officernavbar",
-      "community": 24,
+      "community": 32,
       "norm_label": "officernavbar()"
     },
     {
@@ -792,17 +1008,8 @@
       "source_file": "F:\\projects\\resume-builder\\components\\layout\\OfficerSidebar.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_layout_officersidebar_tsx",
-      "community": 25,
+      "community": 69,
       "norm_label": "officersidebar.tsx"
-    },
-    {
-      "label": "OfficerSidebar()",
-      "file_type": "code",
-      "source_file": "F:\\projects\\resume-builder\\components\\layout\\OfficerSidebar.tsx",
-      "source_location": "L17",
-      "id": "officersidebar_officersidebar",
-      "community": 25,
-      "norm_label": "officersidebar()"
     },
     {
       "label": "StudentSidebar.tsx",
@@ -810,7 +1017,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\layout\\StudentSidebar.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_layout_studentsidebar_tsx",
-      "community": 60,
+      "community": 70,
       "norm_label": "studentsidebar.tsx"
     },
     {
@@ -819,8 +1026,26 @@
       "source_file": "F:\\projects\\resume-builder\\components\\layout\\TopBar.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_layout_topbar_tsx",
-      "community": 61,
+      "community": 17,
       "norm_label": "topbar.tsx"
+    },
+    {
+      "label": "handleClickOutside()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\layout\\TopBar.tsx",
+      "source_location": "L36",
+      "id": "topbar_handleclickoutside",
+      "community": 17,
+      "norm_label": "handleclickoutside()"
+    },
+    {
+      "label": "handleDownload()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\layout\\TopBar.tsx",
+      "source_location": "L47",
+      "id": "topbar_handledownload",
+      "community": 17,
+      "norm_label": "handledownload()"
     },
     {
       "label": "FilterBar.tsx",
@@ -828,7 +1053,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\officer\\FilterBar.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_officer_filterbar_tsx",
-      "community": 26,
+      "community": 33,
       "norm_label": "filterbar.tsx"
     },
     {
@@ -837,7 +1062,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\officer\\FilterBar.tsx",
       "source_location": "L18",
       "id": "filterbar_filterbar",
-      "community": 26,
+      "community": 33,
       "norm_label": "filterbar()"
     },
     {
@@ -846,7 +1071,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\officer\\OfficerStatCards.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_officer_officerstatcards_tsx",
-      "community": 27,
+      "community": 34,
       "norm_label": "officerstatcards.tsx"
     },
     {
@@ -855,7 +1080,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\officer\\OfficerStatCards.tsx",
       "source_location": "L10",
       "id": "officerstatcards_officerstatcards",
-      "community": 27,
+      "community": 34,
       "norm_label": "officerstatcards()"
     },
     {
@@ -864,7 +1089,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\officer\\StudentTable.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_officer_studenttable_tsx",
-      "community": 28,
+      "community": 35,
       "norm_label": "studenttable.tsx"
     },
     {
@@ -873,7 +1098,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\officer\\StudentTable.tsx",
       "source_location": "L10",
       "id": "studenttable_scoreclass",
-      "community": 28,
+      "community": 35,
       "norm_label": "scoreclass()"
     },
     {
@@ -882,7 +1107,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Badge.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_badge_tsx",
-      "community": 29,
+      "community": 36,
       "norm_label": "badge.tsx"
     },
     {
@@ -891,7 +1116,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Badge.tsx",
       "source_location": "L11",
       "id": "badge_badge",
-      "community": 29,
+      "community": 36,
       "norm_label": "badge()"
     },
     {
@@ -900,7 +1125,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Button.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_button_tsx",
-      "community": 30,
+      "community": 37,
       "norm_label": "button.tsx"
     },
     {
@@ -909,7 +1134,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Button.tsx",
       "source_location": "L45",
       "id": "button_cn",
-      "community": 30,
+      "community": 37,
       "norm_label": "cn()"
     },
     {
@@ -918,7 +1143,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Card.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_card_tsx",
-      "community": 62,
+      "community": 71,
       "norm_label": "card.tsx"
     },
     {
@@ -927,7 +1152,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Drawer.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_drawer_tsx",
-      "community": 31,
+      "community": 38,
       "norm_label": "drawer.tsx"
     },
     {
@@ -936,7 +1161,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Drawer.tsx",
       "source_location": "L17",
       "id": "drawer_handlekey",
-      "community": 31,
+      "community": 38,
       "norm_label": "handlekey()"
     },
     {
@@ -945,7 +1170,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\EmptyState.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_emptystate_tsx",
-      "community": 32,
+      "community": 39,
       "norm_label": "emptystate.tsx"
     },
     {
@@ -954,7 +1179,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\EmptyState.tsx",
       "source_location": "L13",
       "id": "emptystate_emptystate",
-      "community": 32,
+      "community": 39,
       "norm_label": "emptystate()"
     },
     {
@@ -963,7 +1188,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\ErrorState.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_errorstate_tsx",
-      "community": 63,
+      "community": 72,
       "norm_label": "errorstate.tsx"
     },
     {
@@ -972,7 +1197,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Input.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_input_tsx",
-      "community": 33,
+      "community": 40,
       "norm_label": "input.tsx"
     },
     {
@@ -981,7 +1206,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Input.tsx",
       "source_location": "L22",
       "id": "input_cn",
-      "community": 33,
+      "community": 40,
       "norm_label": "cn()"
     },
     {
@@ -990,7 +1215,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\LoadingState.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_loadingstate_tsx",
-      "community": 34,
+      "community": 41,
       "norm_label": "loadingstate.tsx"
     },
     {
@@ -999,7 +1224,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\LoadingState.tsx",
       "source_location": "L11",
       "id": "loadingstate_loadingstate",
-      "community": 34,
+      "community": 41,
       "norm_label": "loadingstate()"
     },
     {
@@ -1008,7 +1233,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Modal.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_modal_tsx",
-      "community": 35,
+      "community": 42,
       "norm_label": "modal.tsx"
     },
     {
@@ -1017,7 +1242,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Modal.tsx",
       "source_location": "L16",
       "id": "modal_handlekey",
-      "community": 35,
+      "community": 42,
       "norm_label": "handlekey()"
     },
     {
@@ -1026,7 +1251,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\ProgressBar.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_progressbar_tsx",
-      "community": 64,
+      "community": 73,
       "norm_label": "progressbar.tsx"
     },
     {
@@ -1035,7 +1260,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\ScoreRing.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_scorering_tsx",
-      "community": 36,
+      "community": 43,
       "norm_label": "scorering.tsx"
     },
     {
@@ -1044,7 +1269,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\ScoreRing.tsx",
       "source_location": "L15",
       "id": "scorering_scorering",
-      "community": 36,
+      "community": 43,
       "norm_label": "scorering()"
     },
     {
@@ -1053,7 +1278,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Select.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_select_tsx",
-      "community": 65,
+      "community": 74,
       "norm_label": "select.tsx"
     },
     {
@@ -1062,7 +1287,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Table.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_table_tsx",
-      "community": 66,
+      "community": 75,
       "norm_label": "table.tsx"
     },
     {
@@ -1071,7 +1296,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Tabs.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_tabs_tsx",
-      "community": 67,
+      "community": 76,
       "norm_label": "tabs.tsx"
     },
     {
@@ -1080,7 +1305,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Textarea.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_textarea_tsx",
-      "community": 37,
+      "community": 44,
       "norm_label": "textarea.tsx"
     },
     {
@@ -1089,8 +1314,26 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Textarea.tsx",
       "source_location": "L22",
       "id": "textarea_cn",
-      "community": 37,
+      "community": 44,
       "norm_label": "cn()"
+    },
+    {
+      "label": "Toast.tsx",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\ui\\Toast.tsx",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_components_ui_toast_tsx",
+      "community": 45,
+      "norm_label": "toast.tsx"
+    },
+    {
+      "label": "Toast()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\components\\ui\\Toast.tsx",
+      "source_location": "L4",
+      "id": "toast_toast",
+      "community": 45,
+      "norm_label": "toast()"
     },
     {
       "label": "Tooltip.tsx",
@@ -1098,7 +1341,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Tooltip.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_ui_tooltip_tsx",
-      "community": 38,
+      "community": 46,
       "norm_label": "tooltip.tsx"
     },
     {
@@ -1107,7 +1350,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Tooltip.tsx",
       "source_location": "L11",
       "id": "tooltip_tooltip",
-      "community": 38,
+      "community": 46,
       "norm_label": "tooltip()"
     },
     {
@@ -1116,7 +1359,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\wizard\\StepIndicator.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_wizard_stepindicator_tsx",
-      "community": 68,
+      "community": 77,
       "norm_label": "stepindicator.tsx"
     },
     {
@@ -1125,7 +1368,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\wizard\\WizardNavButtons.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_wizard_wizardnavbuttons_tsx",
-      "community": 39,
+      "community": 47,
       "norm_label": "wizardnavbuttons.tsx"
     },
     {
@@ -1134,7 +1377,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\wizard\\WizardNavButtons.tsx",
       "source_location": "L26",
       "id": "wizardnavbuttons_islast",
-      "community": 39,
+      "community": 47,
       "norm_label": "islast()"
     },
     {
@@ -1143,7 +1386,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\wizard\\WizardShell.tsx",
       "source_location": "L1",
       "id": "f_projects_resume_builder_components_wizard_wizardshell_tsx",
-      "community": 40,
+      "community": 48,
       "norm_label": "wizardshell.tsx"
     },
     {
@@ -1152,7 +1395,7 @@
       "source_file": "F:\\projects\\resume-builder\\components\\wizard\\WizardShell.tsx",
       "source_location": "L13",
       "id": "wizardshell_wizardshell",
-      "community": 40,
+      "community": 48,
       "norm_label": "wizardshell()"
     },
     {
@@ -1161,16 +1404,16 @@
       "source_file": "F:\\projects\\resume-builder\\hooks\\useAIAction.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_hooks_useaiaction_ts",
-      "community": 1,
+      "community": 8,
       "norm_label": "useaiaction.ts"
     },
     {
       "label": "useAIAction()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useAIAction.ts",
-      "source_location": "L5",
+      "source_location": "L17",
       "id": "useaiaction_useaiaction",
-      "community": 1,
+      "community": 8,
       "norm_label": "useaiaction()"
     },
     {
@@ -1179,16 +1422,16 @@
       "source_file": "F:\\projects\\resume-builder\\hooks\\useATSAnalysis.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_hooks_useatsanalysis_ts",
-      "community": 41,
+      "community": 9,
       "norm_label": "useatsanalysis.ts"
     },
     {
       "label": "useATSAnalysis()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useATSAnalysis.ts",
-      "source_location": "L4",
+      "source_location": "L7",
       "id": "useatsanalysis_useatsanalysis",
-      "community": 41,
+      "community": 9,
       "norm_label": "useatsanalysis()"
     },
     {
@@ -1197,16 +1440,16 @@
       "source_file": "F:\\projects\\resume-builder\\hooks\\useResumeSync.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_hooks_useresumesync_ts",
-      "community": 42,
+      "community": 10,
       "norm_label": "useresumesync.ts"
     },
     {
       "label": "useResumeSync()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useResumeSync.ts",
-      "source_location": "L4",
+      "source_location": "L6",
       "id": "useresumesync_useresumesync",
-      "community": 42,
+      "community": 10,
       "norm_label": "useresumesync()"
     },
     {
@@ -1215,17 +1458,44 @@
       "source_file": "F:\\projects\\resume-builder\\hooks\\useWizardStep.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_hooks_usewizardstep_ts",
-      "community": 43,
+      "community": 49,
       "norm_label": "usewizardstep.ts"
     },
     {
       "label": "useWizardStep()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useWizardStep.ts",
-      "source_location": "L6",
+      "source_location": "L14",
       "id": "usewizardstep_usewizardstep",
-      "community": 43,
+      "community": 49,
       "norm_label": "usewizardstep()"
+    },
+    {
+      "label": "authGuard.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\authGuard.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_lib_authguard_ts",
+      "community": 0,
+      "norm_label": "authguard.ts"
+    },
+    {
+      "label": "requireAuth()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\authGuard.ts",
+      "source_location": "L9",
+      "id": "authguard_requireauth",
+      "community": 0,
+      "norm_label": "requireauth()"
+    },
+    {
+      "label": "requireRole()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\authGuard.ts",
+      "source_location": "L22",
+      "id": "authguard_requirerole",
+      "community": 0,
+      "norm_label": "requirerole()"
     },
     {
       "label": "constants.ts",
@@ -1233,8 +1503,107 @@
       "source_file": "F:\\projects\\resume-builder\\lib\\constants.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_lib_constants_ts",
-      "community": 69,
+      "community": 78,
       "norm_label": "constants.ts"
+    },
+    {
+      "label": "db.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\db.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_lib_db_ts",
+      "community": 50,
+      "norm_label": "db.ts"
+    },
+    {
+      "label": "createPrismaClient()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\db.ts",
+      "source_location": "L7",
+      "id": "db_createprismaclient",
+      "community": 50,
+      "norm_label": "createprismaclient()"
+    },
+    {
+      "label": "getSession.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\getSession.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_lib_getsession_ts",
+      "community": 0,
+      "norm_label": "getsession.ts"
+    },
+    {
+      "label": "getSession()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\getSession.ts",
+      "source_location": "L4",
+      "id": "getsession_getsession",
+      "community": 0,
+      "norm_label": "getsession()"
+    },
+    {
+      "label": "jwt.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_lib_jwt_ts",
+      "community": 2,
+      "norm_label": "jwt.ts"
+    },
+    {
+      "label": "enforceSecret()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L13",
+      "id": "jwt_enforcesecret",
+      "community": 2,
+      "norm_label": "enforcesecret()"
+    },
+    {
+      "label": "base64urlEncode()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L19",
+      "id": "jwt_base64urlencode",
+      "community": 2,
+      "norm_label": "base64urlencode()"
+    },
+    {
+      "label": "base64urlDecode()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L26",
+      "id": "jwt_base64urldecode",
+      "community": 2,
+      "norm_label": "base64urldecode()"
+    },
+    {
+      "label": "getCryptoKey()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L38",
+      "id": "jwt_getcryptokey",
+      "community": 2,
+      "norm_label": "getcryptokey()"
+    },
+    {
+      "label": "signToken()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L50",
+      "id": "jwt_signtoken",
+      "community": 2,
+      "norm_label": "signtoken()"
+    },
+    {
+      "label": "verifyToken()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L85",
+      "id": "jwt_verifytoken",
+      "community": 2,
+      "norm_label": "verifytoken()"
     },
     {
       "label": "resumeUtils.ts",
@@ -1242,7 +1611,7 @@
       "source_file": "F:\\projects\\resume-builder\\lib\\resumeUtils.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_lib_resumeutils_ts",
-      "community": 7,
+      "community": 6,
       "norm_label": "resumeutils.ts"
     },
     {
@@ -1251,25 +1620,25 @@
       "source_file": "F:\\projects\\resume-builder\\lib\\resumeUtils.ts",
       "source_location": "L3",
       "id": "resumeutils_calculatecompletion",
-      "community": 7,
+      "community": 6,
       "norm_label": "calculatecompletion()"
     },
     {
       "label": "formatDate()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\lib\\resumeUtils.ts",
-      "source_location": "L48",
+      "source_location": "L26",
       "id": "resumeutils_formatdate",
-      "community": 7,
+      "community": 6,
       "norm_label": "formatdate()"
     },
     {
       "label": "getInitials()",
       "file_type": "code",
       "source_file": "F:\\projects\\resume-builder\\lib\\resumeUtils.ts",
-      "source_location": "L52",
+      "source_location": "L32",
       "id": "resumeutils_getinitials",
-      "community": 7,
+      "community": 6,
       "norm_label": "getinitials()"
     },
     {
@@ -1278,7 +1647,7 @@
       "source_file": "F:\\projects\\resume-builder\\lib\\sampleData.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_lib_sampledata_ts",
-      "community": 70,
+      "community": 79,
       "norm_label": "sampledata.ts"
     },
     {
@@ -1287,7 +1656,7 @@
       "source_file": "F:\\projects\\resume-builder\\lib\\utils.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_lib_utils_ts",
-      "community": 44,
+      "community": 51,
       "norm_label": "utils.ts"
     },
     {
@@ -1296,8 +1665,26 @@
       "source_file": "F:\\projects\\resume-builder\\lib\\utils.ts",
       "source_location": "L4",
       "id": "utils_cn",
-      "community": 44,
+      "community": 51,
       "norm_label": "cn()"
+    },
+    {
+      "label": "seed.js",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\prisma\\seed.js",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_prisma_seed_js",
+      "community": 52,
+      "norm_label": "seed.js"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\prisma\\seed.js",
+      "source_location": "L15",
+      "id": "seed_main",
+      "community": 52,
+      "norm_label": "main()"
     },
     {
       "label": "aiStore.ts",
@@ -1305,7 +1692,7 @@
       "source_file": "F:\\projects\\resume-builder\\store\\aiStore.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_store_aistore_ts",
-      "community": 71,
+      "community": 80,
       "norm_label": "aistore.ts"
     },
     {
@@ -1314,8 +1701,17 @@
       "source_file": "F:\\projects\\resume-builder\\store\\atsStore.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_store_atsstore_ts",
-      "community": 72,
+      "community": 81,
       "norm_label": "atsstore.ts"
+    },
+    {
+      "label": "notificationStore.ts",
+      "file_type": "code",
+      "source_file": "F:\\projects\\resume-builder\\store\\notificationStore.ts",
+      "source_location": "L1",
+      "id": "f_projects_resume_builder_store_notificationstore_ts",
+      "community": 82,
+      "norm_label": "notificationstore.ts"
     },
     {
       "label": "resumeStore.ts",
@@ -1323,7 +1719,7 @@
       "source_file": "F:\\projects\\resume-builder\\store\\resumeStore.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_store_resumestore_ts",
-      "community": 73,
+      "community": 83,
       "norm_label": "resumestore.ts"
     },
     {
@@ -1332,7 +1728,7 @@
       "source_file": "F:\\projects\\resume-builder\\store\\uiStore.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_store_uistore_ts",
-      "community": 74,
+      "community": 84,
       "norm_label": "uistore.ts"
     },
     {
@@ -1341,7 +1737,7 @@
       "source_file": "F:\\projects\\resume-builder\\types\\ats.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_types_ats_ts",
-      "community": 75,
+      "community": 85,
       "norm_label": "ats.ts"
     },
     {
@@ -1350,7 +1746,7 @@
       "source_file": "F:\\projects\\resume-builder\\types\\officer.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_types_officer_ts",
-      "community": 76,
+      "community": 86,
       "norm_label": "officer.ts"
     },
     {
@@ -1359,7 +1755,7 @@
       "source_file": "F:\\projects\\resume-builder\\types\\resume.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_types_resume_ts",
-      "community": 77,
+      "community": 87,
       "norm_label": "resume.ts"
     },
     {
@@ -1368,7 +1764,7 @@
       "source_file": "F:\\projects\\resume-builder\\types\\user.ts",
       "source_location": "L1",
       "id": "f_projects_resume_builder_types_user_ts",
-      "community": 78,
+      "community": 88,
       "norm_label": "user.ts"
     }
   ],
@@ -1376,8 +1772,44 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\middleware.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_middleware_ts",
+      "_tgt": "middleware_middleware",
+      "source": "f_projects_resume_builder_middleware_ts",
+      "target": "middleware_middleware",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\middleware.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "middleware_middleware",
+      "_tgt": "route_get",
+      "source": "middleware_middleware",
+      "target": "route_get"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\middleware.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "middleware_middleware",
+      "_tgt": "jwt_verifytoken",
+      "source": "middleware_middleware",
+      "target": "jwt_verifytoken"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\layout.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_layout_tsx",
       "_tgt": "layout_rootlayout",
@@ -1401,12 +1833,60 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\login\\page.tsx",
-      "source_location": "L9",
+      "source_location": "L23",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_auth_login_page_tsx",
-      "_tgt": "page_loginpage",
+      "_tgt": "page_handlelogin",
       "source": "f_projects_resume_builder_app_auth_login_page_tsx",
-      "target": "page_loginpage",
+      "target": "page_handlelogin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_auth_onboarding_page_tsx",
+      "_tgt": "page_validatestep",
+      "source": "f_projects_resume_builder_app_auth_onboarding_page_tsx",
+      "target": "page_validatestep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_auth_onboarding_page_tsx",
+      "_tgt": "page_handlenext",
+      "source": "f_projects_resume_builder_app_auth_onboarding_page_tsx",
+      "target": "page_handlenext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_auth_onboarding_page_tsx",
+      "_tgt": "page_handleregister",
+      "source": "f_projects_resume_builder_app_auth_onboarding_page_tsx",
+      "target": "page_handleregister",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(auth)\\onboarding\\page.tsx",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_src": "page_handlenext",
+      "_tgt": "page_validatestep",
+      "source": "page_validatestep",
+      "target": "page_handlenext",
       "confidence_score": 1.0
     },
     {
@@ -1425,7 +1905,19 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\admin\\dashboard\\page.tsx",
-      "source_location": "L32",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_officer_admin_dashboard_page_tsx",
+      "_tgt": "page_handleaddstudent",
+      "source": "f_projects_resume_builder_app_officer_admin_dashboard_page_tsx",
+      "target": "page_handleaddstudent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(officer)\\admin\\dashboard\\page.tsx",
+      "source_location": "L164",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_officer_admin_dashboard_page_tsx",
       "_tgt": "page_updatefilters",
@@ -1460,104 +1952,104 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L18",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\dashboard\\page.tsx",
+      "source_location": "L56",
       "weight": 1.0,
-      "_src": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "_tgt": "page_classictemplate",
-      "source": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "target": "page_classictemplate",
+      "_src": "f_projects_resume_builder_app_student_dashboard_page_tsx",
+      "_tgt": "page_derivereadiness",
+      "source": "f_projects_resume_builder_app_student_dashboard_page_tsx",
+      "target": "page_derivereadiness",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L35",
+      "source_location": "L43",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "_tgt": "page_moderntemplate",
+      "_tgt": "page_fetchresumes",
       "source": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "target": "page_moderntemplate",
+      "target": "page_fetchresumes",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L59",
+      "source_location": "L61",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "_tgt": "page_minimaltemplate",
+      "_tgt": "page_handledownloadtrigger",
       "source": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "target": "page_minimaltemplate",
+      "target": "page_handledownloadtrigger",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L80",
+      "source_location": "L106",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "_tgt": "page_templaterenderer",
+      "_tgt": "page_handledeleteresume",
       "source": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "target": "page_templaterenderer",
+      "target": "page_handledeleteresume",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L117",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\placement-readiness\\page.tsx",
+      "source_location": "L66",
       "weight": 1.0,
-      "_src": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "_tgt": "page_showtoast",
-      "source": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "target": "page_showtoast",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L123",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "_tgt": "page_handledownload",
-      "source": "f_projects_resume_builder_app_student_downloads_page_tsx",
-      "target": "page_handledownload",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\downloads\\page.tsx",
-      "source_location": "L142",
-      "weight": 1.0,
-      "_src": "page_handledownload",
-      "_tgt": "page_showtoast",
-      "source": "page_showtoast",
-      "target": "page_handledownload",
+      "_src": "f_projects_resume_builder_app_student_placement_readiness_page_tsx",
+      "_tgt": "page_getreadinesstier",
+      "source": "f_projects_resume_builder_app_student_placement_readiness_page_tsx",
+      "target": "page_getreadinesstier",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\upload\\page.tsx",
-      "source_location": "L16",
+      "source_location": "L11",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_student_resume_upload_page_tsx",
-      "_tgt": "page_startprocessing",
+      "_tgt": "page_uploadresumepage",
       "source": "f_projects_resume_builder_app_student_resume_upload_page_tsx",
-      "target": "page_startprocessing",
+      "target": "page_uploadresumepage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\ats\\page.tsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_student_resume_resumeid_ats_page_tsx",
+      "_tgt": "page_handlerunaudit",
+      "source": "f_projects_resume_builder_app_student_resume_resumeid_ats_page_tsx",
+      "target": "page_handlerunaudit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\ats\\page.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_student_resume_resumeid_ats_page_tsx",
+      "_tgt": "page_handlefixwithai",
+      "source": "f_projects_resume_builder_app_student_resume_resumeid_ats_page_tsx",
+      "target": "page_handlefixwithai",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\editor\\page.tsx",
-      "source_location": "L3",
+      "source_location": "L11",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_student_resume_resumeid_editor_page_tsx",
       "_tgt": "page_resumeeditorpage",
@@ -1566,22 +2058,418 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\resume\\[resumeId]\\editor\\page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "page_resumeeditorpage",
+      "_tgt": "useresumesync_useresumesync",
+      "source": "page_resumeeditorpage",
+      "target": "useresumesync_useresumesync"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\app\\(student)\\settings\\page.tsx",
-      "source_location": "L34",
+      "source_location": "L10",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_app_student_settings_page_tsx",
-      "_tgt": "page_handlesave",
+      "_tgt": "page_settingspage",
       "source": "f_projects_resume_builder_app_student_settings_page_tsx",
-      "target": "page_handlesave",
+      "target": "page_settingspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\(student)\\settings\\page.tsx",
+      "source_location": "L185",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_student_settings_page_tsx",
+      "_tgt": "page_header",
+      "source": "f_projects_resume_builder_app_student_settings_page_tsx",
+      "target": "page_header",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\activity\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_activity_route_ts",
+      "_tgt": "route_get",
+      "source": "f_projects_resume_builder_app_api_activity_route_ts",
+      "target": "route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\dashboard\\stats\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_dashboard_stats_route_ts",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "f_projects_resume_builder_app_api_dashboard_stats_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\notifications\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_notifications_route_ts",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "f_projects_resume_builder_app_api_notifications_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\officer\\students\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_officer_students_route_ts",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "f_projects_resume_builder_app_api_officer_students_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_route_ts",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "f_projects_resume_builder_app_api_resume_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_resumeid_route_ts",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "f_projects_resume_builder_app_api_resume_resumeid_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\download\\route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_resumeid_download_route_ts",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "f_projects_resume_builder_app_api_resume_resumeid_download_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\user\\me\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_user_me_route_ts",
+      "_tgt": "route_get",
+      "source": "route_get",
+      "target": "f_projects_resume_builder_app_api_user_me_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\activity\\route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "route_get",
+      "_tgt": "authguard_requireauth",
+      "source": "route_get",
+      "target": "authguard_requireauth"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\lib\\getSession.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "route_get",
+      "_tgt": "getsession_getsession",
+      "source": "route_get",
+      "target": "getsession_getsession"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\ai\\enhance\\route.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_ai_enhance_route_ts",
+      "_tgt": "route_post",
+      "source": "f_projects_resume_builder_app_api_ai_enhance_route_ts",
+      "target": "route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\auth\\login\\route.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_auth_login_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_auth_login_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\auth\\logout\\route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_auth_logout_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_auth_logout_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\auth\\register\\route.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_auth_register_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_auth_register_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\notifications\\read-all\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_notifications_read_all_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_notifications_read_all_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\officer\\students\\route.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_officer_students_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_officer_students_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\route.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_resume_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\ats\\route.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_resumeid_ats_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_resume_resumeid_ats_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\ats\\route.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "route_post",
+      "_tgt": "route_buildresumetext",
+      "source": "route_post",
+      "target": "route_buildresumetext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\download\\route.ts",
+      "source_location": "L163",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_resumeid_download_route_ts",
+      "_tgt": "route_post",
+      "source": "route_post",
+      "target": "f_projects_resume_builder_app_api_resume_resumeid_download_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\ai\\enhance\\route.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_src": "route_post",
+      "_tgt": "authguard_requireauth",
+      "source": "route_post",
+      "target": "authguard_requireauth"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\auth\\login\\route.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "route_post",
+      "_tgt": "jwt_signtoken",
+      "source": "route_post",
+      "target": "jwt_signtoken"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\notifications\\[id]\\read\\route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_notifications_id_read_route_ts",
+      "_tgt": "route_patch",
+      "source": "f_projects_resume_builder_app_api_notifications_id_read_route_ts",
+      "target": "route_patch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\route.ts",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_resumeid_route_ts",
+      "_tgt": "route_patch",
+      "source": "route_patch",
+      "target": "f_projects_resume_builder_app_api_resume_resumeid_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\user\\me\\route.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_user_me_route_ts",
+      "_tgt": "route_patch",
+      "source": "route_patch",
+      "target": "f_projects_resume_builder_app_api_user_me_route_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\notifications\\[id]\\read\\route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "route_patch",
+      "_tgt": "authguard_requireauth",
+      "source": "route_patch",
+      "target": "authguard_requireauth"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\route.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "route_patch",
+      "_tgt": "resumeutils_calculatecompletion",
+      "source": "route_patch",
+      "target": "resumeutils_calculatecompletion"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\officer\\students\\route.ts",
+      "source_location": "L128",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_officer_students_route_ts",
+      "_tgt": "route_derivestatus",
+      "source": "f_projects_resume_builder_app_api_officer_students_route_ts",
+      "target": "route_derivestatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\route.ts",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_resumeid_route_ts",
+      "_tgt": "route_delete",
+      "source": "f_projects_resume_builder_app_api_resume_resumeid_route_ts",
+      "target": "route_delete",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\route.ts",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_src": "route_delete",
+      "_tgt": "authguard_requireauth",
+      "source": "route_delete",
+      "target": "authguard_requireauth"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\app\\api\\resume\\[resumeId]\\ats\\route.ts",
+      "source_location": "L109",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_app_api_resume_resumeid_ats_route_ts",
+      "_tgt": "route_buildresumetext",
+      "source": "f_projects_resume_builder_app_api_resume_resumeid_ats_route_ts",
+      "target": "route_buildresumetext",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\ATSScoreOverview.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_ats_atsscoreoverview_tsx",
       "_tgt": "atsscoreoverview_atsscoreoverview",
@@ -1590,10 +2478,22 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\components\\ats\\ATSScoreOverview.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "atsscoreoverview_atsscoreoverview",
+      "_tgt": "useatsanalysis_useatsanalysis",
+      "source": "atsscoreoverview_atsscoreoverview",
+      "target": "useatsanalysis_useatsanalysis"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\ats\\FormattingCard.tsx",
-      "source_location": "L13",
+      "source_location": "L14",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_ats_formattingcard_tsx",
       "_tgt": "formattingcard_formattingcard",
@@ -1604,13 +2504,49 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\ats\\KeywordMatchCard.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_ats_keywordmatchcard_tsx",
+      "_tgt": "keywordmatchcard_handleaddmissingkeywords",
+      "source": "f_projects_resume_builder_components_ats_keywordmatchcard_tsx",
+      "target": "keywordmatchcard_handleaddmissingkeywords",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\ats\\KeywordMatchCard.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_ats_keywordmatchcard_tsx",
+      "_tgt": "keywordmatchcard_handleaddsinglekeyword",
+      "source": "f_projects_resume_builder_components_ats_keywordmatchcard_tsx",
+      "target": "keywordmatchcard_handleaddsinglekeyword",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\ats\\SectionCompletenessCard.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_ats_sectioncompletenesscard_tsx",
+      "_tgt": "sectioncompletenesscard_handleautofill",
+      "source": "f_projects_resume_builder_components_ats_sectioncompletenesscard_tsx",
+      "target": "sectioncompletenesscard_handleautofill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\ActivityFeed.tsx",
-      "source_location": "L12",
+      "source_location": "L26",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_dashboard_activityfeed_tsx",
-      "_tgt": "activityfeed_activityfeed",
+      "_tgt": "activityfeed_getactivityconfig",
       "source": "f_projects_resume_builder_components_dashboard_activityfeed_tsx",
-      "target": "activityfeed_activityfeed",
+      "target": "activityfeed_getactivityconfig",
       "confidence_score": 1.0
     },
     {
@@ -1629,7 +2565,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\dashboard\\PrimaryActions.tsx",
-      "source_location": "L6",
+      "source_location": "L8",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_dashboard_primaryactions_tsx",
       "_tgt": "primaryactions_primaryactions",
@@ -1640,200 +2576,44 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\AIDrawer.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_aidrawer_tsx",
-      "_tgt": "aidrawer_handleaccept",
-      "source": "f_projects_resume_builder_components_editor_aidrawer_tsx",
-      "target": "aidrawer_handleaccept",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\AIDrawer.tsx",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_aidrawer_tsx",
-      "_tgt": "aidrawer_handlediscard",
-      "source": "f_projects_resume_builder_components_editor_aidrawer_tsx",
-      "target": "aidrawer_handlediscard",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\EditorLayout.tsx",
-      "source_location": "L30",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_editorlayout_tsx",
-      "_tgt": "editorlayout_activeform",
-      "source": "f_projects_resume_builder_components_editor_editorlayout_tsx",
-      "target": "editorlayout_activeform",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\EditorLayout.tsx",
-      "source_location": "L43",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_editorlayout_tsx",
-      "_tgt": "editorlayout_editorlayout",
-      "source": "f_projects_resume_builder_components_editor_editorlayout_tsx",
-      "target": "editorlayout_editorlayout",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\EditorLayout.tsx",
-      "source_location": "L52",
-      "weight": 1.0,
-      "_src": "editorlayout_editorlayout",
-      "_tgt": "useaiaction_useaiaction",
-      "source": "editorlayout_editorlayout",
-      "target": "useaiaction_useaiaction"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\CertificationsForm.tsx",
       "source_location": "L13",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_certificationsform_tsx",
-      "_tgt": "certificationsform_update",
+      "_tgt": "certificationsform_validateurl",
       "source": "f_projects_resume_builder_components_editor_forms_certificationsform_tsx",
-      "target": "certificationsform_update",
+      "target": "certificationsform_validateurl",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\CertificationsForm.tsx",
-      "source_location": "L16",
+      "source_location": "L21",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_certificationsform_tsx",
-      "_tgt": "certificationsform_add",
+      "_tgt": "certificationsform_handleremove",
       "source": "f_projects_resume_builder_components_editor_forms_certificationsform_tsx",
-      "target": "certificationsform_add",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\CertificationsForm.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_certificationsform_tsx",
-      "_tgt": "certificationsform_remove",
-      "source": "f_projects_resume_builder_components_editor_forms_certificationsform_tsx",
-      "target": "certificationsform_remove",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\EducationForm.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_educationform_tsx",
-      "_tgt": "educationform_update",
-      "source": "f_projects_resume_builder_components_editor_forms_educationform_tsx",
-      "target": "educationform_update",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\EducationForm.tsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_educationform_tsx",
-      "_tgt": "educationform_add",
-      "source": "f_projects_resume_builder_components_editor_forms_educationform_tsx",
-      "target": "educationform_add",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\EducationForm.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_educationform_tsx",
-      "_tgt": "educationform_remove",
-      "source": "f_projects_resume_builder_components_editor_forms_educationform_tsx",
-      "target": "educationform_remove",
+      "target": "certificationsform_handleremove",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "_tgt": "experienceform_update",
+      "_tgt": "experienceform_handleenhance",
       "source": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "target": "experienceform_update",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "_tgt": "experienceform_addbullet",
-      "source": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "target": "experienceform_addbullet",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "_tgt": "experienceform_removebullet",
-      "source": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "target": "experienceform_removebullet",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "_tgt": "experienceform_add",
-      "source": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "target": "experienceform_add",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ExperienceForm.tsx",
-      "source_location": "L31",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "_tgt": "experienceform_remove",
-      "source": "f_projects_resume_builder_components_editor_forms_experienceform_tsx",
-      "target": "experienceform_remove",
+      "target": "experienceform_handleenhance",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\PersonalForm.tsx",
-      "source_location": "L8",
+      "source_location": "L5",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_personalform_tsx",
       "_tgt": "personalform_personalform",
@@ -1845,84 +2625,36 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "_tgt": "projectsform_update",
-      "source": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "target": "projectsform_update",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
       "source_location": "L18",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "_tgt": "projectsform_addtech",
+      "_tgt": "projectsform_handleenhance",
       "source": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "target": "projectsform_addtech",
+      "target": "projectsform_handleenhance",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L25",
+      "source_location": "L24",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "_tgt": "projectsform_removetech",
+      "_tgt": "projectsform_handleaddtech",
       "source": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "target": "projectsform_removetech",
+      "target": "projectsform_handleaddtech",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L28",
+      "source_location": "L37",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "_tgt": "projectsform_add",
+      "_tgt": "projectsform_handlekeydown",
       "source": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "target": "projectsform_add",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\ProjectsForm.tsx",
-      "source_location": "L32",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "_tgt": "projectsform_remove",
-      "source": "f_projects_resume_builder_components_editor_forms_projectsform_tsx",
-      "target": "projectsform_remove",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
-      "_tgt": "skillsform_add",
-      "source": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
-      "target": "skillsform_add",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
-      "source_location": "L21",
-      "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
-      "_tgt": "skillsform_remove",
-      "source": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
-      "target": "skillsform_remove",
+      "target": "projectsform_handlekeydown",
       "confidence_score": 1.0
     },
     {
@@ -1932,28 +2664,76 @@
       "source_location": "L23",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
-      "_tgt": "skillsform_handlekey",
+      "_tgt": "skillsform_handleaisuggestskills",
       "source": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
-      "target": "skillsform_handlekey",
+      "target": "skillsform_handleaisuggestskills",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "_tgt": "skillsform_handleaddskill",
+      "source": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "target": "skillsform_handleaddskill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "_tgt": "skillsform_handleremoveskill",
+      "source": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "target": "skillsform_handleremoveskill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "_tgt": "skillsform_handlekeydown",
+      "source": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "target": "skillsform_handlekeydown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "_tgt": "skillsform_handleaddsuggestedskill",
+      "source": "f_projects_resume_builder_components_editor_forms_skillsform_tsx",
+      "target": "skillsform_handleaddsuggestedskill",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SkillsForm.tsx",
-      "source_location": "L24",
+      "source_location": "L43",
       "weight": 1.0,
-      "_src": "skillsform_handlekey",
-      "_tgt": "skillsform_add",
-      "source": "skillsform_add",
-      "target": "skillsform_handlekey",
+      "_src": "skillsform_handlekeydown",
+      "_tgt": "skillsform_handleaddskill",
+      "source": "skillsform_handleaddskill",
+      "target": "skillsform_handlekeydown",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SummaryForm.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_editor_forms_summaryform_tsx",
       "_tgt": "summaryform_summaryform",
@@ -1966,7 +2746,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "F:\\projects\\resume-builder\\components\\editor\\forms\\SummaryForm.tsx",
-      "source_location": "L10",
+      "source_location": "L16",
       "weight": 1.0,
       "_src": "summaryform_summaryform",
       "_tgt": "useaiaction_useaiaction",
@@ -1977,7 +2757,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\layout\\OfficerNavbar.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_components_layout_officernavbar_tsx",
       "_tgt": "officernavbar_officernavbar",
@@ -1988,13 +2768,25 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "F:\\projects\\resume-builder\\components\\layout\\OfficerSidebar.tsx",
-      "source_location": "L17",
+      "source_file": "F:\\projects\\resume-builder\\components\\layout\\TopBar.tsx",
+      "source_location": "L36",
       "weight": 1.0,
-      "_src": "f_projects_resume_builder_components_layout_officersidebar_tsx",
-      "_tgt": "officersidebar_officersidebar",
-      "source": "f_projects_resume_builder_components_layout_officersidebar_tsx",
-      "target": "officersidebar_officersidebar",
+      "_src": "f_projects_resume_builder_components_layout_topbar_tsx",
+      "_tgt": "topbar_handleclickoutside",
+      "source": "f_projects_resume_builder_components_layout_topbar_tsx",
+      "target": "topbar_handleclickoutside",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\layout\\TopBar.tsx",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_layout_topbar_tsx",
+      "_tgt": "topbar_handledownload",
+      "source": "f_projects_resume_builder_components_layout_topbar_tsx",
+      "target": "topbar_handledownload",
       "confidence_score": 1.0
     },
     {
@@ -2144,6 +2936,18 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\components\\ui\\Toast.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_components_ui_toast_tsx",
+      "_tgt": "toast_toast",
+      "source": "f_projects_resume_builder_components_ui_toast_tsx",
+      "target": "toast_toast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\components\\ui\\Tooltip.tsx",
       "source_location": "L11",
       "weight": 1.0,
@@ -2181,7 +2985,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useAIAction.ts",
-      "source_location": "L5",
+      "source_location": "L17",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_hooks_useaiaction_ts",
       "_tgt": "useaiaction_useaiaction",
@@ -2193,7 +2997,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useATSAnalysis.ts",
-      "source_location": "L4",
+      "source_location": "L7",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_hooks_useatsanalysis_ts",
       "_tgt": "useatsanalysis_useatsanalysis",
@@ -2205,7 +3009,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useResumeSync.ts",
-      "source_location": "L4",
+      "source_location": "L6",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_hooks_useresumesync_ts",
       "_tgt": "useresumesync_useresumesync",
@@ -2217,12 +3021,228 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\hooks\\useWizardStep.ts",
-      "source_location": "L6",
+      "source_location": "L14",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_hooks_usewizardstep_ts",
       "_tgt": "usewizardstep_usewizardstep",
       "source": "f_projects_resume_builder_hooks_usewizardstep_ts",
       "target": "usewizardstep_usewizardstep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\authGuard.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_authguard_ts",
+      "_tgt": "authguard_requireauth",
+      "source": "f_projects_resume_builder_lib_authguard_ts",
+      "target": "authguard_requireauth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\authGuard.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_authguard_ts",
+      "_tgt": "authguard_requirerole",
+      "source": "f_projects_resume_builder_lib_authguard_ts",
+      "target": "authguard_requirerole",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\lib\\authGuard.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "authguard_requireauth",
+      "_tgt": "getsession_getsession",
+      "source": "authguard_requireauth",
+      "target": "getsession_getsession"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\lib\\authGuard.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "authguard_requirerole",
+      "_tgt": "getsession_getsession",
+      "source": "authguard_requirerole",
+      "target": "getsession_getsession"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\db.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_db_ts",
+      "_tgt": "db_createprismaclient",
+      "source": "f_projects_resume_builder_lib_db_ts",
+      "target": "db_createprismaclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\getSession.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_getsession_ts",
+      "_tgt": "getsession_getsession",
+      "source": "f_projects_resume_builder_lib_getsession_ts",
+      "target": "getsession_getsession",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "F:\\projects\\resume-builder\\lib\\getSession.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "getsession_getsession",
+      "_tgt": "jwt_verifytoken",
+      "source": "getsession_getsession",
+      "target": "jwt_verifytoken"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_jwt_ts",
+      "_tgt": "jwt_enforcesecret",
+      "source": "f_projects_resume_builder_lib_jwt_ts",
+      "target": "jwt_enforcesecret",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_jwt_ts",
+      "_tgt": "jwt_base64urlencode",
+      "source": "f_projects_resume_builder_lib_jwt_ts",
+      "target": "jwt_base64urlencode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_jwt_ts",
+      "_tgt": "jwt_base64urldecode",
+      "source": "f_projects_resume_builder_lib_jwt_ts",
+      "target": "jwt_base64urldecode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_jwt_ts",
+      "_tgt": "jwt_getcryptokey",
+      "source": "f_projects_resume_builder_lib_jwt_ts",
+      "target": "jwt_getcryptokey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_jwt_ts",
+      "_tgt": "jwt_signtoken",
+      "source": "f_projects_resume_builder_lib_jwt_ts",
+      "target": "jwt_signtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_lib_jwt_ts",
+      "_tgt": "jwt_verifytoken",
+      "source": "f_projects_resume_builder_lib_jwt_ts",
+      "target": "jwt_verifytoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_src": "jwt_getcryptokey",
+      "_tgt": "jwt_enforcesecret",
+      "source": "jwt_enforcesecret",
+      "target": "jwt_getcryptokey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_src": "jwt_signtoken",
+      "_tgt": "jwt_base64urlencode",
+      "source": "jwt_base64urlencode",
+      "target": "jwt_signtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L111",
+      "weight": 1.0,
+      "_src": "jwt_verifytoken",
+      "_tgt": "jwt_base64urldecode",
+      "source": "jwt_base64urldecode",
+      "target": "jwt_verifytoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_src": "jwt_signtoken",
+      "_tgt": "jwt_getcryptokey",
+      "source": "jwt_getcryptokey",
+      "target": "jwt_signtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\lib\\jwt.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "jwt_verifytoken",
+      "_tgt": "jwt_getcryptokey",
+      "source": "jwt_getcryptokey",
+      "target": "jwt_verifytoken",
       "confidence_score": 1.0
     },
     {
@@ -2241,7 +3261,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\lib\\resumeUtils.ts",
-      "source_location": "L48",
+      "source_location": "L26",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_lib_resumeutils_ts",
       "_tgt": "resumeutils_formatdate",
@@ -2253,7 +3273,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "F:\\projects\\resume-builder\\lib\\resumeUtils.ts",
-      "source_location": "L52",
+      "source_location": "L32",
       "weight": 1.0,
       "_src": "f_projects_resume_builder_lib_resumeutils_ts",
       "_tgt": "resumeutils_getinitials",
@@ -2271,6 +3291,18 @@
       "_tgt": "utils_cn",
       "source": "f_projects_resume_builder_lib_utils_ts",
       "target": "utils_cn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "F:\\projects\\resume-builder\\prisma\\seed.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "f_projects_resume_builder_prisma_seed_js",
+      "_tgt": "seed_main",
+      "source": "f_projects_resume_builder_prisma_seed_js",
+      "target": "seed_main",
       "confidence_score": 1.0
     }
   ],

@@ -1,44 +1,46 @@
-import type { PersonalDetails, Education, Project, Experience, Certification } from '@/types/resume';
+import type { PersonalInfo, Education, Project, WorkExperience, Certification } from '@/types/resume';
 import type { ATSSuggestion } from '@/types/ats';
 import type { OfficerStudent } from '@/types/officer';
 
-export const samplePersonal: PersonalDetails = {
+export const samplePersonal: PersonalInfo = {
   fullName: 'Arjun Sharma',
   email: 'arjun.sharma@iitd.ac.in',
   phone: '+91 98765 43210',
-  city: 'New Delhi',
-  linkedin: 'linkedin.com/in/arjunsharma',
-  github: 'github.com/arjunsharma',
-  targetRole: 'Software Engineer',
-};
+  location: 'New Delhi',
+  socials: {
+    linkedIn: 'https://linkedin.com/in/arjunsharma',
+    github: 'https://github.com/arjunsharma',
+  },
+  // Flat properties for backward compatibility
+  linkedIn: 'https://linkedin.com/in/arjunsharma',
+  github: 'https://github.com/arjunsharma',
+} as any;
 
 export const sampleEducation: Education[] = [
   {
     id: 'edu-1',
     institution: 'Indian Institute of Technology Delhi',
     degree: 'B.Tech',
-    branch: 'Computer Science Engineering',
-    startYear: '2022',
-    endYear: '2026',
+    field: 'Computer Science Engineering',
+    startDate: '2022',
+    endDate: '2026',
     cgpa: '8.4',
-    type: 'college',
   },
   {
     id: 'edu-2',
     institution: 'Delhi Public School, R.K. Puram',
     degree: 'Class XII (CBSE)',
-    branch: 'Science (PCM + CS)',
-    startYear: '2020',
-    endYear: '2022',
-    percentage: '94.2',
-    type: 'school',
+    field: 'Science (PCM + CS)',
+    startDate: '2020',
+    endDate: '2022',
+    cgpa: '9.4',
   },
 ];
 
 export const sampleSkills: string[] = [
-  'React', 'Next.js', 'TypeScript', 'Node.js', 'Python',
-  'MongoDB', 'PostgreSQL', 'Docker', 'Git', 'Figma',
-  'REST API', 'Agile',
+  'C++', 'Python', 'TypeScript', 'JavaScript', 'SQL', 'HTML/CSS',
+  'React', 'Next.js', 'Node.js', 'Express', 'TailwindCSS', 'Jest',
+  'Git', 'Docker', 'PostgreSQL', 'MongoDB', 'Redis', 'AWS', 'Figma'
 ];
 
 export const sampleProjects: Project[] = [
@@ -47,36 +49,33 @@ export const sampleProjects: Project[] = [
     name: 'StudySync — AI-Powered Study Planner',
     description: 'Built a full-stack study planning platform using Next.js and OpenAI API that generates personalized study schedules. Implemented smart reminders, progress tracking, and adaptive difficulty adjustment. Used by 500+ students across IIT Delhi.',
     techStack: ['Next.js', 'TypeScript', 'OpenAI API', 'PostgreSQL', 'Prisma', 'TailwindCSS'],
-    githubLink: 'https://github.com/arjunsharma/studysync',
-    liveLink: 'https://studysync-iitd.vercel.app',
+    link: 'https://github.com/arjunsharma/studysync',
   },
   {
     id: 'proj-2',
     name: 'CampusCart — Campus Marketplace',
     description: 'Developed a peer-to-peer marketplace for college students to buy and sell items. Features real-time chat, image uploads, and geolocation-based search. Achieved 98% uptime with Redis caching and optimized database queries.',
     techStack: ['React', 'Node.js', 'MongoDB', 'Socket.io', 'Redis', 'AWS S3'],
-    githubLink: 'https://github.com/arjunsharma/campuscart',
-    liveLink: 'https://campuscart.in',
+    link: 'https://github.com/arjunsharma/campuscart',
   },
   {
     id: 'proj-3',
     name: 'CodeCollab — Real-time Code Editor',
     description: 'Created a collaborative code editor with real-time synchronization using WebSockets. Supports 10+ programming languages with syntax highlighting and live code execution via Docker sandboxing. Handles 50+ concurrent users.',
     techStack: ['React', 'TypeScript', 'WebSocket', 'Python', 'Docker', 'Monaco Editor'],
-    githubLink: 'https://github.com/arjunsharma/codecollab',
-    liveLink: '',
+    link: 'https://github.com/arjunsharma/codecollab',
   },
 ];
 
-export const sampleExperience: Experience[] = [
+export const sampleExperience: WorkExperience[] = [
   {
     id: 'exp-1',
     company: 'Razorpay',
     role: 'Software Engineering Intern',
     startDate: 'May 2024',
     endDate: 'Jul 2024',
-    isCurrent: false,
-    description: [
+    current: false,
+    bullets: [
       'Developed and shipped 3 major features for the Razorpay Dashboard using React and TypeScript, directly impacting 2M+ merchant accounts.',
       'Optimized API response times by 40% through query optimization and Redis caching strategies.',
       'Wrote comprehensive unit and integration tests achieving 92% code coverage using Jest and React Testing Library.',
@@ -91,14 +90,14 @@ export const sampleCertifications: Certification[] = [
     name: 'AWS Certified Cloud Practitioner',
     issuer: 'Amazon Web Services',
     date: 'March 2024',
-    credentialLink: 'https://aws.amazon.com/certification/verify',
+    credentialUrl: 'https://aws.amazon.com/certification/verify',
   },
   {
     id: 'cert-2',
     name: 'Meta React Developer Certificate',
     issuer: 'Meta (Coursera)',
     date: 'January 2024',
-    credentialLink: 'https://coursera.org/verify/meta-react',
+    credentialUrl: 'https://coursera.org/verify/meta-react',
   },
 ];
 
@@ -107,32 +106,28 @@ export const sampleSummary =
 
 export const sampleATSSuggestions: ATSSuggestion[] = [
   {
-    id: 'sug-1',
-    priority: 'High',
-    title: 'Add Docker to Skills Section',
-    description: 'Docker is listed in 78% of SWE job descriptions. You have project experience — add it explicitly.',
     section: 'skills',
+    issue: 'Missing Docker keyword in skills list',
+    fix: 'Add Docker to your skills section since it is listed in 78% of target SWE roles.',
+    priority: 'high',
   },
   {
-    id: 'sug-2',
-    priority: 'High',
-    title: 'Add Kubernetes Keyword',
-    description: 'Kubernetes appears in 65% of target roles. Mention it in your internship description.',
     section: 'experience',
+    issue: 'Missing Kubernetes keyword',
+    fix: 'Add Kubernetes keyword to your Razorpay internship description if applicable.',
+    priority: 'high',
   },
   {
-    id: 'sug-3',
-    priority: 'Medium',
-    title: 'Quantify Project Impact',
-    description: 'Add measurable metrics to StudySync project (e.g., "reduced study time by 30%").',
     section: 'projects',
+    issue: 'Lack of metrics in StudySync description',
+    fix: 'Quantify impact (e.g. "reduced study time by 30%").',
+    priority: 'medium',
   },
   {
-    id: 'sug-4',
-    priority: 'Low',
-    title: 'Complete LinkedIn URL',
-    description: 'Your LinkedIn URL is incomplete. Add the full URL for better ATS parsing.',
     section: 'personal',
+    issue: 'Incomplete LinkedIn URL structure',
+    fix: 'Provide full URL starting with https:// for better parsing.',
+    priority: 'low',
   },
 ];
 

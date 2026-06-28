@@ -1,59 +1,57 @@
-import type { PersonalDetails, Education, Project, Experience, Certification } from '@/types/resume';
+import type { ResumeData } from '@/types/resume'
 
-export function calculateCompletion(data: {
-  personal: PersonalDetails;
-  education: Education[];
-  skills: string[];
-  projects: Project[];
-  experience: Experience[];
-  certifications: Certification[];
-  summary: string;
-}): number {
-  let score = 0;
-  const max = 100;
+export function calculateCompletion(resume: Partial<ResumeData>): number {
+  const weights = {
+    personal: 20,
+    summary: 10,
+    experience: 25,
+    education: 20,
+    skills: 15,
+    projects: 10,
+  }
 
-  // Personal: 20pts
-  const p = data.personal;
-  const personalFields = [p.fullName, p.email, p.phone, p.city, p.linkedin, p.github, p.targetRole];
-  const filledPersonal = personalFields.filter(Boolean).length;
-  score += Math.round((filledPersonal / personalFields.length) * 20);
+  let score = 0
 
-  // Summary: 10pts
-  if (data.summary.length > 50) score += 10;
-  else if (data.summary.length > 0) score += 5;
+  const p = resume.personal
+  if (p?.fullName && p?.email && p?.phone && p?.location) score += weights.personal
+  if (resume.summary && resume.summary.length > 50) score += weights.summary
+  if (resume.experience && resume.experience.length > 0) score += weights.experience
+  if (resume.education && resume.education.length > 0) score += weights.education
+  if (resume.skills && resume.skills.length > 0) score += weights.skills
+  if (resume.projects && resume.projects.length > 0) score += weights.projects
 
-  // Education: 15pts
-  if (data.education.length >= 2) score += 15;
-  else if (data.education.length === 1) score += 8;
-
-  // Skills: 15pts
-  if (data.skills.length >= 8) score += 15;
-  else if (data.skills.length >= 4) score += 8;
-  else if (data.skills.length > 0) score += 4;
-
-  // Projects: 20pts
-  if (data.projects.length >= 3) score += 20;
-  else if (data.projects.length === 2) score += 13;
-  else if (data.projects.length === 1) score += 7;
-
-  // Experience: 15pts
-  if (data.experience.length >= 1) score += 15;
-
-  // Certifications: 5pts
-  if (data.certifications.length >= 1) score += 5;
-
-  return Math.min(score, max);
+  return Math.min(100, score)
 }
 
 export function formatDate(dateStr: string): string {
-  return dateStr;
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })
 }
 
 export function getInitials(name: string): string {
   return name
     .split(' ')
-    .map((n) => n[0])
+    .map(n => n[0])
     .join('')
     .toUpperCase()
-    .slice(0, 2);
+    .slice(0, 2)
 }
+
+export function isValidUrl(value: string): boolean {
+  if (!value) return true
+  return /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})/i.test(value)
+}
+
+export function normalizePhone(phone: string): string {
+  if (!phone) return ''
+  const cleaned = phone.replace(/[^\d+]/g, '')
+  if (cleaned.startsWith('+91') && cleaned.length === 13) {
+    return `+91 ${cleaned.slice(3, 8)} ${cleaned.slice(8)}`
+  }
+  if (cleaned.length === 10) {
+    return `+91 ${cleaned.slice(0, 5)} ${cleaned.slice(5)}`
+  }
+  return phone
+}
+

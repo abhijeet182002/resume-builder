@@ -1,23 +1,37 @@
-export interface PersonalDetails {
+export type ResumeStatus = 'DRAFT' | 'COMPLETE' | 'SUBMITTED';
+
+export interface Socials {
+  linkedIn?: string;
+  github?: string;
+  portfolio?: string;
+}
+
+export interface PersonalInfo {
   fullName: string;
   email: string;
   phone: string;
-  city: string;
-  linkedin: string;
-  github: string;
-  targetRole: string;
+  location: string;
+  socials?: Socials;
 }
 
 export interface Education {
   id: string;
   institution: string;
   degree: string;
-  branch: string;
-  startYear: string;
-  endYear: string;
+  field: string;
+  startDate: string;
+  endDate: string;
   cgpa?: string;
-  percentage?: string;
-  type: 'college' | 'school';
+}
+
+export interface WorkExperience {
+  id: string;
+  company: string;
+  role: string;
+  startDate: string;
+  endDate: string;
+  current: boolean;
+  bullets: string[];
 }
 
 export interface Project {
@@ -25,18 +39,9 @@ export interface Project {
   name: string;
   description: string;
   techStack: string[];
-  githubLink: string;
-  liveLink: string;
-}
-
-export interface Experience {
-  id: string;
-  company: string;
-  role: string;
-  startDate: string;
-  endDate: string;
-  isCurrent: boolean;
-  description: string[];
+  link?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface Certification {
@@ -44,14 +49,39 @@ export interface Certification {
   name: string;
   issuer: string;
   date: string;
-  credentialLink: string;
+  credentialUrl?: string;
 }
 
-export type ResumeSection =
-  | 'personal'
-  | 'summary'
-  | 'education'
-  | 'skills'
-  | 'projects'
-  | 'experience'
-  | 'certifications';
+export interface ResumeSections {
+  personal: PersonalInfo;
+  summary: string;
+  education: Education[];
+  experience: WorkExperience[];
+  projects: Project[];
+  skills: string[];
+  certifications: Certification[];
+}
+
+export interface ResumeLayoutOptions {
+  themeColor: string;
+  fontSize: 'sm' | 'md' | 'lg';
+  fontFamily: 'sans' | 'serif' | 'mono' | 'display';
+  lineHeight: 'compact' | 'normal' | 'loose';
+  spacing: 'compact' | 'normal' | 'loose';
+}
+
+export interface ResumeData extends ResumeSections {
+  id?: string;
+  userId?: string;
+  title: string;
+  status: ResumeStatus;
+  completionScore: number;
+  atsScore?: number | null;
+  deletedAt?: string | Date | null;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
+  sections?: ResumeSections;
+  layout?: ResumeLayoutOptions;
+}
+
+export type SectionKey = keyof ResumeSections;

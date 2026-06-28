@@ -1,12 +1,13 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { ActivityFeed } from '@/components/dashboard/ActivityFeed';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { PrimaryActions } from '@/components/dashboard/PrimaryActions';
 import { Clock, Target } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
@@ -19,6 +20,47 @@ const fadeUp = {
 };
 
 export default function DashboardPage() {
+  const [userName, setUserName] = useState('Student');
+  const [stats, setStats] = useState({
+    resumeCount: 0,
+    latestAtsScore: 0,
+    downloadCount: 0,
+    completionScore: 0,
+  });
+
+  useEffect(() => {
+    // Fetch User
+    fetch('/api/user/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) {
+          setUserName(data.user.name);
+        }
+      });
+
+    // Fetch Stats
+    fetch('/api/dashboard/stats')
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setStats({
+            resumeCount: data.resumeCount ?? 0,
+            latestAtsScore: data.latestAtsScore ?? 0,
+            downloadCount: data.downloadCount ?? 0,
+            completionScore: data.completionScore ?? 0,
+          });
+        }
+      });
+  }, []);
+
+  const deriveReadiness = (completion: number, ats: number) => {
+    if (completion >= 90 && ats >= 80) return 'Ready';
+    if (completion >= 50) return 'Getting There';
+    return 'Not Started';
+  };
+
+  const readiness = deriveReadiness(stats.completionScore, stats.latestAtsScore);
+
   return (
     <motion.div
       initial="hidden"
@@ -36,7 +78,7 @@ export default function DashboardPage() {
       <motion.section
         variants={fadeUp}
         whileHover={{ scale: 1.01 }}
-        className="relative isolate overflow-hidden rounded-[12px] border border-[#BFD7FF] bg-[#EAF3FF] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_18px_42px_rgba(37,99,235,0.12)]"
+        className="relative isolate overflow-hidden rounded-[12px] border border-[#BFD7FF] bg-[#EAF3FF] p-6 shadow-[0_1px_2px_rgba(15,23,42,0.06),0_18px_42px_rgba(59,73,223,0.12)]"
       >
         <motion.div
           animate={{
@@ -59,7 +101,7 @@ export default function DashboardPage() {
           transition={{ delay: 0.2 }}
           className="relative text-2xl font-extrabold tracking-[-0.03em] text-[#10233F]"
         >
-          Good morning, Arjun
+          Welcome back, {userName}
         </motion.h2>
 
         <motion.p
@@ -68,7 +110,9 @@ export default function DashboardPage() {
           transition={{ delay: 0.35 }}
           className="relative mt-1 text-sm font-medium text-[#45607F]"
         >
-          Your resume is 72% complete. Keep going!
+          {stats.resumeCount > 0 
+            ? `Your latest resume is ${stats.completionScore}% complete. Keep going!`
+            : "Create or upload a resume to start building your placement profile!"}
         </motion.p>
       </motion.section>
 
@@ -81,35 +125,35 @@ export default function DashboardPage() {
           <MetricCard
             key="1"
             title="Resume Completion"
-            value={72}
+            value={stats.completionScore}
             type="ring"
-            subtitle="8 sections started"
+            subtitle={`${stats.resumeCount} Resumes created`}
           />,
           <MetricCard
             key="2"
             title="ATS Score"
-            value={74}
+            value={stats.latestAtsScore}
             type="ring"
             color="#06B6D4"
-            subtitle="Good match"
+            subtitle={stats.latestAtsScore >= 80 ? "Excellent match" : stats.latestAtsScore >= 50 ? "Good match" : "Need improvements"}
           />,
           <MetricCard
             key="3"
             title="Placement Readiness"
-            value="Getting There"
+            value={readiness}
             type="badge"
-            badgeVariant="amber"
+            badgeVariant={readiness === 'Ready' ? 'green' : readiness === 'Getting There' ? 'amber' : 'gray'}
             icon={<Target className="h-5 w-5 text-warning" />}
-            subtitle="3 actions pending"
+            subtitle={readiness === 'Ready' ? 'Profile stands out' : 'Pending profile updates'}
           />,
           <MetricCard
             key="4"
-            title="Last Updated"
-            value="2 days ago"
+            title="Downloads"
+            value={stats.downloadCount}
             type="text"
             badgeVariant="gray"
             icon={<Clock className="h-5 w-5 text-text-muted" />}
-            subtitle="Draft auto-saved"
+            subtitle="Total PDF downloads"
           />,
         ].map((card, index) => (
           <motion.div

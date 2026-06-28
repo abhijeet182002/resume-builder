@@ -1,16 +1,7 @@
-export const ROUTES = {
-  LOGIN: '/login',
-  ONBOARDING: '/onboarding',
-  DASHBOARD: '/dashboard',
-  RESUME_CREATE: '/resume/create',
-  RESUME_UPLOAD: '/resume/upload',
-  RESUME_EDITOR: (id: string) => `/resume/${id}/editor`,
-  RESUME_ATS: (id: string) => `/resume/${id}/ats`,
-  PLACEMENT_READINESS: '/placement-readiness',
-  DOWNLOADS: '/downloads',
-  SETTINGS: '/settings',
-  OFFICER_DASHBOARD: '/admin/dashboard',
-} as const;
+export const COOKIE_NAME = 'session_token';
+export const JWT_EXPIRY_SECONDS = 60 * 60 * 24 * 7;
+export const ATS_WEIGHTS = { keywords: 0.35, completeness: 0.40, formatting: 0.25 };
+export const ROUTES = { LOGIN: '/login', STUDENT: '/dashboard', OFFICER: '/admin/dashboard' };
 
 export const SAMPLE_RESUME_ID = 'resume-001';
 
