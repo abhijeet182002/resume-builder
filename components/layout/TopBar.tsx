@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Bell, Menu, LogOut, LogIn } from 'lucide-react'
+import { Bell, Menu, LogOut, LogIn, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
 import { useResumeSync } from '@/hooks/useResumeSync'
 import { useNotificationStore } from '@/store/notificationStore'
+import { useAIStore } from '@/store/aiStore'
 
 interface TopBarProps {
   title?: string
@@ -27,6 +28,10 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
   const { isDownloading, setIsDownloading, showToast } = useUIStore()
 
   const { notifications, fetchNotifications, markAsRead, markAllAsRead } = useNotificationStore()
+
+  const aiIsOpen = useAIStore(s => s.isOpen)
+  const aiOpen = useAIStore(s => s.open)
+  const aiClose = useAIStore(s => s.close)
 
   useEffect(() => {
     fetchNotifications()
@@ -167,6 +172,23 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
           </div>
 
           <div className="h-6 w-px bg-slate-200" />
+
+          <button 
+            onClick={() => {
+              if (aiIsOpen) {
+                aiClose()
+              } else {
+                aiOpen('', 'General Chat')
+              }
+            }} 
+            className={cn(
+              "px-4 py-2 flex items-center gap-1.5 border rounded-lg hover:bg-slate-50 transition text-sm font-semibold",
+              aiIsOpen ? "bg-blue-50 border-blue-200 text-primary-DEFAULT" : "border-slate-200 text-slate-700"
+            )}
+          >
+            <Sparkles className="h-4 w-4 text-primary-DEFAULT" />
+            AI Assistant
+          </button>
 
           <button 
             onClick={sync.save} 

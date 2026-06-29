@@ -63,7 +63,7 @@ export const useAIStore = create<AIState>((set) => ({
   onApply: null,
 
   open: (original, context, onApply) =>
-    set({ 
+    set((state) => ({ 
       isOpen: true, 
       originalText: original, 
       context, 
@@ -72,8 +72,10 @@ export const useAIStore = create<AIState>((set) => ({
       status: 'idle',
       textResult: null,
       error: null,
-      messages: original ? [{ sender: 'user', text: `Optimize this content: "${original}"` }, { sender: 'ai', text: '' }] : []
-    }),
+      messages: original 
+        ? [{ sender: 'user', text: `Optimize this content: "${original}"` }, { sender: 'ai', text: '' }] 
+        : state.messages.length > 0 ? state.messages : []
+    })),
   close: () => set({ 
     isOpen: false, 
     suggestion: null, 
@@ -83,7 +85,7 @@ export const useAIStore = create<AIState>((set) => ({
     status: 'idle',
     textResult: null,
     error: null,
-    messages: []
+    // Keep messages history in the session
   }),
   setSuggestion: (s) => set({ 
     suggestion: s, 

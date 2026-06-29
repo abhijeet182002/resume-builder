@@ -144,6 +144,11 @@ export function ResumePreview() {
                     {edu.degree}{edu.field && ` in ${edu.field}`}
                     {edu.cgpa && ` • Grade/CGPA: ${edu.cgpa}`}
                   </p>
+                  {edu.highlights && (
+                    <p className={`${size.body} text-slate-750 mt-1 pl-2.5 border-l border-slate-200 leading-relaxed whitespace-pre-wrap`}>
+                      {edu.highlights}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>

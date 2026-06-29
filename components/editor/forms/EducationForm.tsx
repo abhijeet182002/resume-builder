@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Trash2, Plus, Sparkles } from 'lucide-react';
 import { useAIAction } from '@/hooks/useAIAction';
 import { useUIStore } from '@/store/uiStore';
+import { Textarea } from '@/components/ui/Textarea';
 
 export function EducationForm() {
   const education = useResumeStore((s) => s.resume.education);
@@ -15,6 +16,7 @@ export function EducationForm() {
   const handleSuggestHighlights = (edu: any) => {
     const inputStr = `${edu.degree || 'Degree'} in ${edu.field || 'Field of Study'} at ${edu.institution || 'Institution'}`;
     trigger('suggest_highlights', inputStr, 'Education Highlights', (text) => {
+      updateEducation(edu.id, { highlights: text });
       showToast('Here are suggested coursework & highlights for your resume!', 'success');
     });
   };
@@ -73,6 +75,14 @@ export function EducationForm() {
               onChange={(e) => updateEducation(edu.id, { cgpa: e.target.value })}
               placeholder="e.g. 8.4"
               className="sm:col-span-2"
+            />
+            <Textarea
+              label="Coursework / Academic Highlights"
+              value={edu.highlights ?? ''}
+              onChange={(e) => updateEducation(edu.id, { highlights: e.target.value })}
+              placeholder="e.g. Coursework: Data Structures, Algorithms. Achievement: First Place in Smart India Hackathon."
+              className="sm:col-span-2"
+              rows={3}
             />
           </div>
 

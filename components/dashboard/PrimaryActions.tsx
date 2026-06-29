@@ -31,6 +31,14 @@ export function PrimaryActions() {
       const res = await fetch(`/api/resume/${latestId}`);
       if (!res.ok) throw new Error();
       const { resume } = await res.json();
+      const sections = resume.sections || {};
+      const personal = sections.personal || {};
+      const summary = sections.summary || '';
+      const experience = sections.experience || [];
+      const education = sections.education || [];
+      const skills = sections.skills || [];
+      const projects = sections.projects || [];
+      const certifications = sections.certifications || [];
       
       const container = document.createElement('div');
       container.style.position = 'absolute';
@@ -39,64 +47,69 @@ export function PrimaryActions() {
       container.id = 'resume-preview-content';
       document.body.appendChild(container);
 
-      const experienceHtml = (resume.experience || []).map((exp: any) => `
+      const experienceHtml = (experience || []).map((exp: any) => `
         <div style="margin-bottom: 8px;">
           <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;">
-            <span>${exp.role}</span>
-            <span style="font-style: italic; font-weight: normal; font-size: 10px;">${exp.startDate} - ${exp.current ? 'Present' : exp.endDate}</span>
+            <span>${exp.role || ''}</span>
+            <span style="font-style: italic; font-weight: normal; font-size: 10px;">${exp.startDate || ''} - ${exp.current ? 'Present' : exp.endDate || ''}</span>
           </div>
-          <p style="font-size: 11px; color: #2563EB; margin: 2px 0; font-weight: bold;">${exp.company}</p>
+          <p style="font-size: 11px; color: #2563EB; margin: 2px 0; font-weight: bold;">${exp.company || ''}</p>
           <ul style="font-size: 11px; color: #334155; margin: 4px 0 0 15px; padding: 0; list-style-type: disc;">
             ${(exp.bullets || []).map((b: string) => `<li>${b}</li>`).join('')}
           </ul>
         </div>
       `).join('');
 
-      const educationHtml = (resume.education || []).map((edu: any) => `
+      const educationHtml = (education || []).map((edu: any) => `
         <div style="margin-bottom: 8px;">
           <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold;">
-            <span>${edu.institution}</span>
-            <span style="font-style: italic; font-weight: normal; font-size: 10px;">${edu.startDate} - ${edu.endDate}</span>
+            <span>${edu.institution || ''}</span>
+            <span style="font-style: italic; font-weight: normal; font-size: 10px;">${edu.startDate || ''} - ${edu.endDate || ''}</span>
           </div>
-          <p style="font-size: 11px; color: #475569; margin: 2px 0;">${edu.degree} ${edu.field ? `in ${edu.field}` : ''} ${edu.cgpa ? `• CGPA: ${edu.cgpa}` : ''}</p>
+          <p style="font-size: 11px; color: #475569; margin: 2px 0;">${edu.degree || ''} ${edu.field ? `in ${edu.field}` : ''} ${edu.cgpa ? `• CGPA: ${edu.cgpa}` : ''}</p>
         </div>
       `).join('');
 
-      const skillsHtml = (resume.skills || []).map((g: any) => `
-        <div style="font-size: 11px; margin-bottom: 3px;">
-          <strong>${g.category}:</strong> ${g.skills.join(', ')}
-        </div>
-      `).join('');
+      const skillsHtml = (skills || []).map((g: any) => {
+        if (typeof g === 'string') {
+          return `<span style="font-size: 11px; margin-right: 5px;">${g}</span>`;
+        }
+        return `
+          <div style="font-size: 11px; margin-bottom: 3px;">
+            <strong>${g.category || 'Skills'}:</strong> ${(g.skills || []).join(', ')}
+          </div>
+        `;
+      }).join('');
 
-      const projectsHtml = (resume.projects || []).map((p: any) => `
+      const projectsHtml = (projects || []).map((p: any) => `
         <div style="margin-bottom: 8px;">
-          <div style="font-size: 11px; font-weight: bold;">${p.name}</div>
-          <p style="font-size: 10px; color: #2563EB; margin: 1px 0;">${p.techStack.join(', ')}</p>
-          <p style="font-size: 11px; color: #334155; margin: 2px 0;">${p.description}</p>
+          <div style="font-size: 11px; font-weight: bold;">${p.name || ''}</div>
+          <p style="font-size: 10px; color: #2563EB; margin: 1px 0;">${(p.techStack || []).join(', ')}</p>
+          <p style="font-size: 11px; color: #334155; margin: 2px 0;">${p.description || ''}</p>
         </div>
       `).join('');
 
-      const certsHtml = (resume.certifications || []).map((c: any) => `
+      const certsHtml = (certifications || []).map((c: any) => `
         <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px;">
-          <span><strong>${c.name}</strong> • ${c.issuer}</span>
-          <span style="font-size: 10px; color: #64748b;">${c.date}</span>
+          <span><strong>${c.name || ''}</strong> • ${c.issuer || ''}</span>
+          <span style="font-size: 10px; color: #64748b;">${c.date || ''}</span>
         </div>
       `).join('');
 
       container.innerHTML = `
         <div style="font-family: Arial, sans-serif; color: #0F172A; padding: 40px; background: white; width: 180mm; min-height: 250mm;">
           <div style="text-align: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px;">
-            <h1 style="font-size: 22px; font-weight: bold; margin: 0; color: #0f172a;">${resume.personal?.fullName || resume.title}</h1>
+            <h1 style="font-size: 22px; font-weight: bold; margin: 0; color: #0f172a;">${personal.fullName || resume.title}</h1>
             <div style="font-size: 11px; color: #64748b; margin-top: 6px; display: flex; justify-content: center; gap: 8px;">
-              ${resume.personal?.email ? `<span>${resume.personal.email}</span>` : ''}
-              ${resume.personal?.phone ? `<span>• ${resume.personal.phone}</span>` : ''}
-              ${resume.personal?.location ? `<span>• ${resume.personal.location}</span>` : ''}
+              ${personal.email ? `<span>${personal.email}</span>` : ''}
+              ${personal.phone ? `<span>• ${personal.phone}</span>` : ''}
+              ${personal.location ? `<span>• ${personal.location}</span>` : ''}
             </div>
           </div>
-          ${resume.summary ? `
+          ${summary ? `
             <div style="margin-bottom: 15px;">
               <h2 style="font-size: 10px; font-weight: bold; color: #2563EB; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; padding-bottom: 2px; margin-bottom: 6px; tracking-widest: 0.1em;">Professional Summary</h2>
-              <p style="font-size: 11px; line-height: 1.5; margin: 0; color: #334155;">${resume.summary}</p>
+              <p style="font-size: 11px; line-height: 1.5; margin: 0; color: #334155;">${summary}</p>
             </div>
           ` : ''}
           ${experienceHtml ? `

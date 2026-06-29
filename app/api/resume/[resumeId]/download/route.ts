@@ -101,13 +101,21 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ resu
     y += 8
 
     education.forEach((edu: any) => {
-      if (y > 260) { doc.addPage(); y = 20; }
+      if (y > 250) { doc.addPage(); y = 20; }
       doc.setFontSize(11)
       doc.text(`${edu.degree || ''} in ${edu.field || ''}`, 20, y)
       doc.text(edu.institution || '', 20, y + 5)
       doc.setFontSize(9)
       doc.text(`${edu.startDate || ''} - ${edu.endDate || ''}`, 150, y)
-      y += 12
+      y += 10
+      if (edu.highlights) {
+        if (y > 250) { doc.addPage(); y = 20; }
+        doc.setFontSize(9)
+        const splitHighlights = doc.splitTextToSize(edu.highlights, 160)
+        doc.text(splitHighlights, 20, y)
+        y += splitHighlights.length * 5
+      }
+      y += 4
     })
   }
 
@@ -152,7 +160,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ resu
   })
 
   const pdfOutput = doc.output('arraybuffer')
-  return new NextResponse(pdfOutput, {
+  return new NextResponse(Buffer.from(pdfOutput), {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': `attachment; filename="${fileName}"`,

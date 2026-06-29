@@ -3,27 +3,46 @@ import { requireAuth } from '@/lib/authGuard'
 import { db } from '@/lib/db'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY,
-  baseURL: 'https://api.groq.com/openai/v1',
-})
-
 export async function POST(req: NextRequest, { params }: { params: Promise<{ resumeId: string }> }) {
   const { resumeId } = await params
   const { session, error } = await requireAuth()
   if (error) return error
 
-  const { jobDescription, resumeData } = await req.json()
+  try {
+    const body = await req.json()
+    const { jobDescription, resumeData } = body
 
-  const resumeText = buildResumeText(resumeData)
+    if (!jobDescription || !jobDescription.trim()) {
+      return NextResponse.json({ error: 'Job description is required for ATS audit' }, { status: 400 })
+    }
+    if (!resumeData) {
+      return NextResponse.json({ error: 'Resume data is required for ATS audit' }, { status: 400 })
+    }
 
-  const completion = await openai.chat.completions.create({
-    model: 'llama-3.3-70b-versatile',
-    response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: `You are an ATS (Applicant Tracking System) expert. Analyze the resume against the job description and return a JSON object with this exact structure:
+    let apiKey = process.env.GROQ_API_KEY
+    let baseURL = 'https://api.groq.com/openai/v1'
+    let model = process.env.AI_MODEL || 'llama-3.3-70b-versatile'
+
+    if (!apiKey && process.env.OPENAI_API_KEY) {
+      apiKey = process.env.OPENAI_API_KEY
+      baseURL = 'https://api.openai.com/v1'
+      model = 'gpt-4o-mini'
+    }
+
+    if (!apiKey) {
+      return NextResponse.json({ error: 'AI Assistant API keys are not configured on the server.' }, { status: 500 })
+    }
+
+    const client = new OpenAI({ apiKey, baseURL })
+    const resumeText = buildResumeText(resumeData)
+
+    const completion = await client.chat.completions.create({
+      model,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content: `You are an ATS (Applicant Tracking System) expert. Analyze the resume against the job description and return a JSON object with this exact structure:
 {
   "overallScore": number (0-100),
   "keywordScore": number (0-100),
@@ -43,15 +62,20 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ res
   ]
 }
 Note: The overallScore MUST be calculated exactly based on the weights: keywordScore (35%), completenessScore (40%), and formattingScore (25%).`,
-      },
-      {
-        role: 'user',
-        content: `JOB DESCRIPTION:\n${jobDescription}\n\nRESUME:\n${resumeText}`,
-      },
-    ],
-  })
+        },
+        {
+          role: 'user',
+          content: `JOB DESCRIPTION:\n${jobDescription}\n\nRESUME:\n${resumeText}`,
+        },
+      ],
+    })
 
-  const result = JSON.parse(completion.choices[0].message.content!)
+    const rawContent = completion.choices[0].message.content
+    if (!rawContent) {
+      throw new Error('Empty response received from AI service')
+    }
+
+    const result = JSON.parse(rawContent)
 
   // Programmatically evaluate overallScore using the strict 35-40-25 weight criteria
   const keywordWeight = 0.35
@@ -95,15 +119,19 @@ Note: The overallScore MUST be calculated exactly based on the weights: keywordS
   })
 
   await db.activity.create({
-    data: {
-      userId: session.id,
-      type: 'ATS_RUN',
-      description: `Ran ATS analysis for "${result.jobTitle || 'Job Role'}"`,
-      metadata: { resumeId: targetResume.id, score: result.overallScore },
-    },
-  })
+      data: {
+        userId: session.id,
+        type: 'ATS_RUN',
+        description: `Ran ATS analysis for "${result.jobTitle || 'Job Role'}"`,
+        metadata: { resumeId: targetResume.id, score: result.overallScore },
+      },
+    })
 
-  return NextResponse.json({ result: { ...result, id: Math.random().toString(), analyzedAt: new Date().toISOString() } })
+    return NextResponse.json({ result: { ...result, id: Math.random().toString(), analyzedAt: new Date().toISOString() } })
+  } catch (err: any) {
+    console.error('ATS Audit endpoint error:', err)
+    return NextResponse.json({ error: err?.message || 'Failed to complete ATS audit' }, { status: 500 })
+  }
 }
 
 function buildResumeText(data: any): string {

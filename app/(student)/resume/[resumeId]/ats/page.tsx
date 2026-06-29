@@ -16,7 +16,7 @@ import { useResumeStore } from '@/store/resumeStore';
 import { useAIAction } from '@/hooks/useAIAction';
 import { useUIStore } from '@/store/uiStore';
 import { useResumeSync } from '@/hooks/useResumeSync';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight, Loader2 } from 'lucide-react';
 
 export default function ATSPage() {
   const router = useRouter();
@@ -24,11 +24,13 @@ export default function ATSPage() {
   useResumeSync(resumeId);
   const { result, isAnalyzing, analyze } = useATSAnalysis();
   const [jobDescription, setJobDescription] = useState('');
+  const resume = useResumeStore((s) => s.resume);
   const setResume = useResumeStore((s) => s.setResume);
   const setATSResult = useATSStore((s) => s.setResult);
   const setATSJobDescription = useATSStore((s) => s.setJobDescription);
   const { trigger: triggerAI } = useAIAction();
   const showToast = useUIStore((s) => s.showToast);
+  const [fixingIndex, setFixingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (!resumeId) return;
@@ -65,9 +67,9 @@ export default function ATSPage() {
     await analyze(jobDescription);
   };
 
-  const handleFixWithAI = (suggestion: any) => {
+  const handleFixWithAI = async (suggestion: any, index: number) => {
+    setFixingIndex(index);
     let actionType: 'enhance_bullet' | 'generate_summary' | 'suggest_skills' = 'enhance_bullet';
-    let contextLabel = `Fix ${suggestion.section}`;
 
     if (suggestion.section === 'summary') {
       actionType = 'generate_summary';
@@ -75,34 +77,118 @@ export default function ATSPage() {
       actionType = 'suggest_skills';
     }
 
-    triggerAI(
-      actionType,
-      `Fix the following issue in my resume: "${suggestion.issue}". Recommendation: "${suggestion.fix}". Provide a professional and clean replacement.`,
-      contextLabel,
-      (text) => {
-        const resumeStore = useResumeStore.getState();
-        if (suggestion.section === 'summary') {
-          resumeStore.updateSummary(text);
-          showToast('Summary updated successfully!', 'success');
-        } else if (suggestion.section === 'skills') {
-          const skillsList = text.split(',').map((s) => s.trim()).filter(Boolean);
-          const currentSkills = resumeStore.resume.skills ?? [];
-          const updated = Array.from(new Set([...currentSkills, ...skillsList]));
-          resumeStore.updateSection('skills', updated);
-          showToast(`Added ${skillsList.length} skills successfully!`, 'success');
-        } else {
-          const exp = resumeStore.resume.experience[0];
-          if (exp) {
-            const nextBullets = [...exp.bullets];
-            nextBullets[0] = text;
-            resumeStore.updateExperience(exp.id, { bullets: nextBullets });
-            showToast('Experience bullet updated successfully!', 'success');
-          } else {
-            showToast('Could not find experience entry to update.', 'error');
-          }
+    const input = `Fix the following issue in my resume: "${suggestion.issue}". Recommendation: "${suggestion.fix}". Provide a professional and clean replacement.`;
+
+    try {
+      const res = await fetch('/api/ai/enhance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: actionType,
+          input,
+          context: {
+            name: resume?.personal?.fullName || '',
+            role: resume?.experience?.[0]?.role || '',
+            skills: (resume?.skills as any[] || []).map(s => typeof s === 'string' ? s : (s as any).skills?.join(', ') || '').join(', '),
+          },
+        }),
+      });
+
+      if (!res.ok) throw new Error('Failed to fetch from AI');
+
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error('No reader found');
+
+      const decoder = new TextDecoder();
+      let done = false;
+      let text = '';
+
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        if (value) {
+          text += decoder.decode(value, { stream: !done });
         }
       }
-    );
+
+      const resumeStore = useResumeStore.getState();
+      const sectionLower = suggestion.section.toLowerCase();
+
+      if (sectionLower.includes('summary')) {
+        resumeStore.updateSummary(text);
+        showToast('Summary updated successfully!', 'success');
+      } else if (sectionLower.includes('skills')) {
+        const skillsList = text.split(/,|\n/).map((s) => s.trim()).filter(Boolean);
+        const currentSkills = resumeStore.resume.skills ?? [];
+        const updated = Array.from(new Set([...currentSkills, ...skillsList]));
+        resumeStore.updateSection('skills', updated);
+        showToast(`Added ${skillsList.length} skills successfully!`, 'success');
+      } else if (sectionLower.includes('project')) {
+        let proj = resumeStore.resume.projects[0];
+        if (!proj) {
+          resumeStore.addProject();
+          proj = useResumeStore.getState().resume.projects[0];
+        }
+        if (proj) {
+          resumeStore.updateProject(proj.id, { description: text });
+          showToast('Project description updated successfully!', 'success');
+        } else {
+          showToast('Could not find a project to update.', 'error');
+        }
+      } else if (sectionLower.includes('education') || sectionLower.includes('coursework')) {
+        let edu = resumeStore.resume.education[0];
+        if (!edu) {
+          resumeStore.addEducation();
+          edu = useResumeStore.getState().resume.education[0];
+        }
+        if (edu) {
+          resumeStore.updateEducation(edu.id, { highlights: text });
+          showToast('Education highlights updated successfully!', 'success');
+        } else {
+          showToast('Could not find an education entry to update.', 'error');
+        }
+      } else if (sectionLower.includes('cert')) {
+        const certNames = text.split(/,|\n/).map((c) => c.replace(/^\d+\.\s*/, '').replace(/^[-*•]\s*/, '').trim()).filter(Boolean);
+        const currentCerts = resumeStore.resume.certifications ?? [];
+        const newCerts = certNames.map(name => ({
+          id: crypto.randomUUID(),
+          name,
+          issuer: 'Suggested Organization',
+          date: new Date().getFullYear().toString(),
+        }));
+        resumeStore.updateSection('certifications', [...currentCerts, ...newCerts]);
+        showToast(`Added ${newCerts.length} suggested certifications successfully!`, 'success');
+      } else {
+        let exp = resumeStore.resume.experience[0];
+        if (!exp) {
+          resumeStore.addExperience();
+          exp = useResumeStore.getState().resume.experience[0];
+        }
+        if (exp) {
+          const nextBullets = [...exp.bullets];
+          nextBullets[0] = text;
+          resumeStore.updateExperience(exp.id, { bullets: nextBullets });
+          showToast('Experience bullet updated successfully!', 'success');
+        } else {
+          showToast('Could not find experience entry to update.', 'error');
+        }
+      }
+
+      // Remove this suggestion from the ATS suggestions list
+      const atsStore = useATSStore.getState();
+      if (atsStore.result) {
+        const updatedSuggestions = atsStore.result.suggestions.filter((_, i) => i !== index);
+        atsStore.setResult({
+          ...atsStore.result,
+          suggestions: updatedSuggestions,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('AI Auto-Fix failed. Please try again.', 'error');
+    } finally {
+      setFixingIndex(null);
+    }
   };
 
   return (
@@ -228,10 +314,19 @@ export default function ATSPage() {
                   <div className="flex gap-2">
                     <Button
                       size="sm"
-                      onClick={() => handleFixWithAI(suggestion)}
-                      className="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold flex items-center justify-center gap-1 rounded-xl"
+                      disabled={fixingIndex !== null}
+                      onClick={() => handleFixWithAI(suggestion, index)}
+                      className="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold flex items-center justify-center gap-1 rounded-xl disabled:opacity-75"
                     >
-                      <Sparkles className="h-3.5 w-3.5" /> Auto-Fix
+                      {fixingIndex === index ? (
+                        <>
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" /> Fixing...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="h-3.5 w-3.5" /> Auto-Fix
+                        </>
+                      )}
                     </Button>
                     <Button
                       size="sm"

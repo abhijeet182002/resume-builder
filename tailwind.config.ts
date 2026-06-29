@@ -35,6 +35,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["Outfit", "sans-serif"],
+        chat: ["Inter", "sans-serif"],
       },
       borderRadius: {
         input: "8px",

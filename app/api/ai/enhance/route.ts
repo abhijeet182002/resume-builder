@@ -2,11 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/authGuard'
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY,
-  baseURL: 'https://api.groq.com/openai/v1',
-})
-
 const PROMPTS: Record<string, (input: string, ctx: any) => string> = {
   enhance_bullet: (input, ctx) =>
     `You are a professional resume writer. Improve this resume bullet point to be more impactful, quantified, and ATS-friendly. Use strong action verbs. Keep it under 15 words. Return only the improved bullet, no explanation.
@@ -72,35 +67,72 @@ export async function POST(req: NextRequest) {
   const { session, error } = await requireAuth()
   if (error) return error
 
-  const { action, input, context } = await req.json()
+  try {
+    const body = await req.json()
+    const { action, input, context } = body
 
-  const promptFn = PROMPTS[action]
-  if (!promptFn) return NextResponse.json({ error: 'Unknown action' }, { status: 400 })
+    if (!action || !input) {
+      return NextResponse.json({ error: 'Missing action or input in request body' }, { status: 400 })
+    }
 
-  const model = process.env.AI_MODEL || 'llama-3.3-70b-versatile'
+    const promptFn = PROMPTS[action]
+    if (!promptFn) {
+      return NextResponse.json({ error: 'Unknown action type' }, { status: 400 })
+    }
 
-  const completion = await openai.chat.completions.create({
-    model,
-    max_tokens: 300,
-    messages: [{ role: 'user', content: promptFn(input, context) }],
-    stream: true,
-  })
+    let apiKey = process.env.GROQ_API_KEY
+    let baseURL = 'https://api.groq.com/openai/v1'
+    let model = process.env.AI_MODEL || 'llama-3.3-70b-versatile'
 
-  const stream = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of completion) {
-        const text = chunk.choices[0]?.delta?.content || ''
-        controller.enqueue(new TextEncoder().encode(text))
-      }
-      controller.close()
-    },
-  })
+    if (!apiKey && process.env.OPENAI_API_KEY) {
+      apiKey = process.env.OPENAI_API_KEY
+      baseURL = 'https://api.openai.com/v1'
+      model = 'gpt-4o-mini'
+    }
 
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'no-cache, no-transform',
-      'Connection': 'keep-alive',
-    },
-  })
+    if (!apiKey) {
+      return NextResponse.json({ error: 'AI Assistant API keys are not configured on the server.' }, { status: 500 })
+    }
+
+    const client = new OpenAI({ apiKey, baseURL })
+    const abortController = new AbortController()
+    const timeoutId = setTimeout(() => abortController.abort(), 12000) // 12-second timeout limit
+
+    const completion = await client.chat.completions.create({
+      model,
+      max_tokens: 350,
+      messages: [{ role: 'user', content: promptFn(input, context) }],
+      stream: true,
+    }, {
+      signal: abortController.signal,
+    })
+
+    clearTimeout(timeoutId)
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of completion) {
+            const text = chunk.choices[0]?.delta?.content || ''
+            controller.enqueue(new TextEncoder().encode(text))
+          }
+          controller.close()
+        } catch (streamErr: any) {
+          console.error('Error during AI stream generation:', streamErr)
+          controller.error(streamErr)
+        }
+      },
+    })
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+      },
+    })
+  } catch (err: any) {
+    console.error('AI Enhance endpoint error:', err)
+    return NextResponse.json({ error: err?.message || 'Failed to complete AI request' }, { status: 500 })
+  }
 }

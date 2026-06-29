@@ -83,6 +83,7 @@ export function useAIAction(options?: UseAIActionOptions) {
             suggestion: streamText,
             textResult: streamText,
           })
+          aiStore.updateLastMessage(streamText)
         }
       }
 

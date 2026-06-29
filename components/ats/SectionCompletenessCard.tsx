@@ -43,18 +43,58 @@ export function SectionCompletenessCard() {
       label,
       (text) => {
         const resumeStore = useResumeStore.getState();
-        if (sectionName.toLowerCase().includes('summary')) {
+        const sectionLower = sectionName.toLowerCase();
+        
+        if (sectionLower.includes('summary')) {
           resumeStore.updateSummary(text);
           showToast('Summary generated and updated!', 'success');
-        } else if (sectionName.toLowerCase().includes('skills')) {
-          const skillsList = text.split(',').map(s => s.trim()).filter(Boolean);
+        } else if (sectionLower.includes('skills')) {
+          const skillsList = text.split(/,|\n/).map(s => s.trim()).filter(Boolean);
           const currentSkills = resumeStore.resume.skills ?? [];
           const updated = Array.from(new Set([...currentSkills, ...skillsList]));
           resumeStore.updateSection('skills', updated);
           showToast('Added AI skills!', 'success');
+        } else if (sectionLower.includes('project')) {
+          let proj = resumeStore.resume.projects[0];
+          if (!proj) {
+            resumeStore.addProject();
+            proj = useResumeStore.getState().resume.projects[0];
+          }
+          if (proj) {
+            resumeStore.updateProject(proj.id, { description: text });
+            showToast('Project description generated and updated!', 'success');
+          } else {
+            showToast('Could not find a project to update.', 'error');
+          }
+        } else if (sectionLower.includes('education') || sectionLower.includes('coursework')) {
+          let edu = resumeStore.resume.education[0];
+          if (!edu) {
+            resumeStore.addEducation();
+            edu = useResumeStore.getState().resume.education[0];
+          }
+          if (edu) {
+            resumeStore.updateEducation(edu.id, { highlights: text });
+            showToast('Education highlights generated and updated!', 'success');
+          } else {
+            showToast('Could not find an education entry to update.', 'error');
+          }
+        } else if (sectionLower.includes('cert')) {
+          const certNames = text.split(/,|\n/).map((c) => c.replace(/^\d+\.\s*/, '').replace(/^[-*•]\s*/, '').trim()).filter(Boolean);
+          const currentCerts = resumeStore.resume.certifications ?? [];
+          const newCerts = certNames.map(name => ({
+            id: crypto.randomUUID(),
+            name,
+            issuer: 'Suggested Organization',
+            date: new Date().getFullYear().toString(),
+          }));
+          resumeStore.updateSection('certifications', [...currentCerts, ...newCerts]);
+          showToast('Added suggested certifications successfully!', 'success');
         } else {
-          // Default: enhance the first experience bullet point
-          const exp = resumeStore.resume.experience[0];
+          let exp = resumeStore.resume.experience[0];
+          if (!exp) {
+            resumeStore.addExperience();
+            exp = useResumeStore.getState().resume.experience[0];
+          }
           if (exp) {
             const nextBullets = [...exp.bullets];
             nextBullets[0] = text;

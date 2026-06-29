@@ -17,10 +17,16 @@ export function PersonalForm() {
   const { trigger, isLoading } = useAIAction();
 
   const handleSuggestTitle = () => {
-    // Generate context for AI title suggestion based on current details
     const contextStr = `Name: ${personal.fullName || 'Student'}, Location: ${personal.location || 'India'}`;
     trigger('suggest_title', contextStr, 'Suggest Title', (text) => {
-      showToast(`Suggested Title: ${text}`, 'success');
+      if (!text) return;
+      const titles = text.split('|').map(t => t.trim()).filter(Boolean);
+      const chosen = titles[0] || text;
+      useResumeStore.setState((s) => {
+        s.resume.title = chosen;
+        s.isDirty = true;
+      });
+      showToast(`Updated resume title to: ${chosen}`, 'success');
     });
   };
 

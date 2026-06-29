@@ -24,17 +24,18 @@ function getTitle(pathname: string) {
 export default function StudentLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isSidebarOpen = useUIStore((state) => state.isSidebarOpen);
+  const isEditor = pathname.includes('/editor');
 
   return (
     <div className="min-h-screen bg-background">
       <StudentSidebar />
-      <div className={isSidebarOpen ? 'md:pl-60 transition-all duration-200' : 'md:pl-16 transition-all duration-200'}>
-        <TopBar title={getTitle(pathname)} />
-        <main className="surface-grid min-h-[calc(100vh-56px)] pb-20 md:pb-0">
-          <div className="page-enter">{children}</div>
+      <div className={isSidebarOpen ? 'md:pl-64 transition-all duration-200' : 'md:pl-20 transition-all duration-200'}>
+        {!isEditor && <TopBar title={getTitle(pathname)} />}
+        <main className={`surface-grid pb-20 md:pb-0 ${isEditor ? 'h-screen' : 'min-h-[calc(100vh-56px)]'}`}>
+          <div className={`page-enter ${isEditor ? 'h-full' : ''}`}>{children}</div>
         </main>
       </div>
-      <MobileTabBar />
+      {!isEditor && <MobileTabBar />}
     </div>
   );
 }

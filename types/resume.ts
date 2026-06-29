@@ -22,6 +22,7 @@ export interface Education {
   startDate: string;
   endDate: string;
   cgpa?: string;
+  highlights?: string;
 }
 
 export interface WorkExperience {

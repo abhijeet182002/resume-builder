@@ -105,7 +105,12 @@ export function useResumeSync(resumeId?: string) {
         await fetch(`/api/resume/${resume.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sections: resumeWithSections.sections })
+          body: JSON.stringify({
+            title: resume.title,
+            status: resume.status,
+            completionScore: resume.completionScore,
+            sections: resumeWithSections.sections,
+          })
         });
         resetDirty();
       } catch {

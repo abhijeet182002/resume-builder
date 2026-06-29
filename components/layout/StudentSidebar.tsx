@@ -106,7 +106,7 @@ export function StudentSidebar() {
   return (
     <aside
       className={cn(
-        'hidden md:flex fixed left-0 top-0 z-90 h-screen flex-col overflow-hidden',
+        'hidden md:flex fixed left-0 top-0 z-50 h-screen flex-col overflow-hidden',
         'border-r border-white/10',
         'bg-[#07111F]/95 backdrop-blur-2xl',
         'shadow-[20px_0_60px_rgba(0,0,0,0.35)]',
@@ -285,16 +285,9 @@ export function StudentSidebar() {
       )}
 
       {/* Toggle Button */}
-      <motion.button
-        whileHover={{
-          scale: 1.1,
-          rotate: 180,
-        }}
-        whileTap={{
-          scale: 0.9,
-        }}
+      <button
         onClick={toggleSidebar}
-        className="absolute right-1 top-24 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+        className="absolute right-1 top-24 z-50 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition-all duration-200 hover:scale-105 active:scale-95"
         aria-label={
           isSidebarOpen
             ? 'Collapse sidebar'
@@ -306,7 +299,7 @@ export function StudentSidebar() {
         ) : (
           <ChevronRight className="h-4 w-4 text-slate-700" />
         )}
-      </motion.button>
+      </button>
     </aside>
   );
 }

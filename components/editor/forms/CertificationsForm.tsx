@@ -23,7 +23,26 @@ export function CertificationsForm() {
     const contextStr = `Role: ${primaryRole}, Skills: ${skillsList}`;
     
     trigger('suggest_certifications', contextStr, 'Suggest Certifications', (text) => {
-      showToast(`Suggested Certifications: ${text}`, 'success');
+      if (!text) return;
+      const certNames = text
+        .split(/,|\n/)
+        .map((c) => c.replace(/^\d+\.\s*/, '').replace(/^[-*•]\s*/, '').trim())
+        .filter(Boolean);
+
+      if (certNames.length > 0) {
+        const resumeStore = useResumeStore.getState();
+        const currentCerts = resumeStore.resume.certifications ?? [];
+        const newCerts = certNames.map(name => ({
+          id: crypto.randomUUID(),
+          name,
+          issuer: 'Suggested Organization',
+          date: new Date().getFullYear().toString(),
+        }));
+        resumeStore.updateSection('certifications', [...currentCerts, ...newCerts]);
+        showToast(`Added ${newCerts.length} suggested certifications to your resume!`, 'success');
+      } else {
+        showToast('No new certifications found in suggestions', 'info');
+      }
     });
   };
 

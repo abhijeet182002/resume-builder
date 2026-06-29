@@ -8,8 +8,61 @@ import { Button } from '@/components/ui/Button';
 import { Loader2, Check, X, Send, Sparkles } from 'lucide-react';
 import { useUIStore } from '@/store/uiStore';
 
+function formatMarkdown(text: string) {
+  if (!text) return '';
+  
+  // Escape HTML entities to prevent XSS
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Bold (**text**)
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Inline code (`code`)
+  html = html.replace(/`(.*?)`/g, '<code class="bg-slate-100 px-1 py-0.5 rounded text-xs font-mono">$1</code>');
+
+  // Bullet points and headers
+  const lines = html.split('\n');
+  let inList = false;
+  const processedLines = lines.map(line => {
+    const trimmed = line.trim();
+    let listSuffix = '';
+    
+    if (inList && !trimmed.startsWith('* ') && !trimmed.startsWith('- ') && !trimmed.startsWith('+ ')) {
+      inList = false;
+      listSuffix = '</ul>';
+    }
+
+    if (trimmed.startsWith('* ') || trimmed.startsWith('- ') || trimmed.startsWith('+ ')) {
+      const content = trimmed.substring(2);
+      let listPrefix = '';
+      if (!inList) {
+        inList = true;
+        listPrefix = '<ul class="list-disc pl-5 space-y-1 my-1">';
+      }
+      return `${listPrefix}<li class="text-xs leading-relaxed">${content}</li>`;
+    } else if (trimmed.startsWith('### ')) {
+      return `${listSuffix}<h4 class="text-xs font-bold mt-3 mb-1 text-slate-800">${trimmed.substring(4)}</h4>`;
+    } else if (trimmed.startsWith('## ')) {
+      return `${listSuffix}<h3 class="text-xs font-bold mt-3 mb-1 text-slate-800">${trimmed.substring(3)}</h3>`;
+    } else if (trimmed.startsWith('# ')) {
+      return `${listSuffix}<h2 class="text-xs font-bold mt-3 mb-1 text-slate-800">${trimmed.substring(2)}</h2>`;
+    } else {
+      return `${listSuffix}${line ? `<p class="my-1.5 leading-relaxed text-xs">${line}</p>` : ''}`;
+    }
+  });
+
+  if (inList) {
+    processedLines.push('</ul>');
+  }
+
+  return processedLines.join('\n');
+}
+
 export function AIDrawer() {
-  const { messages, isOpen, context, close, addMessage, updateLastMessage, suggestion } = useAIStore();
+  const { messages, isOpen, context, close, addMessage, updateLastMessage, suggestion, onApply } = useAIStore();
   const { accept, discard } = useAIAction();
   const resume = useResumeStore((s) => s.resume);
   const showToast = useUIStore((s) => s.showToast);
@@ -85,8 +138,9 @@ export function AIDrawer() {
       onClose={close}
       title={context ? `AI Assistant — ${context.replace('_', ' ').toUpperCase()}` : 'AI Assistant'}
       side="right"
+      hideBackdrop={true}
     >
-      <div className="flex flex-col h-full bg-slate-50">
+      <div className="flex flex-col h-full bg-slate-50 font-chat antialiased">
         {/* Messages List Area */}
         <div className="flex-1 p-4 overflow-y-auto space-y-4">
           {messages.length === 0 ? (
@@ -104,10 +158,10 @@ export function AIDrawer() {
                 className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
+                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs shadow-sm ${
                     msg.sender === 'user'
                       ? 'bg-primary-DEFAULT text-white rounded-tr-none'
-                      : 'bg-white text-slate-800 border border-slate-150 rounded-tl-none leading-relaxed whitespace-pre-wrap'
+                      : 'bg-white text-slate-800 border border-slate-150 rounded-tl-none leading-relaxed font-chat'
                   }`}
                 >
                   {msg.text === '' && chatLoading && index === messages.length - 1 ? (
@@ -115,6 +169,8 @@ export function AIDrawer() {
                       <Loader2 className="h-3.5 w-3.5 animate-spin text-primary-DEFAULT" />
                       <span className="text-xs text-slate-400 font-semibold">AI is typing...</span>
                     </div>
+                  ) : msg.sender === 'ai' ? (
+                    <div dangerouslySetInnerHTML={{ __html: formatMarkdown(msg.text) }} className="space-y-1.5" />
                   ) : (
                     msg.text
                   )}
@@ -129,8 +185,8 @@ export function AIDrawer() {
         </div>
 
         {/* Action Panel (Review & Apply suggestion) */}
-        {suggestion && (
-          <div className="bg-white border-t border-slate-150 p-4 shadow-lg flex flex-col gap-2">
+        {suggestion && onApply && (
+          <div className="bg-white border-t border-slate-150 p-4 shadow-lg flex flex-col gap-2 font-chat">
             <div className="flex items-start gap-2 bg-amber-50 border border-amber-100 p-2.5 rounded-xl text-xs text-amber-700 leading-normal">
               <span>💡 Review the latest suggestion. Click <strong>Apply</strong> to place it directly into your resume form.</span>
             </div>
@@ -138,7 +194,7 @@ export function AIDrawer() {
               <Button
                 variant="primary"
                 size="sm"
-                className="flex-1 shadow-sm flex items-center justify-center gap-1"
+                className="flex-1 shadow-sm flex items-center justify-center gap-1 font-chat"
                 onClick={accept}
               >
                 <Check className="h-4 w-4" />
@@ -147,7 +203,7 @@ export function AIDrawer() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="border border-slate-200 text-slate-700"
+                className="border border-slate-200 text-slate-700 font-chat"
                 onClick={discard}
               >
                 <X className="h-4 w-4" />
@@ -164,7 +220,7 @@ export function AIDrawer() {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             placeholder="Rewrite this section to highlight Python..."
-            className="flex-1 text-xs px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:border-primary-DEFAULT"
+            className="flex-1 text-xs px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:border-primary-DEFAULT font-chat"
             disabled={chatLoading}
           />
           <button
