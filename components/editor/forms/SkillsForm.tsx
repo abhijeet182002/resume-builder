@@ -164,7 +164,7 @@ export function SkillsForm() {
           size="md"
           onClick={handleAISuggestSkills}
           loading={isLoading}
-          className="flex-1 border border-blue-200 bg-blue-50 text-primary-DEFAULT hover:bg-blue-100 flex items-center justify-center gap-2"
+          className="flex-1 border border-blue-200 bg-blue-50 text-primary-DEFAULT hover:bg-blue-500 flex items-center justify-center gap-2"
         >
           <Sparkles className="h-4 w-4" /> Suggest Skills with AI
         </Button>
@@ -175,7 +175,7 @@ export function SkillsForm() {
             size="md"
             onClick={handleCategoriseSkills}
             loading={isLoading}
-            className="flex-1 border border-cyan-200 bg-cyan-50 text-[#0e7490] hover:bg-cyan-100 flex items-center justify-center gap-2"
+            className="flex-1 border border-cyan-200 bg-cyan-50 text-[#0e7490] hover:bg-cyan-500 flex items-center justify-center gap-2"
           >
             <Sparkles className="h-4 w-4" /> Categorise Skills with AI
           </Button>

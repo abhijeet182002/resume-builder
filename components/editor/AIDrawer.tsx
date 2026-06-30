@@ -152,34 +152,42 @@ export function AIDrawer() {
               </p>
             </div>
           ) : (
-            messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs shadow-sm ${
-                    msg.sender === 'user'
-                      ? 'bg-primary-DEFAULT text-white rounded-tr-none'
-                      : 'bg-white text-slate-800 border border-slate-150 rounded-tl-none leading-relaxed font-chat'
-                  }`}
-                >
-                  {msg.text === '' && chatLoading && index === messages.length - 1 ? (
-                    <div className="flex items-center gap-1.5 py-1">
-                      <Loader2 className="h-3.5 w-3.5 animate-spin text-primary-DEFAULT" />
-                      <span className="text-xs text-slate-400 font-semibold">AI is typing...</span>
-                    </div>
-                  ) : msg.sender === 'ai' ? (
-                    <div dangerouslySetInnerHTML={{ __html: formatMarkdown(msg.text) }} className="space-y-1.5" />
-                  ) : (
-                    msg.text
-                  )}
-                </div>
-                <span className="text-[9px] text-slate-400 mt-1 uppercase font-bold tracking-wider px-1">
-                  {msg.sender === 'user' ? 'You' : 'AI Assistant'}
-                </span>
-              </div>
-            ))
+         messages.map((msg, index) => (
+  <div
+    key={index}
+    className={`flex flex-col w-full ${
+      msg.sender === "user" ? "items-end" : "items-start"
+    }`}
+  >
+    <div
+      className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs shadow-sm ${
+        msg.sender === "user"
+          ? "bg-white text-slate-800 border border-slate-200 rounded-tr-none"
+          : "bg-sky-100 text-slate-800 border border-sky-200 rounded-tl-none leading-relaxed font-chat"
+      }`}
+    >
+      {msg.text === "" && chatLoading && index === messages.length - 1 ? (
+        <div className="flex items-center gap-1.5 py-1">
+          <Loader2 className="h-3.5 w-3.5 animate-spin text-sky-600" />
+          <span className="text-xs text-slate-500 font-semibold">
+            AI is typing...
+          </span>
+        </div>
+      ) : msg.sender === "ai" ? (
+        <div
+          dangerouslySetInnerHTML={{ __html: formatMarkdown(msg.text) }}
+          className="space-y-1.5"
+        />
+      ) : (
+        msg.text
+      )}
+    </div>
+
+    <span className="text-[9px] text-slate-400 mt-1 uppercase font-bold tracking-wider px-1">
+      {msg.sender === "user" ? "You" : "AI Assistant"}
+    </span>
+  </div>
+))
           )}
           <div ref={messagesEndRef} />
         </div>
@@ -226,7 +234,7 @@ export function AIDrawer() {
           <button
             type="submit"
             disabled={chatLoading || !inputMessage.trim()}
-            className="h-10 w-10 flex items-center justify-center bg-primary-DEFAULT hover:bg-primary-dark text-white rounded-xl shadow-md transition disabled:opacity-50"
+            className="h-10 w-10 flex items-center justify-center bg-green-500 hover:bg-green-700 text-white rounded-xl shadow-md transition disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
           </button>

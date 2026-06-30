@@ -30,21 +30,22 @@ export function SectionNavigator({ horizontal = false }: SectionNavigatorProps) 
               const isActive = activeSection === key;
               return (
                 <button
-                  key={key}
-                  onClick={() => setActiveSection(key as SectionKey)}
-                  className={cn(
-                    'flex items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm font-bold transition-all duration-200',
-                    horizontal ? 'shrink-0' : 'w-full',
-                    isActive
-                      ? 'bg-gradient-to-r from-primary-DEFAULT to-accent-cyan text-white shadow-[0_10px_24px_rgba(59,73,223,0.24)]'
-                      : horizontal
-                        ? 'bg-[#EAF3FF] text-[#45607F] hover:bg-[#DDEBFF] hover:text-primary-DEFAULT'
-                        : 'text-[#45607F] hover:bg-[#EAF3FF] hover:text-primary-DEFAULT hover:translate-x-0.5'
-                  )}
-                >
-                  {Icon && <Icon className="h-4 w-4 shrink-0" />}
-                  <span>{label}</span>
-                </button>
+  key={key}
+  onClick={() => setActiveSection(key as SectionKey)}
+  className={cn(
+    "flex items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-all duration-300",
+    horizontal ? "shrink-0" : "w-full",
+
+    isActive
+      ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg scale-[1.02]"
+      : horizontal
+      ? "bg-white text-slate-600 hover:bg-violet-50 hover:text-violet-600"
+      : "text-slate-600 hover:bg-violet-50 hover:text-violet-600"
+  )}
+>
+  {Icon && <Icon className="h-4 w-4 shrink-0" />}
+  <span>{label}</span>
+</button>
               );
             })}
           </nav>

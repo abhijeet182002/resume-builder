@@ -69,7 +69,7 @@ export function InsightPanel() {
               <Button
                 variant="secondary"
                 size="sm"
-                className="mt-3 w-full bg-[#EAF3FF] text-[#10233F] hover:bg-primary-DEFAULT hover:text-white"
+                className="mt-3 w-full bg-[#EAF3FF] text-[#10233F] hover:bg-primary-DEFAULT hover:text-black"
                 loading={isAnalyzing}
                 onClick={() => analyze()}
               >

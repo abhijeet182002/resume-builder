@@ -80,7 +80,7 @@ export function SummaryForm() {
           size="sm"
           onClick={handleGenerate}
           disabled={isLoading}
-          className="border border-blue-200 bg-blue-50 text-primary-DEFAULT hover:bg-blue-100 flex items-center gap-1.5 shadow-sm"
+          className="border border-blue-500 bg-blue-50 hover:bg-blue-100 hover:text-black flex items-center gap-1.5 shadow-sm"
         >
           <Sparkles className="h-4 w-4" />
           Generate with AI

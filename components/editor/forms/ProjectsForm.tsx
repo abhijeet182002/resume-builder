@@ -121,7 +121,12 @@ export function ProjectsForm() {
         </div>
       ))}
 
-      <Button variant="primary" size="md" onClick={addProject} className="w-full">
+      <Button variant="primary" size="md" onClick={addProject} className="w-full bg-gradient-to-r from-blue-600 to-blue-600
+      hover:from-blue-700 hover:to-blue-700
+      text-white font-semibold rounded-lg
+      shadow-md hover:shadow-lg
+      border border-blue-700
+      transition-all duration-200">
         <Plus className="h-4 w-4 mr-2" /> Add Project
       </Button>
     </div>

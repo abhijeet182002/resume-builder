@@ -133,23 +133,38 @@ export function CertificationsForm() {
       })}
 
       <div className="flex gap-3">
-        <Button
-          variant="secondary"
-          size="md"
-          onClick={handleSuggestCertifications}
-          loading={isLoading}
-          className="flex-1 flex items-center justify-center gap-2
-bg-gradient-to-r from-violet-600 to-indigo-600
-hover:from-violet-700 hover:to-indigo-700
-text-white font-semibold rounded-lg
-shadow-md hover:shadow-lg
-transition-all duration-200"        >
-          <Sparkles className="h-4 w-4" /> AI Suggest Certifications
-        </Button>
-        <Button variant="primary" size="md" onClick={addCertification} className="flex-1">
-          <Plus className="h-4 w-4 mr-2" /> Add Certification
-        </Button>
-      </div>
+  <Button
+    size="md"
+    onClick={handleSuggestCertifications}
+    loading={isLoading}
+    className="flex-1 flex items-center justify-center gap-2
+      bg-gradient-to-r from-violet-600 to-indigo-600
+      hover:from-violet-700 hover:to-indigo-700
+      text-white font-semibold rounded-lg
+      shadow-md hover:shadow-lg
+      border border-violet-700
+      transition-all duration-200"
+  >
+    <Sparkles className="h-4 w-4" />
+    AI Suggest Certifications
+  </Button>
+
+  <Button
+    variant="primary"
+    size="md"
+    onClick={addCertification}
+    className="flex-1 flex items-center justify-center gap-2
+      bg-gradient-to-r from-green-400 to-green-600
+      hover:from-green-700 hover:to-green-700
+      text-white font-semibold rounded-lg
+      shadow-md hover:shadow-lg
+      border border-green-500
+      transition-all duration-200"
+  >
+    <Plus className="h-4 w-4 mr-2" />
+    Add Certification
+  </Button>
+</div>
     </div>
   );
 }
