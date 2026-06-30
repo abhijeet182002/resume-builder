@@ -148,7 +148,7 @@ export function SkillsForm() {
               <button
                 key={s}
                 onClick={() => handleAddSuggestedSkill(s)}
-                className="inline-flex items-center gap-1 px-2.5 py-1 border border-border rounded-full text-xs text-text-secondary hover:border-primary-DEFAULT hover:text-primary-DEFAULT hover:bg-blue-50 transition-all"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition-colors"
               >
                 <Plus className="h-2.5 w-2.5" />
                 {s}

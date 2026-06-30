@@ -70,14 +70,14 @@ export function ProjectsForm() {
               placeholder="Describe what you built, technologies used, and impact..."
               rows={4}
             />
-            <button
-              onClick={() => handleEnhance(proj.id, proj.description)}
-              title="Enhance Description with AI"
-              className="absolute right-2 bottom-2 flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 border border-blue-200 text-primary-DEFAULT hover:bg-blue-100 rounded-lg text-xs font-semibold shadow-sm transition"
-            >
-              <Sparkles className="h-3.5 w-3.5" />
-              AI Enhance
-            </button>
+<button
+  onClick={() => handleEnhance(proj.id, proj.description)}
+  title="Enhance Description with AI"
+  className="absolute right-2 bottom-2 flex items-center gap-1.5 px-3 py-1.5 bg-white/90 backdrop-blur border border-violet-200 text-violet-700 hover:bg-violet-50 rounded-lg text-xs font-semibold shadow-md transition-all duration-200"
+>
+  <Sparkles className="h-3.5 w-3.5" />
+  AI Enhance
+</button>
           </div>
 
           <div>

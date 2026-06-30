@@ -21,7 +21,7 @@ export function CertificationsForm() {
     const primaryRole = resume.experience[0]?.role || 'Software Engineer';
     const skillsList = resume.skills?.join(', ') || '';
     const contextStr = `Role: ${primaryRole}, Skills: ${skillsList}`;
-    
+
     trigger('suggest_certifications', contextStr, 'Suggest Certifications', (text) => {
       if (!text) return;
       const certNames = text
@@ -138,8 +138,12 @@ export function CertificationsForm() {
           size="md"
           onClick={handleSuggestCertifications}
           loading={isLoading}
-          className="flex-1 border border-blue-200 bg-blue-50 text-primary-DEFAULT hover:bg-blue-100 flex items-center justify-center gap-2 font-semibold"
-        >
+          className="flex-1 flex items-center justify-center gap-2
+bg-gradient-to-r from-violet-600 to-indigo-600
+hover:from-violet-700 hover:to-indigo-700
+text-white font-semibold rounded-lg
+shadow-md hover:shadow-lg
+transition-all duration-200"        >
           <Sparkles className="h-4 w-4" /> AI Suggest Certifications
         </Button>
         <Button variant="primary" size="md" onClick={addCertification} className="flex-1">

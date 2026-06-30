@@ -93,7 +93,7 @@ export function EducationForm() {
                 size="sm"
                 onClick={() => handleSuggestHighlights(edu)}
                 loading={isLoading}
-                className="border border-blue-200 bg-blue-50 text-primary-DEFAULT hover:bg-blue-100 flex items-center gap-1.5 text-xs font-semibold"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition-colors"
               >
                 <Sparkles className="h-3.5 w-3.5" />
                 AI Suggest Highlights & Coursework
@@ -104,7 +104,7 @@ export function EducationForm() {
       ))}
 
       <Button variant="primary" size="md" onClick={addEducation} className="w-full">
-        <Plus className="h-4 w-4 mr-2" /> Add Education
+        <Plus className="h-4 w-4 mr-2 bg-green-300" /> Add Education
       </Button>
     </div>
   );
