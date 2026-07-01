@@ -327,7 +327,7 @@ export default function OfficerDashboardPage() {
             <Button type="button" variant="ghost" onClick={() => setShowAddModal(false)}>
               Cancel
             </Button>
-            <Button type="submit" loading={formLoading}>
+            <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition-colors" loading={formLoading}>
               Create Student
             </Button>
           </div>

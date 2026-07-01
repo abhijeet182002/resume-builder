@@ -14,15 +14,22 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+type OfficerSidebarProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 const navItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: BarChart3 },
   { href: '/admin/students-details', label: 'Students', icon: BarChart3 },
   { href: '/admin/job-details', label: 'Matched Jobs', icon: BarChart3 },
 ];
 
-export function OfficerSidebar() {
+export function OfficerSidebar({
+  open,
+  setOpen,
+}: OfficerSidebarProps) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
 
   return (
     <>

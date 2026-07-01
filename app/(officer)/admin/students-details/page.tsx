@@ -111,64 +111,66 @@ export default function StudentsTablePage() {
       </div>
 
       {/* TABLE */}
-      <div className="bg-white rounded-2xl shadow overflow-hidden">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-blue-100">
-            <tr>
-              <th className="p-4">Name</th>
-              <th>Reg</th>
-              <th>Email</th>
-              <th>Course</th>
-              <th>ATS %</th>
-              <th>Profile</th>
-              <th>Updated</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+<div className="bg-white rounded-2xl shadow overflow-hidden">
 
-          <tbody>
-            {paginatedStudents.map((student) => (
-              <tr key={student.id} className="border-t hover:bg-gray-50">
-                <td className="p-4 font-medium">{student.name}</td>
-                <td>{student.reg}</td>
-                <td>{student.email}</td>
-                <td>{student.course}</td>
-                <td>
-                  <span
-                    className={`px-2 py-1 rounded text-xs ${
-                      student.ats >= 70
-                        ? 'bg-green-100 text-green-600'
-                        : student.ats >= 40
-                        ? 'bg-yellow-100 text-yellow-600'
-                        : 'bg-red-100 text-red-600'
-                    }`}
-                  >
-                    {student.ats}%
-                  </span>
-                </td>
-                <td>
-                  {student.profileComplete ? '✅' : '❌'}
-                </td>
-                <td>{student.updatedAt}</td>
-                <td>
-                  <button
-                    onClick={() => setSelectedStudent(student)}
-                    className="text-blue-600 flex items-center gap-1"
-                  >
-                    <Eye size={16} /> View
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  {/* scroll wrapper */}
+  <div className="overflow-x-auto">
+    <table className="w-full min-w-[900px] text-left text-sm">
+      <thead className="bg-blue-100">
+        <tr>
+          <th className="p-4">Name</th>
+          <th>Reg</th>
+          <th>Email</th>
+          <th>Course</th>
+          <th>ATS %</th>
+          <th>Profile</th>
+          <th>Updated</th>
+          <th>Action</th>
+        </tr>
+      </thead>
 
-        {paginatedStudents.length === 0 && (
-          <p className="p-4 text-center text-gray-400">
-            No data found
-          </p>
-        )}
-      </div>
+      <tbody>
+        {paginatedStudents.map((student) => (
+          <tr key={student.id} className="border-t hover:bg-gray-50">
+            <td className="p-4 font-medium">{student.name}</td>
+            <td>{student.reg}</td>
+            <td>{student.email}</td>
+            <td>{student.course}</td>
+            <td>
+              <span
+                className={`px-2 py-1 rounded text-xs ${
+                  student.ats >= 70
+                    ? 'bg-green-100 text-green-600'
+                    : student.ats >= 40
+                    ? 'bg-yellow-100 text-yellow-600'
+                    : 'bg-red-100 text-red-600'
+                }`}
+              >
+                {student.ats}%
+              </span>
+            </td>
+            <td>{student.profileComplete ? '✅' : '❌'}</td>
+            <td>{student.updatedAt}</td>
+            <td>
+              <button
+                onClick={() => setSelectedStudent(student)}
+                className="text-blue-600 flex items-center gap-1"
+              >
+                <Eye size={16} /> View
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {paginatedStudents.length === 0 && (
+    <p className="p-4 text-center text-gray-400">
+      No data found
+    </p>
+  )}
+</div>
 
       {/* PAGINATION */}
       <div className="flex justify-center mt-6 gap-2">
@@ -190,7 +192,7 @@ export default function StudentsTablePage() {
       {/* MODAL */}
       {selectedStudent && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl w-[350px] relative">
+          <div className="bg-white p-6 rounded-xl w-[350px] absolute top-100">
             <button
               onClick={() => setSelectedStudent(null)}
               className="absolute right-3 top-3"

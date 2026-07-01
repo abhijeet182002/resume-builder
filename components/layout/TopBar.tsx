@@ -172,158 +172,197 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
 
   if (resumeId) {
     return (
-      <header className={cn("h-14 border-b bg-white flex items-center justify-between px-4 shrink-0", className)}>
-        <div className="flex items-center gap-4">
-          {/* Resume Switcher Dropdown */}
-          <div className="relative" ref={resumeDropdownRef}>
-            <button
-              onClick={() => setShowResumeDropdown(!showResumeDropdown)}
-              className="flex items-center gap-2 px-3 py-1.5 border border-slate-200 hover:border-slate-300 rounded-lg text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 transition-all shadow-sm"
-            >
-              <Briefcase className="h-4 w-4 text-blue-600" />
-              <span>{activeResumeTitle}</span>
-              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
-            </button>
-            {showResumeDropdown && (
-              <div className="absolute left-0 mt-1.5 w-60 rounded-xl bg-white shadow-xl border border-slate-100 py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-50">
-                  Switch Resume
-                </div>
-                {resumesList.length === 0 ? (
-                  <div className="px-3 py-3 text-xs text-slate-400 italic">No resumes found.</div>
-                ) : (
-                  resumesList.map((resItem) => {
-                    const isCurrent = resItem.id === resumeId;
-                    return (
-                      <button
-                        key={resItem.id}
-                        onClick={() => handleSwitchResume(resItem.id)}
-                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-50 transition-colors ${
-                          isCurrent ? 'bg-blue-50/50 text-blue-700 font-semibold' : 'text-slate-700'
-                        }`}
-                      >
-                        <span className="truncate">{resItem.title}</span>
-                        {isCurrent && <Check className="h-3.5 w-3.5 text-blue-600 shrink-0" />}
-                      </button>
-                    );
-                  })
-                )}
-              </div>
-            )}
-          </div>
+    <header
+  className={cn(
+    "border-b bg-white shrink-0",
+    "flex flex-col sm:flex-row",
+    "items-start sm:items-center",
+    "justify-between",
+    "gap-3 sm:gap-4",
+    "px-4 py-3 sm:h-14 sm:py-0",
+    className
+  )}
+>
+  {/* Status */}
+  <span className="text-xs sm:text-sm text-gray-500 font-medium">
+    {sync.isSaving
+      ? "Saving..."
+      : sync.isDirty
+      ? "Unsaved changes"
+      : "All changes saved"}
+  </span>
 
-          <span className="text-xs text-slate-400 font-medium">
-            {sync.isSaving ? 'Saving...' : sync.isDirty ? 'Unsaved changes' : 'All changes saved'}
+  {/* Right Side */}
+  <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+
+    {/* Notifications */}
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => {
+          setShowNotifications(!showNotifications);
+          if (!showNotifications) fetchNotifications();
+        }}
+        className="relative p-2 rounded-lg hover:bg-blue-50 transition"
+      >
+        <Bell className="h-5 w-5 text-gray-600" />
+
+        {unreadCount > 0 && (
+          <span className="absolute top-1 right-1 flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 animate-ping" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
           </span>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Notifications Bell for Editor Mode */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => {
-                setShowNotifications(!showNotifications)
-                if (!showNotifications) fetchNotifications()
-              }}
-              className="relative p-2 rounded-lg transition-all hover:bg-blue-50 hover:scale-105"
-            >
-              <Bell className="h-5 w-5 text-gray-600" />
-              {unreadCount > 0 && (
-                <span className="absolute top-1 right-1 flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                </span>
-              )}
-            </button>
+        )}
+      </button>
 
-            {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-white shadow-2xl border border-slate-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                  <span className="text-xs font-bold text-slate-800">Notifications</span>
-                  {unreadCount > 0 && (
-                    <button
-                      onClick={markAllAsRead}
-                      className="text-[10px] font-semibold text-primary-DEFAULT hover:underline"
-                    >
-                      Mark all as read
-                    </button>
-                  )}
-                </div>
+      {showNotifications && (
+        <div
+          className="
+            absolute right-0 mt-2
+            w-[92vw] max-w-[340px]
+            sm:w-80
+            rounded-2xl
+            bg-white
+            shadow-2xl
+            border
+            border-slate-100
+            overflow-hidden
+            z-50
+          "
+        >
+          <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+            <span className="text-xs font-bold">
+              Notifications
+            </span>
 
-                <div className="max-h-64 overflow-y-auto divide-y divide-slate-50">
-                  {notifications.length > 0 ? (
-                    notifications.map((n) => (
-                      <div
-                        key={n.id}
-                        onClick={() => {
-                          if (!n.isRead) markAsRead(n.id)
-                        }}
-                        className={cn(
-                          "p-3.5 flex items-start gap-2.5 transition cursor-pointer text-left",
-                          n.isRead ? "bg-white hover:bg-slate-50" : "bg-blue-50/40 hover:bg-blue-50/70"
-                        )}
-                      >
-                        <div className={cn(
-                          "w-2 h-2 rounded-full mt-1.5 shrink-0",
-                          n.isRead ? "bg-slate-200" : "bg-primary-DEFAULT"
-                        )} />
-                        <div className="min-w-0 flex-1">
-                          <p className={cn("text-xs leading-snug text-slate-800", !n.isRead && "font-bold")}>
-                            {n.type ? n.type.toUpperCase() : 'NOTIFICATION'}
-                          </p>
-                          <p className="text-[10px] text-slate-500 mt-0.5 leading-relaxed">
-                            {n.message}
-                          </p>
-                          <span className="text-[9px] text-slate-400 mt-1 block">
-                            {formatTimeAgo(n.createdAt)}
-                          </span>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="p-8 text-center text-slate-400 text-xs italic">
-                      No notifications yet.
-                    </div>
-                  )}
-                </div>
-              </div>
+            {unreadCount > 0 && (
+              <button
+                onClick={markAllAsRead}
+                className="text-[10px] text-blue-600 font-semibold"
+              >
+                Mark all as read
+              </button>
             )}
           </div>
 
-          <div className="h-6 w-px bg-slate-200" />
+          <div className="max-h-64 overflow-y-auto divide-y">
+            {notifications.length > 0 ? (
+              notifications.map((n) => (
+                <div
+                  key={n.id}
+                  onClick={() => !n.isRead && markAsRead(n.id)}
+                  className={cn(
+                    "p-3 flex gap-2 cursor-pointer transition",
+                    n.isRead
+                      ? "hover:bg-gray-50"
+                      : "bg-blue-50 hover:bg-blue-100"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "w-2 h-2 rounded-full mt-1.5",
+                      n.isRead
+                        ? "bg-gray-300"
+                        : "bg-blue-600"
+                    )}
+                  />
 
-          <button 
-            onClick={() => {
-              if (aiIsOpen) {
-                aiClose()
-              } else {
-                aiOpen('', 'General Chat')
-              }
-            }} 
-            className={cn(
-              "px-4 py-2 flex items-center gap-1.5 border rounded-lg hover:bg-slate-50 transition text-sm font-semibold",
-              aiIsOpen ? "bg-blue-50 border-blue-200 text-primary-DEFAULT" : "border-slate-200 text-slate-700"
+                  <div className="flex-1">
+                    <p
+                      className={cn(
+                        "text-xs",
+                        !n.isRead && "font-bold"
+                      )}
+                    >
+                      {n.type
+                        ? n.type.toUpperCase()
+                        : "NOTIFICATION"}
+                    </p>
+
+                    <p className="text-[10px] text-gray-500 mt-1">
+                      {n.message}
+                    </p>
+
+                    <span className="text-[9px] text-gray-400">
+                      {formatTimeAgo(n.createdAt)}
+                    </span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-6 text-center text-xs text-gray-400">
+                No notifications yet.
+              </div>
             )}
-          >
-            <Sparkles className="h-4 w-4 text-primary-DEFAULT" />
-            AI Assistant
-          </button>
-
-          <button 
-            onClick={sync.save} 
-            disabled={sync.isSaving || !sync.isDirty} 
-            className="px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition text-sm font-semibold disabled:opacity-50"
-          >
-            Save
-          </button>
-          <button 
-            onClick={handleDownload} 
-            disabled={isDownloading} 
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-semibold disabled:opacity-50"
-          >
-            {isDownloading ? 'Downloading...' : 'Download PDF'}
-          </button>
+          </div>
         </div>
-      </header>
+      )}
+    </div>
+
+    {/* Divider */}
+    <div className="hidden sm:block h-6 w-px bg-slate-200" />
+
+    {/* AI Button */}
+    <button
+      onClick={() => {
+        aiIsOpen ? aiClose() : aiOpen("", "General Chat");
+      }}
+      className={cn(
+        "flex items-center justify-center gap-2",
+        "px-3 py-2",
+        "rounded-lg border",
+        "text-xs sm:text-sm",
+        "font-semibold",
+        "whitespace-nowrap",
+        aiIsOpen
+          ? "bg-blue-50 border-blue-200 text-blue-600"
+          : "border-slate-200 hover:bg-slate-50"
+      )}
+    >
+      <Sparkles className="h-4 w-4" />
+      AI Assistant
+    </button>
+
+    {/* Save */}
+    <button
+      onClick={sync.save}
+      disabled={sync.isSaving || !sync.isDirty}
+      className="
+        px-3 sm:px-4
+        py-2
+        rounded-lg
+        border
+        border-slate-200
+        hover:bg-slate-50
+        text-xs sm:text-sm
+        font-semibold
+        disabled:opacity-50
+      "
+    >
+      Save
+    </button>
+
+    {/* Download */}
+    <button
+      onClick={handleDownload}
+      disabled={isDownloading}
+      className="
+        px-3 sm:px-4
+        py-2
+        rounded-lg
+        bg-blue-600
+        hover:bg-blue-700
+        text-white
+        text-xs sm:text-sm
+        font-semibold
+        disabled:opacity-50
+      "
+    >
+      {isDownloading
+        ? "Downloading..."
+        : "Download PDF"}
+    </button>
+  </div>
+</header>
     )
   }
 
