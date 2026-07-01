@@ -2,15 +2,27 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { ATSResult } from '@/types/ats'
 
+export interface JobDescriptionHistoryItem {
+  id: string
+  title: string
+  text: string
+  timestamp: string
+}
+
 interface ATSState {
   result: ATSResult | null
   jobDescription: string
   isAnalyzing: boolean
   error: string | null
+  history: JobDescriptionHistoryItem[]
+  activeTitle: string | null
   setJobDescription: (jd: string) => void
   setResult: (r: any) => void
   setAnalyzing: (v: boolean) => void
   setError: (e: string | null) => void
+  addHistory: (text: string) => void
+  setActiveTitle: (title: string | null) => void
+  clearHistory: () => void
   reset: () => void
 }
 
@@ -21,6 +33,8 @@ export const useATSStore = create<ATSState>()(
       jobDescription: '',
       isAnalyzing: false,
       error: null,
+      history: [],
+      activeTitle: null,
 
       setJobDescription: (jd) => set({ jobDescription: jd }),
       setResult: (r) => set((state) => {
@@ -62,7 +76,46 @@ export const useATSStore = create<ATSState>()(
       }),
       setAnalyzing: (v) => set({ isAnalyzing: v }),
       setError: (e) => set({ error: e, isAnalyzing: false }),
-      reset: () => set({ result: null, jobDescription: '', error: null }),
+      setActiveTitle: (title) => set({ activeTitle: title }),
+      addHistory: (text) => set((state) => {
+        if (!text || !text.trim()) return {};
+        const normalizedText = text.trim();
+        
+        // Derive title from first line
+        const firstLine = normalizedText.split('\n')[0].trim();
+        const cleanTitle = firstLine.replace(/^[#\s\-*•◦▪]+/, '').trim();
+        const derivedTitle = cleanTitle.length > 45 
+          ? cleanTitle.substring(0, 42) + '...' 
+          : cleanTitle || 'Untitled Description';
+
+        // Check if identical description already exists
+        const existingIndex = state.history.findIndex((h) => h.text.trim() === normalizedText);
+        let updatedHistory = [...state.history];
+        
+        if (existingIndex >= 0) {
+          // Move existing to the top
+          const [item] = updatedHistory.splice(existingIndex, 1);
+          updatedHistory = [item, ...updatedHistory];
+        } else {
+          // Add new item
+          const newItem: JobDescriptionHistoryItem = {
+            id: Math.random().toString(36).substring(2, 11),
+            title: derivedTitle,
+            text: normalizedText,
+            timestamp: new Date().toLocaleDateString(undefined, {
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })
+          };
+          updatedHistory = [newItem, ...updatedHistory].slice(0, 10);
+        }
+
+        return { history: updatedHistory, activeTitle: derivedTitle };
+      }),
+      clearHistory: () => set({ history: [], activeTitle: null }),
+      reset: () => set({ result: null, jobDescription: '', error: null, activeTitle: null }),
     }),
     { name: 'ats-store' }
   )

@@ -25,7 +25,6 @@ export default function DashboardPage() {
     resumeCount: 0,
     latestAtsScore: 0,
     downloadCount: 0,
-    completionScore: 0,
   });
 
   useEffect(() => {
@@ -47,19 +46,18 @@ export default function DashboardPage() {
             resumeCount: data.resumeCount ?? 0,
             latestAtsScore: data.latestAtsScore ?? 0,
             downloadCount: data.downloadCount ?? 0,
-            completionScore: data.completionScore ?? 0,
           });
         }
       });
   }, []);
 
-  const deriveReadiness = (completion: number, ats: number) => {
-    if (completion >= 90 && ats >= 80) return 'Ready';
-    if (completion >= 50) return 'Getting There';
+  const deriveReadiness = (ats: number, resumeCount: number) => {
+    if (resumeCount > 0 && ats >= 80) return 'Ready';
+    if (resumeCount > 0) return 'Getting There';
     return 'Not Started';
   };
 
-  const readiness = deriveReadiness(stats.completionScore, stats.latestAtsScore);
+  const readiness = deriveReadiness(stats.latestAtsScore, stats.resumeCount);
 
   return (
     <motion.div
@@ -111,7 +109,7 @@ export default function DashboardPage() {
           className="relative mt-1 text-sm font-medium text-[#45607F]"
         >
           {stats.resumeCount > 0 
-            ? `Your latest resume is ${stats.completionScore}% complete. Keep going!`
+            ? `You have ${stats.resumeCount} resume${stats.resumeCount > 1 ? 's' : ''}. Open one to track completion!`
             : "Create or upload a resume to start building your placement profile!"}
         </motion.p>
       </motion.section>
@@ -124,10 +122,12 @@ export default function DashboardPage() {
         {[
           <MetricCard
             key="1"
-            title="Resume Completion"
-            value={stats.completionScore}
-            type="ring"
-            subtitle={`${stats.resumeCount} Resumes created`}
+            title="Total Resumes"
+            value={stats.resumeCount}
+            type="text"
+            badgeVariant="blue"
+            icon={<Clock className="h-5 w-5 text-blue-600" />}
+            subtitle="Resumes created"
           />,
           <MetricCard
             key="2"

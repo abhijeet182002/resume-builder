@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/authGuard'
 import { db } from '@/lib/db'
+import { calculateCompletion } from '@/lib/resumeUtils'
 
 export async function GET() {
   const { session, error } = await requireAuth()
@@ -28,21 +29,25 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json()
 
+  const sections = body.sections ?? {
+    personal: { fullName: session.name, email: session.email, phone: '', location: '', socials: {} },
+    summary: '',
+    education: [],
+    experience: [],
+    projects: [],
+    skills: [],
+    certifications: [],
+  }
+
+  const completionScore = calculateCompletion(sections)
+
   const resume = await db.resume.create({
     data: {
       userId: session.id,
       title: body.title ?? 'My Resume',
       status: 'DRAFT',
-      completionScore: 0,
-      sections: {
-        personal: { fullName: session.name, email: session.email, phone: '', location: '', socials: {} },
-        summary: '',
-        education: [],
-        experience: [],
-        projects: [],
-        skills: [],
-        certifications: [],
-      }
+      completionScore,
+      sections,
     },
   })
 

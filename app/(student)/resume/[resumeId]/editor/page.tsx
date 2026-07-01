@@ -21,16 +21,17 @@ export default function ResumeEditorPage() {
       .then(r => r.json())
       .then(({ resume }) => {
         if (resume) {
+          const sections = (resume.sections as any) || {}
           setResume({
             id: resume.id,
             title: resume.title,
-            personal: (resume.personal as any) ?? { fullName: '', email: '', phone: '', location: '' },
-            summary: resume.summary ?? '',
-            experience: (resume.experience as any[]) ?? [],
-            education: (resume.education as any[]) ?? [],
-            skills: (resume.skills as any[]) ?? [],
-            projects: (resume.projects as any[]) ?? [],
-            certifications: (resume.certifications as any[]) ?? [],
+            personal: (sections.personal as any) ?? { fullName: '', email: '', phone: '', location: '', socials: {} },
+            summary: sections.summary ?? '',
+            experience: (sections.experience as any[]) ?? [],
+            education: (sections.education as any[]) ?? [],
+            skills: (sections.skills as any[]) ?? [],
+            projects: (sections.projects as any[]) ?? [],
+            certifications: (sections.certifications as any[]) ?? [],
             completionScore: resume.completionScore,
             status: resume.status,
           })

@@ -202,7 +202,7 @@ export function AIDrawer() {
               <Button
                 variant="primary"
                 size="sm"
-                className="flex-1 shadow-sm flex items-center justify-center gap-1 font-chat"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition-colors"
                 onClick={accept}
               >
                 <Check className="h-4 w-4" />

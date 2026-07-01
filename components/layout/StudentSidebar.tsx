@@ -152,30 +152,6 @@ export function StudentSidebar() {
           </div>
         )}
       </div>
-
-      {/* Progress Card */}
-      {isSidebarOpen && (
-        <div className="mx-3 mt-4 rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400">
-              Resume Progress
-            </span>
-            <span className="text-sm font-bold text-white">
-              {progress}%
-            </span>
-          </div>
-
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 1 }}
-              className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
-            />
-          </div>
-        </div>
-      )}
-
       {/* Navigation */}
       <nav className="relative flex-1 space-y-2 overflow-y-auto px-3 py-5">
         {NAV_ITEMS.map(({ href, label, icon: Icon, disabled }) => {

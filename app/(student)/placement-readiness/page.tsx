@@ -16,6 +16,7 @@ import {
 import { Badge } from '@/components/ui/Badge';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { ScoreRing } from '@/components/ui/ScoreRing';
+import { calculateCompletion } from '@/lib/resumeUtils';
 
 export default function PlacementReadinessPage() {
   const [stats, setStats] = useState({
@@ -35,20 +36,30 @@ export default function PlacementReadinessPage() {
         let projectCount = 0;
         let skillCount = 0;
         let hasLinkedIn = false;
+        let completionScore = data.completionScore ?? 0;
         const resumeId = data.latestResumeId || null;
 
         if (data.latestResumeId) {
           const res2 = await fetch(`/api/resume/${data.latestResumeId}`);
           if (res2.ok) {
             const { resume } = await res2.json();
-            projectCount = resume.projects?.length ?? 0;
-            skillCount = Array.isArray(resume.skills) ? resume.skills.length : 0;
-            hasLinkedIn = !!resume.personal?.linkedIn;
+            const sections = resume.sections || {};
+            projectCount = sections.projects?.length ?? 0;
+            const rawSkills = sections.skills || [];
+            if (Array.isArray(rawSkills)) {
+              if (rawSkills.length > 0 && typeof rawSkills[0] === 'object') {
+                skillCount = rawSkills.reduce((acc: number, cat: any) => acc + (cat.skills?.length ?? 0), 0);
+              } else {
+                skillCount = rawSkills.length;
+              }
+            }
+            hasLinkedIn = !!(sections.personal?.socials?.linkedIn || sections.personal?.linkedIn);
+            completionScore = calculateCompletion(sections);
           }
         }
 
         setStats({
-          completionScore: data.completionScore ?? 0,
+          completionScore,
           latestAtsScore: data.latestAtsScore ?? 0,
           projectCount,
           skillCount,

@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/authGuard'
 import { db } from '@/lib/db'
 import { z } from 'zod'
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   const { session, error: authError } = await requireAuth()
   if (authError) return authError
 
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   const { session, error: authError } = await requireAuth('OFFICER')
   if (authError) return authError
 
@@ -38,7 +38,11 @@ export async function POST(req: NextRequest) {
 
     const parsed = createJobSchema.safeParse(body)
     if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
+      console.error('Validation failed for job requirement creation:', parsed.error.flatten());
+      const errors = Object.entries(parsed.error.flatten().fieldErrors)
+        .map(([field, msgs]) => `${field}: ${msgs?.join(', ')}`)
+        .join('; ');
+      return NextResponse.json({ error: `Validation failed: ${errors}` }, { status: 400 })
     }
 
     const { title, company, description, requiredSkills, deadline } = parsed.data
@@ -56,6 +60,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ data: job }, { status: 201 })
   } catch (err: any) {
+    console.error('Job Requirement creation error:', err);
     return NextResponse.json({ error: err.message || 'Failed to create job' }, { status: 500 })
   }
 }

@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Menu, Zap, LogOut } from 'lucide-react';
 import Image from "next/image";
 
 export function OfficerNavbar() {
+  const router = useRouter();
+
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex h-16 items-center justify-between 
     border-b border-white/40 
@@ -45,6 +48,12 @@ export function OfficerNavbar() {
 
         {/* LOGOUT BUTTON */}
         <button
+          onClick={async () => {
+            try {
+              await fetch('/api/auth/logout', { method: 'POST' });
+            } catch {}
+            router.push('/login');
+          }}
           className="group flex items-center gap-2 rounded-xl bg-red-50 px-4 py-2 text-xs font-bold text-red-600 
           transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white"
         >

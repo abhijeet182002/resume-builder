@@ -23,6 +23,13 @@ export async function GET() {
     },
   })
 
+  if (!user) {
+    const res = NextResponse.json({ error: 'User not found' }, { status: 401 })
+    res.cookies.set('token', '', { maxAge: 0, path: '/' })
+    res.cookies.set('session_token', '', { maxAge: 0, path: '/' })
+    return res
+  }
+
   return NextResponse.json({ user })
 }
 

@@ -35,6 +35,23 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ resu
   // Create a new jsPDF instance (standard portrait A4)
   const doc = new jsPDF()
 
+  // Embed resume structure in metadata for reliable future imports/parsers
+  const sectionsData = {
+    personal: sections.personal || {},
+    summary: sections.summary || '',
+    experience: sections.experience || [],
+    education: sections.education || [],
+    skills: sections.skills || [],
+    projects: sections.projects || [],
+    certifications: sections.certifications || [],
+  }
+  doc.setProperties({
+    title: targetResume.title || 'Resume',
+    subject: JSON.stringify(sectionsData),
+    keywords: 'resume-builder-data-v1',
+    creator: 'AI Resume Builder'
+  })
+
   // Build the layout dynamically (using simple coordinate spacing)
   let y = 20
   doc.setFontSize(22)
@@ -80,11 +97,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ resu
       if (exp.bullets && Array.isArray(exp.bullets)) {
         exp.bullets.forEach((bullet: string) => {
           if (bullet.trim()) {
-            if (y > 260) { doc.addPage(); y = 20; }
-            doc.setFontSize(10)
-            const splitBullet = doc.splitTextToSize(`• ${bullet}`, 165)
-            doc.text(splitBullet, 25, y)
-            y += splitBullet.length * 5
+            const cleaned = bullet.replace(/^[\s*•\-◦▪]+/g, '').trim()
+            if (cleaned) {
+              if (y > 260) { doc.addPage(); y = 20; }
+              doc.setFontSize(10)
+              const splitBullet = doc.splitTextToSize(`• ${cleaned}`, 165)
+              doc.text(splitBullet, 25, y)
+              y += splitBullet.length * 5
+            }
           }
         })
       }

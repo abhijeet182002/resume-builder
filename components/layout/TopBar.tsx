@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Bell, Menu, LogOut, LogIn, Sparkles } from 'lucide-react'
+import { Bell, LogOut, LogIn, Sparkles, Briefcase, ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
 import { useResumeSync } from '@/hooks/useResumeSync'
 import { useNotificationStore } from '@/store/notificationStore'
 import { useAIStore } from '@/store/aiStore'
+import { useResumeStore } from '@/store/resumeStore'
 
 interface TopBarProps {
   title?: string
@@ -32,6 +33,11 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
   const aiIsOpen = useAIStore(s => s.isOpen)
   const aiOpen = useAIStore(s => s.open)
   const aiClose = useAIStore(s => s.close)
+
+  // Resume switcher state
+  const [resumesList, setResumesList] = useState<{ id: string; title: string }[]>([])
+  const [showResumeDropdown, setShowResumeDropdown] = useState(false)
+  const resumeDropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchNotifications()
@@ -60,6 +66,40 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    if (!resumeId) return
+    fetch('/api/resume')
+      .then(res => res.json())
+      .then(data => {
+        if (data?.resumes) {
+          setResumesList(data.resumes)
+        }
+      })
+      .catch(() => {})
+  }, [resumeId])
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (resumeDropdownRef.current && !resumeDropdownRef.current.contains(event.target as Node)) {
+        setShowResumeDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleSwitchResume = (targetId: string) => {
+    setShowResumeDropdown(false)
+    if (targetId === resumeId) return
+    
+    const pathname = window.location.pathname
+    const newPath = pathname.replace(`/resume/${resumeId}`, `/resume/${targetId}`)
+    router.push(newPath)
+  }
+
+  const resumeStateTitle = useResumeStore(s => s.resume.title)
+  const activeResumeTitle = resumeStateTitle || resumesList.find(r => r.id === resumeId)?.title || 'My Resume'
+
   const unreadCount = notifications.filter(n => !n.isRead).length
 
   const handleDownload = async () => {
@@ -69,14 +109,52 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
       const element = document.getElementById('resume-preview-content')
       if (!element) throw new Error('Preview not found')
       
+      // Clone the element and reset the scale transform so it renders at 100% size for A4 conversion
+      const clonedElement = element.cloneNode(true) as HTMLElement
+      clonedElement.style.transform = 'none'
+      clonedElement.style.position = 'relative'
+      clonedElement.style.left = '0'
+      clonedElement.style.top = '0'
+
+      const worker = document.createElement('div')
+      worker.style.position = 'absolute'
+      worker.style.left = '-9999px'
+      worker.style.top = '-9999px'
+      worker.appendChild(clonedElement)
+      document.body.appendChild(worker)
+
       const fileName = `resume-${Date.now()}.pdf`
-      await html2pdf().set({
+       await html2pdf().set({
         margin: 0,
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      }).from(element).save()
+      })
+      .from(clonedElement)
+      .toPdf()
+      .get('pdf')
+      .then((pdf: any) => {
+        const resumeState = useResumeStore.getState().resume
+        const sectionsData = {
+          personal: resumeState.personal || {},
+          summary: resumeState.summary || '',
+          experience: resumeState.experience || [],
+          education: resumeState.education || [],
+          skills: resumeState.skills || [],
+          projects: resumeState.projects || [],
+          certifications: resumeState.certifications || [],
+        }
+        pdf.setProperties({
+          title: resumeState.title || 'Resume',
+          subject: JSON.stringify(sectionsData),
+          keywords: 'resume-builder-data-v1',
+          creator: 'AI Resume Builder'
+        })
+        pdf.save(fileName)
+      })
+
+      document.body.removeChild(worker)
 
       await fetch(`/api/resume/${resumeId}/download`, {
         method: 'POST',
@@ -85,7 +163,7 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
       })
       showToast('PDF downloaded!', 'success')
       fetchNotifications() // Refresh notifications list
-    } catch {
+    } catch (err) {
       showToast('Download failed', 'error')
     } finally {
       setIsDownloading(false)
@@ -95,9 +173,49 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
   if (resumeId) {
     return (
       <header className={cn("h-14 border-b bg-white flex items-center justify-between px-4 shrink-0", className)}>
-        <span className="text-sm text-gray-500 font-medium">
-          {sync.isSaving ? 'Saving...' : sync.isDirty ? 'Unsaved changes' : 'All changes saved'}
-        </span>
+        <div className="flex items-center gap-4">
+          {/* Resume Switcher Dropdown */}
+          <div className="relative" ref={resumeDropdownRef}>
+            <button
+              onClick={() => setShowResumeDropdown(!showResumeDropdown)}
+              className="flex items-center gap-2 px-3 py-1.5 border border-slate-200 hover:border-slate-300 rounded-lg text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 transition-all shadow-sm"
+            >
+              <Briefcase className="h-4 w-4 text-blue-600" />
+              <span>{activeResumeTitle}</span>
+              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+            </button>
+            {showResumeDropdown && (
+              <div className="absolute left-0 mt-1.5 w-60 rounded-xl bg-white shadow-xl border border-slate-100 py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-50">
+                  Switch Resume
+                </div>
+                {resumesList.length === 0 ? (
+                  <div className="px-3 py-3 text-xs text-slate-400 italic">No resumes found.</div>
+                ) : (
+                  resumesList.map((resItem) => {
+                    const isCurrent = resItem.id === resumeId;
+                    return (
+                      <button
+                        key={resItem.id}
+                        onClick={() => handleSwitchResume(resItem.id)}
+                        className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-50 transition-colors ${
+                          isCurrent ? 'bg-blue-50/50 text-blue-700 font-semibold' : 'text-slate-700'
+                        }`}
+                      >
+                        <span className="truncate">{resItem.title}</span>
+                        {isCurrent && <Check className="h-3.5 w-3.5 text-blue-600 shrink-0" />}
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+            )}
+          </div>
+
+          <span className="text-xs text-slate-400 font-medium">
+            {sync.isSaving ? 'Saving...' : sync.isDirty ? 'Unsaved changes' : 'All changes saved'}
+          </span>
+        </div>
         <div className="flex items-center gap-3">
           {/* Notifications Bell for Editor Mode */}
           <div className="relative" ref={dropdownRef}>
@@ -219,13 +337,6 @@ export function TopBar({ title, resumeId, className }: TopBarProps) {
       )}
     >
       <div className="flex items-center gap-3">
-        <button
-          onClick={() => {}}
-          className="md:hidden p-2 rounded-lg hover:bg-blue-50 transition"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
-
         <h1 className="text-lg font-bold text-gray-800 tracking-tight">
           {title}
         </h1>

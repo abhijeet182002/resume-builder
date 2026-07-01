@@ -181,7 +181,7 @@ export default function OfficerDashboardPage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <button
               onClick={() => setShowAddModal(true)}
-              className="group relative isolate inline-flex h-14 items-center justify-center gap-2 overflow-hidden px-5 rounded-[14px] bg-primary-DEFAULT text-white font-extrabold text-sm shadow-[0_1px_2px_rgba(15,23,42,0.08),0_10px_24px_rgba(59,73,223,0.24)] hover:bg-primary-dark transition-all duration-200 active:scale-[0.98]"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition-colors"
             >
               <UserPlus className="h-5 w-5" /> Add Student
             </button>

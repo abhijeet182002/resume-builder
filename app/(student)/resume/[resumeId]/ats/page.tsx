@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter, useParams } from 'next/navigation';
 import { ATSScoreOverview } from '@/components/ats/ATSScoreOverview';
@@ -16,7 +16,7 @@ import { useResumeStore } from '@/store/resumeStore';
 import { useAIAction } from '@/hooks/useAIAction';
 import { useUIStore } from '@/store/uiStore';
 import { useResumeSync } from '@/hooks/useResumeSync';
-import { Sparkles, ArrowRight, Loader2 } from 'lucide-react';
+import { Sparkles, ArrowRight, Loader2, Briefcase, History, ChevronDown, Check } from 'lucide-react';
 
 export default function ATSPage() {
   const router = useRouter();
@@ -32,22 +32,33 @@ export default function ATSPage() {
   const showToast = useUIStore((s) => s.showToast);
   const [fixingIndex, setFixingIndex] = useState<number | null>(null);
 
+  // Job description tracker & picker state
+  const [officialJobs, setOfficialJobs] = useState<any[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const history = useATSStore((s) => s.history);
+  const activeTitle = useATSStore((s) => s.activeTitle);
+  const addHistory = useATSStore((s) => s.addHistory);
+  const clearHistory = useATSStore((s) => s.clearHistory);
+
   useEffect(() => {
     if (!resumeId) return;
     fetch(`/api/resume/${resumeId}`)
       .then((r) => r.json())
       .then(({ resume }) => {
         if (resume) {
+          const sections = (resume.sections as any) || {};
           setResume({
             id: resume.id,
             title: resume.title,
-            personal: (resume.personal as any) ?? { fullName: '', email: '', phone: '', location: '', socials: {} },
-            summary: resume.summary ?? '',
-            experience: (resume.experience as any[]) ?? [],
-            education: (resume.education as any[]) ?? [],
-            skills: (resume.skills as any[]) ?? [],
-            projects: (resume.projects as any[]) ?? [],
-            certifications: (resume.certifications as any[]) ?? [],
+            personal: (sections.personal as any) ?? { fullName: '', email: '', phone: '', location: '', socials: {} },
+            summary: sections.summary ?? '',
+            experience: (sections.experience as any[]) ?? [],
+            education: (sections.education as any[]) ?? [],
+            skills: (sections.skills as any[]) ?? [],
+            projects: (sections.projects as any[]) ?? [],
+            certifications: (sections.certifications as any[]) ?? [],
             completionScore: resume.completionScore,
             status: resume.status,
           });
@@ -56,15 +67,39 @@ export default function ATSPage() {
             setATSResult(lastAnalysis);
             setATSJobDescription(lastAnalysis.jobDescription || '');
             setJobDescription(lastAnalysis.jobDescription || '');
+            if (lastAnalysis.jobDescription) {
+              addHistory(lastAnalysis.jobDescription);
+            }
           }
         }
       });
-  }, [resumeId, setResume, setATSResult, setATSJobDescription]);
+  }, [resumeId, setResume, setATSResult, setATSJobDescription, addHistory]);
+
+  useEffect(() => {
+    fetch('/api/officer/jobs')
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.data) setOfficialJobs(res.data);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const suggestions = result?.suggestions ?? [];
 
   const handleRunAudit = async () => {
+    if (!jobDescription.trim()) return;
     await analyze(jobDescription);
+    addHistory(jobDescription);
   };
 
   const handleFixWithAI = async (suggestion: any, index: number) => {
@@ -210,6 +245,120 @@ export default function ATSPage() {
           </h2>}
         >
           <div className="space-y-4">
+            {/* Description Tracker & Selector */}
+            <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium overflow-hidden">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <span className="shrink-0">Active Job Description:</span>
+                <span className="text-slate-800 font-semibold truncate max-w-[150px] sm:max-w-[300px]">
+                  {activeTitle || 'None selected'}
+                </span>
+              </div>
+              <div className="relative" ref={dropdownRef}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 h-8 border-slate-200 text-xs font-semibold rounded-lg hover:bg-slate-50 text-slate-700 shrink-0"
+                >
+                  <Briefcase className="h-3.5 w-3.5 text-slate-500" />
+                  Choose Description
+                  <ChevronDown className="h-3 w-3 text-slate-400" />
+                </Button>
+                
+                {showDropdown && (
+                  <div className="absolute right-0 mt-1.5 w-72 max-h-96 overflow-y-auto rounded-xl bg-white shadow-xl border border-slate-100 py-1.5 z-30 animate-in fade-in slide-in-from-top-1 duration-150">
+                    
+                    {/* Section: Campus Placement Jobs */}
+                    {officialJobs.length > 0 && (
+                      <div className="border-b border-slate-100 pb-1.5 mb-1.5">
+                        <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                          Campus Placement Jobs
+                        </div>
+                        {officialJobs.map((job) => {
+                          const isActive = jobDescription === job.description;
+                          return (
+                            <button
+                              key={job.id}
+                              onClick={() => {
+                                setJobDescription(job.description);
+                                addHistory(job.description);
+                                useATSStore.getState().setActiveTitle(`${job.title} @ ${job.company}`);
+                                setShowDropdown(false);
+                                showToast(`Selected ${job.title}`, 'success');
+                              }}
+                              className={`w-full text-left px-3 py-2 text-xs transition-colors flex items-start justify-between gap-1.5 hover:bg-slate-50 ${
+                                isActive ? 'bg-blue-50/50 text-blue-700 font-medium' : 'text-slate-700'
+                              }`}
+                            >
+                              <div className="truncate flex-1">
+                                <p className="font-semibold truncate text-slate-800">{job.title}</p>
+                                <p className="text-[10px] text-slate-400 truncate">
+                                  {job.company} {job.location ? `• ${job.location}` : ''}
+                                </p>
+                              </div>
+                              {isActive && <Check className="h-3.5 w-3.5 text-blue-600 shrink-0 mt-0.5" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {/* Section: Pasted History */}
+                    <div>
+                      <div className="px-3 py-1 flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                          Pasted History
+                        </span>
+                        {history.length > 0 && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              clearHistory();
+                              showToast('History cleared', 'info');
+                            }}
+                            className="text-[10px] text-red-500 hover:underline font-semibold"
+                          >
+                            Clear all
+                          </button>
+                        )}
+                      </div>
+                      {history.length === 0 ? (
+                        <div className="px-3 py-4 text-xs text-slate-400 text-center italic">
+                          No past descriptions saved.
+                        </div>
+                      ) : (
+                        history.map((item) => {
+                          const isActive = jobDescription.trim() === item.text.trim();
+                          return (
+                            <button
+                              key={item.id}
+                              onClick={() => {
+                                setJobDescription(item.text);
+                                useATSStore.getState().setActiveTitle(item.title);
+                                setShowDropdown(false);
+                                showToast(`Loaded "${item.title}"`, 'success');
+                              }}
+                              className={`w-full text-left px-3 py-2 text-xs transition-colors flex items-start justify-between gap-1.5 hover:bg-slate-50 ${
+                                isActive ? 'bg-blue-50/50 text-blue-700 font-medium' : 'text-slate-700'
+                              }`}
+                            >
+                              <div className="truncate flex-1">
+                                <p className="font-semibold truncate text-slate-800">{item.title}</p>
+                                <p className="text-[10px] text-slate-400 truncate">{item.timestamp}</p>
+                              </div>
+                              {isActive && <Check className="h-3.5 w-3.5 text-blue-600 shrink-0 mt-0.5" />}
+                            </button>
+                          );
+                        })
+                      )}
+                    </div>
+
+                  </div>
+                )}
+              </div>
+            </div>
+
             <Textarea
               label="Paste Job Description / Requirements"
               value={jobDescription}

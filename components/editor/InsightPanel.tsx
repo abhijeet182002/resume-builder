@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useUIStore } from '@/store/uiStore';
 import { useATSStore } from '@/store/atsStore';
+import { useResumeStore } from '@/store/resumeStore';
 import { Tabs } from '@/components/ui/Tabs';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Badge } from '@/components/ui/Badge';
@@ -24,10 +25,114 @@ const AI_ACTIONS = [
   { label: 'Suggest Skills', action: 'suggest_skills' as const, prompt: 'Brainstorm additional relevant skills' },
 ];
 
+function isSuggestionResolved(s: { section: string; issue: string; fix: string }, resume: any): boolean {
+  if (!resume) return false;
+  
+  const personal = resume.personal || {};
+  const summary = resume.summary || '';
+  const experience = resume.experience || [];
+  const education = resume.education || [];
+  const skills = resume.skills || [];
+  const projects = resume.projects || [];
+  const certifications = resume.certifications || [];
+
+  const section = (s.section || '').toLowerCase();
+  const issue = (s.issue || '').toLowerCase();
+  const fix = (s.fix || '').toLowerCase();
+  const text = `${section} ${issue} ${fix}`;
+
+  // 1. LinkedIn
+  if (text.includes('linkedin')) {
+    return !!(personal.socials?.linkedIn || personal.linkedIn);
+  }
+
+  // 2. Phone / Contact Info
+  if (text.includes('phone') || text.includes('contact number') || text.includes('phone number')) {
+    return !!personal.phone;
+  }
+
+  // 3. Email
+  if (text.includes('email')) {
+    return !!personal.email;
+  }
+
+  // 4. Location / Address / City
+  if (text.includes('location') || text.includes('address') || text.includes('city')) {
+    return !!personal.location;
+  }
+
+  // 5. Portfolio / Website / Links
+  if (text.includes('portfolio') || text.includes('website') || text.includes('personal link')) {
+    return !!(personal.socials?.portfolio || personal.portfolio);
+  }
+  if (text.includes('github')) {
+    return !!(personal.socials?.github || personal.github);
+  }
+
+  // 6. Professional Summary
+  if (section === 'summary' || text.includes('summary')) {
+    if (text.includes('missing') || text.includes('add') || text.includes('write')) {
+      return summary.trim().length > 10;
+    }
+    if (text.includes('short') || text.includes('length') || text.includes('extend') || text.includes('expand')) {
+      return summary.trim().length > 50;
+    }
+    return summary.trim().length > 0;
+  }
+
+  // 7. Experience
+  if (section === 'experience' || section === 'work' || text.includes('experience') || text.includes('work experience')) {
+    if (text.includes('missing') || text.includes('add') || text.includes('no work')) {
+      return experience.length > 0;
+    }
+    if (text.includes('bullet') || text.includes('action verb') || text.includes('describe')) {
+      return experience.some((exp: any) => exp.bullets && exp.bullets.length > 0 && exp.bullets.some((b: string) => b.trim().length > 5));
+    }
+    return experience.length > 0;
+  }
+
+  // 8. Education
+  if (section === 'education' || text.includes('education') || text.includes('degree')) {
+    if (text.includes('missing') || text.includes('add') || text.includes('no education')) {
+      return education.length > 0;
+    }
+    return education.length > 0;
+  }
+
+  // 9. Projects
+  if (section === 'projects' || text.includes('project')) {
+    if (text.includes('minimum') || text.includes('at least 2') || text.includes('more projects')) {
+      return projects.length >= 2;
+    }
+    return projects.length > 0;
+  }
+
+  // 10. Skills
+  if (section === 'skills' || text.includes('skills') || text.includes('skill')) {
+    if (text.includes('add more') || text.includes('more skills') || text.includes('technical skills')) {
+      const skillCount = Array.isArray(skills)
+        ? (typeof skills[0] === 'object'
+          ? skills.reduce((acc: number, cat: any) => acc + (cat.skills?.length ?? 0), 0)
+          : skills.length)
+        : 0;
+      return skillCount >= 8;
+    }
+    return skills.length > 0;
+  }
+
+  // 11. Certifications
+  if (section === 'certifications' || text.includes('certification') || text.includes('certificates')) {
+    return certifications.length > 0;
+  }
+
+  return false;
+}
+
 export function InsightPanel() {
   const [activeRightTab, setActiveRightTab] = useState<'ats' | 'suggestions' | 'keywords' | 'ai'>('ats');
   const { analyze, result, isAnalyzing } = useATSAnalysis();
   const { trigger } = useAIAction();
+  const resume = useResumeStore((s) => s.resume);
 
   const score = result?.overallScore ?? 0;
   const rawKeywords = result?.keywords ?? [];
@@ -39,12 +144,15 @@ export function InsightPanel() {
   const sectionCompleteness = result?.completenessScore ?? 0;
   const formattingScore = result?.formattingScore ?? 0;
 
-  const suggestions = (result?.suggestions || []).map((s: any, idx: number) => ({
-    id: idx.toString(),
-    title: s.issue || `${s.section} Check`,
-    description: s.fix || 'Improve this section structure.',
-    priority: s.priority ? s.priority.charAt(0).toUpperCase() + s.priority.slice(1) : 'Medium'
-  }));
+  const rawSuggestions = result?.suggestions || [];
+  const suggestions = rawSuggestions
+    .filter((s: any) => !isSuggestionResolved(s, resume))
+    .map((s: any, idx: number) => ({
+      id: idx.toString(),
+      title: s.issue || `${s.section} Check`,
+      description: s.fix || 'Improve this section structure.',
+      priority: s.priority ? s.priority.charAt(0).toUpperCase() + s.priority.slice(1) : 'Medium'
+    }));
 
   return (
     <aside className="flex w-full shrink-0 flex-col rounded-[14px] border border-[#CFE0F7] bg-[#EAF3FF] shadow-[0_18px_42px_rgba(59,73,223,0.10)] xl:h-[calc(100vh-56px)] xl:w-[320px] xl:rounded-none xl:border-y-0 xl:border-r-0">
@@ -122,7 +230,9 @@ export function InsightPanel() {
               </div>
             ))}
             {suggestions.length === 0 && (
-              <p className="text-xs text-text-muted italic text-center py-4">No suggestions yet. Run ATS audit first.</p>
+              <p className="text-xs text-text-muted italic text-center py-4">
+                {result ? '🎉 All suggestions resolved! Your resume is fully optimized.' : 'No suggestions yet. Run ATS audit first.'}
+              </p>
             )}
           </div>
         )}

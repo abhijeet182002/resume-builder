@@ -38,18 +38,43 @@ export async function GET(req: Request) {
     },
   })
 
-  let records = students.map(s => ({
-    id: s.id,
-    name: s.name,
-    email: s.email,
-    studentId: s.studentId,
-    course: s.course,
-    batch: s.batch,
-    resumeCount: s._count.resumes,
-    latestAtsScore: s.resumes[0]?.atsScore ?? null,
-    placementStatus: deriveStatus(s.resumes[0]?.completionScore, s.resumes[0]?.atsScore ?? undefined),
-    lastActive: s.updatedAt.toISOString(),
-  }))
+  let records = students.map(s => {
+    const latestResume = s.resumes[0]
+    const sections = (latestResume?.sections as any) || {}
+    const skills: string[] = []
+
+    if (Array.isArray(sections.skills)) {
+      sections.skills.forEach((item: any) => {
+        if (typeof item === 'string') {
+          skills.push(item)
+        } else if (item && typeof item === 'object') {
+          if (Array.isArray(item.skills)) {
+            item.skills.forEach((subSkill: any) => {
+              if (typeof subSkill === 'string') {
+                skills.push(subSkill)
+              }
+            })
+          } else if (typeof item.name === 'string') {
+            skills.push(item.name)
+          }
+        }
+      })
+    }
+
+    return {
+      id: s.id,
+      name: s.name,
+      email: s.email,
+      studentId: s.studentId,
+      course: s.course,
+      batch: s.batch,
+      resumeCount: s._count.resumes,
+      latestAtsScore: latestResume?.atsScore ?? null,
+      placementStatus: deriveStatus(latestResume?.completionScore, latestResume?.atsScore ?? undefined),
+      lastActive: s.updatedAt.toISOString(),
+      skills,
+    }
+  })
 
   if (status) {
     const lowerStatus = status.toLowerCase()
